@@ -93,12 +93,12 @@ const Services = () => {
     const fetchExchangeRates = async () => {
       setIsLoadingRates(true);
       try {
-        // Try first API key
-        const response = await fetch(`https://openexchangerates.org/api/latest.json?app_id=005550d9fac54d53873072737348226d&base=USD`);
+        // Use CurrencyFreaks API instead of Open Exchange Rates
+        const response = await fetch(`https://api.currencyfreaks.com/v2.0/rates/latest?apikey=6f36d22da6264470beeef702f0e3b73e`);
         
         if (!response.ok) {
-          // If first API fails, try the second one
-          const fallbackResponse = await fetch(`https://openexchangerates.org/api/latest.json?app_id=d6172f50fe8b44da89237bfadb34ebc4&base=USD`);
+          // If first API key fails, try the second one
+          const fallbackResponse = await fetch(`https://api.currencyfreaks.com/v2.0/rates/latest?apikey=d6172f50fe8b44da89237bfadb34ebc4`);
           
           if (!fallbackResponse.ok) {
             throw new Error('Both API requests failed');
@@ -106,25 +106,31 @@ const Services = () => {
           
           const data = await fallbackResponse.json();
           if (data && data.rates) {
+            // CurrencyFreaks already uses USD as base currency
             setExchangeRates(data.rates);
+            console.log('Exchange rates loaded from CurrencyFreaks (fallback key):', data.rates);
           }
         } else {
           const data = await response.json();
           if (data && data.rates) {
+            // CurrencyFreaks already uses USD as base currency
             setExchangeRates(data.rates);
+            console.log('Exchange rates loaded from CurrencyFreaks:', data.rates);
           }
         }
       } catch (error) {
         console.error('Error fetching exchange rates:', error);
         // Fallback to hardcoded exchange rates
-        setExchangeRates({
+        const fallbackRates = {
           'EUR': 0.93,
           'INR': 83.5,
           'USD': 1,
           'GBP': 0.79,
           'AUD': 1.52,
           'AED': 3.67
-        });
+        };
+        setExchangeRates(fallbackRates);
+        console.log('Using fallback exchange rates:', fallbackRates);
       } finally {
         setIsLoadingRates(false);
       }
@@ -241,16 +247,24 @@ const Services = () => {
     }
     
     // First convert INR to USD (as exchange rates are based on USD)
-    const inrToUsd = 1 / (exchangeRates['INR'] || 83.5);
+    // CurrencyFreaks API returns rates as strings, so we need to parse them
+    const inrRate = typeof exchangeRates['INR'] === 'string' 
+      ? parseFloat(exchangeRates['INR']) 
+      : (exchangeRates['INR'] as number || 83.5);
+    
+    const inrToUsd = 1 / inrRate;
     const priceUSD = priceINR * inrToUsd;
     
     // Then convert USD to target currency
-    const rate = exchangeRates[targetCurrency];
-    if (!rate) {
+    const targetRate = typeof exchangeRates[targetCurrency] === 'string'
+      ? parseFloat(exchangeRates[targetCurrency] as string)
+      : (exchangeRates[targetCurrency] as number);
+    
+    if (!targetRate) {
       return priceINR;
     }
     
-    return priceUSD * rate;
+    return priceUSD * targetRate;
   };
 
   // Format price with appropriate currency symbol

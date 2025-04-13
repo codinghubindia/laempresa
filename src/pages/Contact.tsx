@@ -22,25 +22,22 @@ const Contact = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     
-    // Hardcoded fallback values (only used if environment variables are missing)
-    const FALLBACK_SERVICE_ID = 'service_wrmc1ui';
-    const FALLBACK_TEMPLATE_ID = 'template_oo6sj7l';
-    const FALLBACK_PUBLIC_KEY = 'CTUNxPC5QKaMYmT3K';
+    // Hardcoded EmailJS credentials
+    const EMAILJS_SERVICE_ID = 'service_wrmc1ui';
+    const EMAILJS_TEMPLATE_ID = 'template_oo6sj7l';
+    const EMAILJS_PUBLIC_KEY = 'CTUNxPC5QKaMYmT3K';
     
-    // Initialize EmailJS with public key
-    // Try to get from window object first (injected by env.js) and fallback to import.meta.env
-    const publicKey = 
-      (window as any).VITE_EMAILJS_PUBLIC_KEY || 
-      import.meta.env.VITE_EMAILJS_PUBLIC_KEY ||
-      FALLBACK_PUBLIC_KEY;
+    // Initialize EmailJS with the public key
+    // Use hardcoded value first, then try window and import.meta.env as fallbacks
+    const publicKey = EMAILJS_PUBLIC_KEY;
     
-    console.log('EmailJS init - Public key available:', !!publicKey);
+    console.log('EmailJS init - Using public key:', publicKey);
     
-    if (publicKey) {
+    try {
       emailjs.init(publicKey);
-      console.log('EmailJS initialized successfully with key:', publicKey);
-    } else {
-      console.error('EmailJS public key is missing. Contact form will not work.');
+      console.log('EmailJS initialized successfully');
+    } catch (error) {
+      console.error('Error initializing EmailJS:', error);
     }
   }, []);
   
@@ -73,34 +70,20 @@ const Contact = () => {
     try {
       setLoading(true);
       
-      // Hardcoded fallback values (only used if environment variables are missing)
-      const FALLBACK_SERVICE_ID = 'service_wrmc1ui';
-      const FALLBACK_TEMPLATE_ID = 'template_oo6sj7l';
-      const FALLBACK_PUBLIC_KEY = 'CTUNxPC5QKaMYmT3K';
+      // Hardcoded EmailJS credentials
+      const EMAILJS_SERVICE_ID = 'service_wrmc1ui';
+      const EMAILJS_TEMPLATE_ID = 'template_oo6sj7l';
+      const EMAILJS_PUBLIC_KEY = 'CTUNxPC5QKaMYmT3K';
       
-      // Get env variables with fallbacks
-      const serviceId = 
-        (window as any).VITE_EMAILJS_SERVICE_ID || 
-        import.meta.env.VITE_EMAILJS_SERVICE_ID ||
-        FALLBACK_SERVICE_ID;
+      // Use hardcoded values directly
+      const serviceId = EMAILJS_SERVICE_ID;
+      const templateId = EMAILJS_TEMPLATE_ID;
+      const publicKey = EMAILJS_PUBLIC_KEY;
       
-      const templateId = 
-        (window as any).VITE_EMAILJS_TEMPLATE_ID || 
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID ||
-        FALLBACK_TEMPLATE_ID;
-      
-      const publicKey = 
-        (window as any).VITE_EMAILJS_PUBLIC_KEY || 
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY ||
-        FALLBACK_PUBLIC_KEY;
-      
-      console.log('Form submission - Service ID:', serviceId);
-      console.log('Form submission - Template ID:', templateId);
-      console.log('Form submission - Public key:', publicKey);
-      
-      if (!serviceId || !templateId || !publicKey) {
-        throw new Error('EmailJS configuration is missing. Please check your environment variables.');
-      }
+      console.log('Form submission using:');
+      console.log('- Service ID:', serviceId);
+      console.log('- Template ID:', templateId);
+      console.log('- Public Key:', publicKey);
       
       // Create template parameters with exact variable names from HTML template
       const templateParams = {

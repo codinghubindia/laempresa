@@ -9,11 +9,18 @@ const __dirname = path.dirname(__filename);
 
 const distDir = path.join(__dirname, 'dist');
 
-// Load environment variables
+// Hardcoded EmailJS credentials
+const HARDCODED_CREDENTIALS = {
+  VITE_EMAILJS_SERVICE_ID: 'service_wrmc1ui',
+  VITE_EMAILJS_TEMPLATE_ID: 'template_oo6sj7l',
+  VITE_EMAILJS_PUBLIC_KEY: 'CTUNxPC5QKaMYmT3K'
+};
+
+// Load environment variables with fallback to hardcoded values
 const env = {
-  VITE_EMAILJS_SERVICE_ID: process.env.VITE_EMAILJS_SERVICE_ID || '',
-  VITE_EMAILJS_TEMPLATE_ID: process.env.VITE_EMAILJS_TEMPLATE_ID || '',
-  VITE_EMAILJS_PUBLIC_KEY: process.env.VITE_EMAILJS_PUBLIC_KEY || ''
+  VITE_EMAILJS_SERVICE_ID: process.env.VITE_EMAILJS_SERVICE_ID || HARDCODED_CREDENTIALS.VITE_EMAILJS_SERVICE_ID,
+  VITE_EMAILJS_TEMPLATE_ID: process.env.VITE_EMAILJS_TEMPLATE_ID || HARDCODED_CREDENTIALS.VITE_EMAILJS_TEMPLATE_ID,
+  VITE_EMAILJS_PUBLIC_KEY: process.env.VITE_EMAILJS_PUBLIC_KEY || HARDCODED_CREDENTIALS.VITE_EMAILJS_PUBLIC_KEY
 };
 
 // Print current environment variables for debugging
@@ -22,38 +29,17 @@ console.log('Service ID:', env.VITE_EMAILJS_SERVICE_ID || '(empty)');
 console.log('Template ID:', env.VITE_EMAILJS_TEMPLATE_ID || '(empty)');
 console.log('Public Key:', env.VITE_EMAILJS_PUBLIC_KEY || '(empty)');
 
-// If any keys are empty, try to load from .env file directly as fallback
-if (!env.VITE_EMAILJS_SERVICE_ID || !env.VITE_EMAILJS_TEMPLATE_ID || !env.VITE_EMAILJS_PUBLIC_KEY) {
-  try {
-    console.log('Attempting to load from .env file as fallback...');
-    const envFile = await fs.readFile(path.join(__dirname, '.env'), 'utf8');
-    const envLines = envFile.split('\n');
-    
-    for (const line of envLines) {
-      if (line.trim() && !line.startsWith('#')) {
-        const [key, value] = line.split('=');
-        if (key && value && key in env) {
-          env[key] = value.trim();
-          console.log(`Loaded ${key} from .env file: ${value.trim()}`);
-        }
-      }
-    }
-  } catch (error) {
-    console.error('Error loading from .env file:', error.message);
-  }
-}
-
-// If still empty, use hardcoded values as last resort
+// If any keys are empty, use hardcoded values
 if (!env.VITE_EMAILJS_SERVICE_ID) {
-  env.VITE_EMAILJS_SERVICE_ID = 'service_wrmc1ui';
+  env.VITE_EMAILJS_SERVICE_ID = HARDCODED_CREDENTIALS.VITE_EMAILJS_SERVICE_ID;
   console.log('Using hardcoded Service ID as fallback');
 }
 if (!env.VITE_EMAILJS_TEMPLATE_ID) {
-  env.VITE_EMAILJS_TEMPLATE_ID = 'template_oo6sj7l';
+  env.VITE_EMAILJS_TEMPLATE_ID = HARDCODED_CREDENTIALS.VITE_EMAILJS_TEMPLATE_ID;
   console.log('Using hardcoded Template ID as fallback');
 }
 if (!env.VITE_EMAILJS_PUBLIC_KEY) {
-  env.VITE_EMAILJS_PUBLIC_KEY = 'CTUNxPC5QKaMYmT3K';
+  env.VITE_EMAILJS_PUBLIC_KEY = HARDCODED_CREDENTIALS.VITE_EMAILJS_PUBLIC_KEY;
   console.log('Using hardcoded Public Key as fallback');
 }
 
@@ -62,9 +48,9 @@ const generateEnvScript = () => {
   return `
 <script>
 // Injected environment variables
-window.VITE_EMAILJS_SERVICE_ID = "${env.VITE_EMAILJS_SERVICE_ID}";
-window.VITE_EMAILJS_TEMPLATE_ID = "${env.VITE_EMAILJS_TEMPLATE_ID}";
-window.VITE_EMAILJS_PUBLIC_KEY = "${env.VITE_EMAILJS_PUBLIC_KEY}";
+window.VITE_EMAILJS_SERVICE_ID = "service_wrmc1ui";
+window.VITE_EMAILJS_TEMPLATE_ID = "template_oo6sj7l";
+window.VITE_EMAILJS_PUBLIC_KEY = "CTUNxPC5QKaMYmT3K";
 console.log("Environment variables injected globally", {
   service: window.VITE_EMAILJS_SERVICE_ID,
   template: window.VITE_EMAILJS_TEMPLATE_ID,
@@ -97,9 +83,9 @@ async function processFile(filePath) {
         if (content.includes('import.meta.env')) {
           const directVariablesCode = `
 // Directly injected EmailJS config
-const _EMAILJS_SERVICE_ID = "${env.VITE_EMAILJS_SERVICE_ID}";
-const _EMAILJS_TEMPLATE_ID = "${env.VITE_EMAILJS_TEMPLATE_ID}";
-const _EMAILJS_PUBLIC_KEY = "${env.VITE_EMAILJS_PUBLIC_KEY}";
+const _EMAILJS_SERVICE_ID = "service_wrmc1ui";
+const _EMAILJS_TEMPLATE_ID = "template_oo6sj7l";
+const _EMAILJS_PUBLIC_KEY = "CTUNxPC5QKaMYmT3K";
 `;
           
           // Add after the imports
@@ -119,7 +105,7 @@ const _EMAILJS_PUBLIC_KEY = "${env.VITE_EMAILJS_PUBLIC_KEY}";
       Object.keys(env).forEach(key => {
         const originalContent = content;
         const regex = new RegExp(`import\\.meta\\.env\\.${key}|process\\.env\\.${key}`, 'g');
-        content = content.replace(regex, `"${env[key]}"`);
+        content = content.replace(regex, `"${HARDCODED_CREDENTIALS[key]}"`);
         
         if (originalContent !== content) {
           madeChanges = true;
@@ -145,13 +131,9 @@ const _EMAILJS_PUBLIC_KEY = "${env.VITE_EMAILJS_PUBLIC_KEY}";
       // If this is the main JS file, verify the content
       if (filePath.includes('index') && filePath.endsWith('.js')) {
         console.log(`Verifying EmailJS variables in ${filePath}...`);
-        const serviceIdFound = content.includes(env.VITE_EMAILJS_SERVICE_ID);
-        const templateIdFound = content.includes(env.VITE_EMAILJS_TEMPLATE_ID);
-        const publicKeyFound = content.includes(env.VITE_EMAILJS_PUBLIC_KEY);
-        
-        console.log(`Service ID found: ${serviceIdFound}`);
-        console.log(`Template ID found: ${templateIdFound}`);
-        console.log(`Public Key found: ${publicKeyFound}`);
+        console.log(`Service ID found: ${content.includes(HARDCODED_CREDENTIALS.VITE_EMAILJS_SERVICE_ID)}`);
+        console.log(`Template ID found: ${content.includes(HARDCODED_CREDENTIALS.VITE_EMAILJS_TEMPLATE_ID)}`);
+        console.log(`Public Key found: ${content.includes(HARDCODED_CREDENTIALS.VITE_EMAILJS_PUBLIC_KEY)}`);
       }
     }
   } catch (error) {
@@ -184,9 +166,9 @@ async function createConfigFile() {
   const configFilePath = path.join(distDir, 'emailjs-config.js');
   const configContent = `
 // EmailJS configuration file - created at build time
-window.VITE_EMAILJS_SERVICE_ID = "${env.VITE_EMAILJS_SERVICE_ID}";
-window.VITE_EMAILJS_TEMPLATE_ID = "${env.VITE_EMAILJS_TEMPLATE_ID}";
-window.VITE_EMAILJS_PUBLIC_KEY = "${env.VITE_EMAILJS_PUBLIC_KEY}";
+window.VITE_EMAILJS_SERVICE_ID = "service_wrmc1ui";
+window.VITE_EMAILJS_TEMPLATE_ID = "template_oo6sj7l";
+window.VITE_EMAILJS_PUBLIC_KEY = "CTUNxPC5QKaMYmT3K";
 console.log("EmailJS config loaded from separate file");
 `;
 

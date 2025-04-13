@@ -32,17 +32,17 @@ jobs:
       # Create .env file with secrets
       - name: Create .env file
         run: |
-          echo "VITE_EMAILJS_SERVICE_ID=${VITE_EMAILJS_SERVICE_ID}" > .env
-          echo "VITE_EMAILJS_TEMPLATE_ID=${VITE_EMAILJS_TEMPLATE_ID}" >> .env
-          echo "VITE_EMAILJS_PUBLIC_KEY=${VITE_EMAILJS_PUBLIC_KEY}" >> .env
+          echo "VITE_EMAILJS_SERVICE_ID=service_wrmc1ui" > .env
+          echo "VITE_EMAILJS_TEMPLATE_ID=template_oo6sj7l" >> .env
+          echo "VITE_EMAILJS_PUBLIC_KEY=CTUNxPC5QKaMYmT3K" >> .env
           cat .env
         
       - name: Build
         run: npm run build
         env:
-          VITE_EMAILJS_SERVICE_ID: ${VITE_EMAILJS_SERVICE_ID}
-          VITE_EMAILJS_TEMPLATE_ID: ${VITE_EMAILJS_TEMPLATE_ID}
-          VITE_EMAILJS_PUBLIC_KEY: ${VITE_EMAILJS_PUBLIC_KEY}
+          VITE_EMAILJS_SERVICE_ID: service_wrmc1ui
+          VITE_EMAILJS_TEMPLATE_ID: template_oo6sj7l
+          VITE_EMAILJS_PUBLIC_KEY: CTUNxPC5QKaMYmT3K
         
       # Replace environment variables in build output
       - name: Process environment variables
@@ -50,9 +50,9 @@ jobs:
           echo "Processing environment variables in build files..."
           node env.js
         env:
-          VITE_EMAILJS_SERVICE_ID: ${VITE_EMAILJS_SERVICE_ID}
-          VITE_EMAILJS_TEMPLATE_ID: ${VITE_EMAILJS_TEMPLATE_ID}
-          VITE_EMAILJS_PUBLIC_KEY: ${VITE_EMAILJS_PUBLIC_KEY}
+          VITE_EMAILJS_SERVICE_ID: service_wrmc1ui
+          VITE_EMAILJS_TEMPLATE_ID: template_oo6sj7l
+          VITE_EMAILJS_PUBLIC_KEY: CTUNxPC5QKaMYmT3K
         
       # Verify environment variables were correctly injected
       - name: Verify build output
@@ -67,6 +67,7 @@ jobs:
         run: |
           touch dist/.nojekyll
           cp public/_headers dist/ || echo "No _headers file found"
+          cp public/emailjs-config.js dist/ || echo "No emailjs-config.js file found"
           
       - name: Deploy with gh-pages
         uses: peaceiris/actions-gh-pages@v3

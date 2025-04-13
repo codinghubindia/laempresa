@@ -91,7 +91,7 @@ const Contact = () => {
       setFormStatus({
         submitted: true,
         success: true,
-        message: 'Thanks for your message! We will get back to you within 24 hours.',
+        message: 'Thanks for your message! We will get back to you soon.',
       });
       
       // Reset form
@@ -108,6 +108,7 @@ const Contact = () => {
       });
       
     } catch (error) {
+      console.error('Error sending message:', error);
       setFormStatus({
         submitted: true,
         success: false,
@@ -123,9 +124,9 @@ const Contact = () => {
       {/* Hero Section */}
       <section className={`relative py-24 ${isDark ? 'bg-dark-surface/20' : 'bg-light-surface/30'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center max-w-3xl mx-auto"
           >
@@ -137,8 +138,8 @@ const Contact = () => {
             </h1>
             <p className={`text-xl mb-8 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
               Have a project in mind? We'd love to discuss how we can help transform your ideas into reality.
-            </p>
-          </motion.div>
+          </p>
+        </motion.div>
         </div>
       </section>
 
@@ -146,10 +147,10 @@ const Contact = () => {
       <section className={`py-24 ${isDark ? 'bg-dark-background' : 'bg-light-background'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* Contact Form */}
-            <motion.div
+          {/* Contact Form */}
+          <motion.div
               initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               className={`p-8 rounded-2xl ${
                 isDark ? 'bg-dark-surface/30' : 'bg-light-surface/50'
@@ -209,10 +210,10 @@ const Contact = () => {
                         }`}
                       >
                         Your Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
+                </label>
+                <input
+                  type="text"
+                  id="name"
                         name="name"
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -223,7 +224,7 @@ const Contact = () => {
                             : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
                         } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
                       />
-                    </div>
+              </div>
                     <div className="space-y-2">
                       <label 
                         htmlFor="email" 
@@ -232,10 +233,10 @@ const Contact = () => {
                         }`}
                       >
                         Email Address <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
+                </label>
+                <input
+                  type="email"
+                  id="email"
                         name="email"
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -407,8 +408,8 @@ const Contact = () => {
                       <option value="6months">Within 6 months</option>
                       <option value="flexible">Flexible</option>
                     </select>
-                  </div>
-
+              </div>
+              
                   <div className="space-y-2">
                     <label 
                       htmlFor="message" 
@@ -417,9 +418,9 @@ const Contact = () => {
                       }`}
                     >
                       Your Message <span className="text-red-500">*</span>
-                    </label>
-                    <textarea
-                      id="message"
+                </label>
+                <textarea
+                  id="message"
                       name="message"
                       rows={6}
                       value={formData.message}
@@ -431,22 +432,22 @@ const Contact = () => {
                           : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
                       } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
                     ></textarea>
-                  </div>
-
-                  <button
-                    type="submit"
+              </div>
+              
+              <button
+                type="submit"
                     disabled={loading}
                     className={`group w-full px-6 py-4 text-lg font-medium rounded-full bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent text-dark-background hover:shadow-[0_8px_30px_rgba(212,175,55,0.4)] transition-all duration-300 flex items-center justify-center ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
-                  >
+              >
                     <span>{loading ? 'Sending...' : 'Send Message'}</span>
                     {!loading && <Send className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />}
-                  </button>
-                </form>
+              </button>
+            </form>
               )}
-            </motion.div>
+          </motion.div>
 
-            {/* Contact Information */}
-            <motion.div
+          {/* Contact Information */}
+          <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -455,46 +456,60 @@ const Contact = () => {
               <div>
                 <h2 className="text-3xl font-bold mb-8">
                   <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
-                    Get in Touch
+                    Connect With Us
                   </span>
                 </h2>
                 <p className={`text-lg mb-8 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
                   Whether you have a question about our services, pricing, or just want to say hello, we'd love to hear from you!
                 </p>
-                
+              
                 <div className="space-y-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="p-3 bg-dark-primaryAccent/10 rounded-xl">
-                      <Mail className="h-6 w-6 text-dark-primaryAccent" />
-                    </div>
-                    <div>
-                      <h3 className={`text-lg font-medium mb-1 ${
-                        isDark ? 'text-dark-text' : 'text-light-text'
-                      }`}>
+                  {/* Email */}
+                  <div className="mb-8">
+                    <div className="flex items-center space-x-3">
+                      <div className={`p-2 rounded ${isDark ? 'bg-dark-surface' : 'bg-light-surface'}`}>
+                        <Mail size={20} className="text-dark-primaryAccent" />
+                      </div>
+                      <h3 className="text-xl font-bold">
                         Email Us
                       </h3>
-                      <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                        <a href="mailto:laempresa.team@gmail.com" className="hover:text-dark-primaryAccent transition">
+                    </div>
+                    <div className="mt-2 ml-9">
+                      <p className={`${isDark ? 'text-dark-text' : 'text-light-text'}`}>
+                        <a 
+                          href="mailto:laempresa.team@gmail.com" 
+                          className="hover:underline text-dark-primaryAccent"
+                        >
                           laempresa.team@gmail.com
                         </a>
+                      </p>
+                      <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
+                        We respond within 24 hours
                       </p>
                     </div>
                   </div>
                   
-                  <div className="flex items-start space-x-4">
-                    <div className="p-3 bg-dark-primaryAccent/10 rounded-xl">
-                      <Phone className="h-6 w-6 text-dark-primaryAccent" />
-                    </div>
-                    <div>
-                      <h3 className={`text-lg font-medium mb-1 ${
-                        isDark ? 'text-dark-text' : 'text-light-text'
-                      }`}>
+                  {/* Phone */}
+                  <div className="mb-8">
+                    <div className="flex items-center space-x-3">
+                      <div className={`p-2 rounded ${isDark ? 'bg-dark-surface' : 'bg-light-surface'}`}>
+                        <Phone size={20} className="text-dark-primaryAccent" />
+                      </div>
+                      <h3 className="text-xl font-bold">
                         Call Us
                       </h3>
-                      <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                        <a href="tel:+919483001434" className="hover:text-dark-primaryAccent transition">
+                    </div>
+                    <div className="mt-2 ml-9">
+                      <p className={`${isDark ? 'text-dark-text' : 'text-light-text'}`}>
+                        <a 
+                          href="tel:+919483001434" 
+                          className="hover:underline text-dark-primaryAccent"
+                        >
                           +91 9483001434
                         </a>
+                      </p>
+                      <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
+                        Mon-Fri: 9am - 6pm IST
                       </p>
                     </div>
                   </div>
@@ -510,9 +525,13 @@ const Contact = () => {
                         Office Location
                       </h3>
                       <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                        BEML Layout, Ideal Homes Twp<br />
-                        Rajarajeshwari Nagar<br />
+                        BEML Layout, Ideal Homes Twp, Rajarajeshwari Nagar
+                      </p>
+                      <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
                         Bengaluru, Karnataka 560098
+                      </p>
+                      <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
+                        India
                       </p>
                     </div>
                   </div>
@@ -556,7 +575,7 @@ const Contact = () => {
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>
-              
+                
               <div className={`p-8 rounded-2xl ${
                 isDark ? 'bg-dark-surface/30' : 'bg-light-surface/50'
               } border border-dark-primaryAccent/10`}>
@@ -597,7 +616,7 @@ const Contact = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="rounded-2xl overflow-hidden h-[400px] border border-dark-primaryAccent/10">
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.9653269509257!2d77.5139763!3d12.9105408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae3f21d6ff0957%3A0x87c6ad481f0c936e!2sBEML%20Layout%2C%20Ideal%20Homes%20Twp%2C%20RR%20Nagar%2C%20Bengaluru%2C%20Karnataka%20560098!5e0!3m2!1sen!2sin!4v1721040000000!5m2!1sen!2sin" 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.771956648168!2d77.5096893!3d12.9268428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae3f2c6290cebd%3A0x4c7b5d7e8ff9e495!2sBEML%20Layout%2C%20Ideal%20Homes%20Township%2C%20RR%20Nagar%2C%20Bengaluru%2C%20Karnataka%20560098!5e0!3m2!1sen!2sin!4v1624028041261!5m2!1sen!2sin" 
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 

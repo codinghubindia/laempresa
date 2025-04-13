@@ -418,9 +418,9 @@ const FutureVisionSection = ({ isDark }: { isDark: boolean }) => {
             </p>
           </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
               title: "Innovation First",
               description: "We're not just following trends - we're creating them. Our approach combines cutting-edge technology with forward-thinking design principles.",
               icon: <Rocket className="h-10 w-10 text-dark-primaryAccent" />
@@ -436,11 +436,11 @@ const FutureVisionSection = ({ isDark }: { isDark: boolean }) => {
               icon: <LineChart className="h-10 w-10 text-dark-primaryAccent" />
             }
           ].map((pillar, index) => (
-            <motion.div
-              key={index}
+              <motion.div
+                key={index}
               custom={index}
               initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
+                whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true, margin: '-50px' }}
               className={`relative rounded-xl overflow-hidden shadow-lg ${
@@ -464,15 +464,15 @@ const FutureVisionSection = ({ isDark }: { isDark: boolean }) => {
               <p className={`text-center ${
                 isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
               }`}>{pillar.description}</p>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
         </div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          viewport={{ once: true }}
+            viewport={{ once: true }}
           className="mt-20 text-center"
         >
           <Link
@@ -482,7 +482,7 @@ const FutureVisionSection = ({ isDark }: { isDark: boolean }) => {
             <span>Learn more about our approach</span>
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
           </Link>
-        </motion.div>
+          </motion.div>
       </div>
     </section>
   );

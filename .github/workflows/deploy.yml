@@ -34,6 +34,15 @@ jobs:
       - name: Build
         run: npm run build
         
+      # Replace environment variables in build output
+      - name: Process environment variables
+        run: |
+          node env.js
+        env:
+          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
+          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
+          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+        
       # Create required files for GitHub Pages
       - name: Configure GitHub Pages specific files
         run: |

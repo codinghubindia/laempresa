@@ -322,9 +322,9 @@ const Services = () => {
           </motion.div>
 
           {/* Launch Offer Banner */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
             className={`mb-12 py-5 px-6 rounded-2xl ${
@@ -427,16 +427,16 @@ const Services = () => {
                         {formatPrice(pkg.discountedPrice, selectedRegion)}
                         {pkg.name === "Enterprise Solution" && "+"}
                       </div>
-                    </div>
+                </div>
                     
                     <ul className="space-y-3 mb-8">
                       {pkg.features.map((feature, i) => (
                         <li key={i} className="flex items-start">
                           <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
                           <span className={isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    </li>
+                  ))}
+                </ul>
                     
                     <div className="pt-6 border-t border-dark-border/20">
                       <div className="flex items-center mb-2">
@@ -459,8 +459,8 @@ const Services = () => {
                       <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </div>
-                </motion.div>
-              ))}
+              </motion.div>
+            ))}
             </div>
           )}
 
@@ -485,7 +485,7 @@ const Services = () => {
             <div className="inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/10 text-dark-primaryAccent mb-6">
               <Calendar className="h-4 w-4" />
               LAUNCHING SOON
-            </div>
+          </div>
             <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6">
               <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">Upcoming Services</span>
             </h2>
@@ -549,11 +549,11 @@ const Services = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6">
+          <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6">
               <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
                 Built to Evolve with You
               </span>
-            </h2>
+          </h2>
             <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
               Every solution we deliver is designed with scalability, performance, and growth in mind. Whether you're starting small or going big — La Empresa evolves with your vision.
             </p>

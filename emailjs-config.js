@@ -1,6 +1,10 @@
+// EmailJS configuration file with hardcoded values
+window.VITE_EMAILJS_SERVICE_ID = "service_wrmc1ui";
+window.VITE_EMAILJS_TEMPLATE_ID = "template_oo6sj7l";
+window.VITE_EMAILJS_PUBLIC_KEY = "CTUNxPC5QKaMYmT3K";
 
-// EmailJS configuration file - created at build time
-window.VITE_EMAILJS_SERVICE_ID = "${VITE_EMAILJS_SERVICE_ID}";
-window.VITE_EMAILJS_TEMPLATE_ID = "${VITE_EMAILJS_TEMPLATE_ID}";
-window.VITE_EMAILJS_PUBLIC_KEY = "${VITE_EMAILJS_PUBLIC_KEY}";
-console.log("EmailJS config loaded from separate file");
+console.log("EmailJS config loaded from static file", {
+  service: window.VITE_EMAILJS_SERVICE_ID,
+  template: window.VITE_EMAILJS_TEMPLATE_ID,
+  publicKey: window.VITE_EMAILJS_PUBLIC_KEY
+});

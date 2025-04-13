@@ -62,27 +62,40 @@ Visit the live site: [La Empresa](https://yourusername.github.io/la-empresa/)
 
 ### GitHub Pages Deployment
 
-1. Update the `vite.config.ts` file with your repository name:
-   ```typescript
-   base: '/your-repo-name/',
-   ```
+#### Automatic Deployment (via GitHub Actions)
 
-2. Add your EmailJS keys as secrets in your GitHub repository:
-   - Go to your GitHub repository
-   - Navigate to Settings > Secrets and variables > Actions
-   - Add the following repository secrets:
-     - `VITE_EMAILJS_SERVICE_ID`
-     - `VITE_EMAILJS_TEMPLATE_ID`
-     - `VITE_EMAILJS_PUBLIC_KEY`
-
-3. Push your code to the `main` branch:
+1. Push your code to the `main` branch:
    ```bash
    git add .
    git commit -m "Your commit message"
    git push origin main
    ```
 
-4. GitHub Actions will automatically deploy your site to GitHub Pages.
+2. The GitHub Actions workflow will automatically deploy your site to GitHub Pages.
+
+#### Manual Deployment
+
+You can also deploy manually using the gh-pages package:
+
+1. Make sure you've updated the `vite.config.ts` file with your repository name:
+   ```typescript
+   base: '/your-repo-name/',
+   ```
+
+2. Run the deploy script:
+   ```bash
+   npm run deploy
+   ```
+
+### Environment Variables
+
+For both deployment methods, add your EmailJS keys as secrets in your GitHub repository:
+- Go to your GitHub repository
+- Navigate to Settings > Secrets and variables > Actions
+- Add the following repository secrets:
+  - `VITE_EMAILJS_SERVICE_ID`
+  - `VITE_EMAILJS_TEMPLATE_ID`
+  - `VITE_EMAILJS_PUBLIC_KEY`
 
 ## 📝 License
 

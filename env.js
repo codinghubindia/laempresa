@@ -23,24 +23,15 @@ const env = {
   VITE_EMAILJS_PUBLIC_KEY: process.env.VITE_EMAILJS_PUBLIC_KEY || HARDCODED_CREDENTIALS.VITE_EMAILJS_PUBLIC_KEY
 };
 
-// Print current environment variables for debugging
-console.log('Environment variables to be injected:');
-console.log('Service ID:', env.VITE_EMAILJS_SERVICE_ID || '(empty)');
-console.log('Template ID:', env.VITE_EMAILJS_TEMPLATE_ID || '(empty)');
-console.log('Public Key:', env.VITE_EMAILJS_PUBLIC_KEY || '(empty)');
-
 // If any keys are empty, use hardcoded values
 if (!env.VITE_EMAILJS_SERVICE_ID) {
   env.VITE_EMAILJS_SERVICE_ID = HARDCODED_CREDENTIALS.VITE_EMAILJS_SERVICE_ID;
-  console.log('Using hardcoded Service ID as fallback');
 }
 if (!env.VITE_EMAILJS_TEMPLATE_ID) {
   env.VITE_EMAILJS_TEMPLATE_ID = HARDCODED_CREDENTIALS.VITE_EMAILJS_TEMPLATE_ID;
-  console.log('Using hardcoded Template ID as fallback');
 }
 if (!env.VITE_EMAILJS_PUBLIC_KEY) {
   env.VITE_EMAILJS_PUBLIC_KEY = HARDCODED_CREDENTIALS.VITE_EMAILJS_PUBLIC_KEY;
-  console.log('Using hardcoded Public Key as fallback');
 }
 
 // Generate a script tag to inject the environment variables globally
@@ -51,11 +42,6 @@ const generateEnvScript = () => {
 window.VITE_EMAILJS_SERVICE_ID = "service_wrmc1ui";
 window.VITE_EMAILJS_TEMPLATE_ID = "template_oo6sj7l";
 window.VITE_EMAILJS_PUBLIC_KEY = "CTUNxPC5QKaMYmT3K";
-console.log("Environment variables injected globally", {
-  service: window.VITE_EMAILJS_SERVICE_ID,
-  template: window.VITE_EMAILJS_TEMPLATE_ID,
-  publicKey: window.VITE_EMAILJS_PUBLIC_KEY
-});
 </script>
   `;
 };
@@ -77,8 +63,6 @@ async function processFile(filePath) {
                                content.includes('VITE_EMAILJS');
                                
       if (containsEmailJS) {
-        console.log(`Found EmailJS-related code in: ${filePath}`);
-        
         // Add a more direct approach by finding ESM imports and adding our variables
         if (content.includes('import.meta.env')) {
           const directVariablesCode = `
@@ -126,15 +110,6 @@ const _EMAILJS_PUBLIC_KEY = "CTUNxPC5QKaMYmT3K";
     
     if (madeChanges) {
       await fs.writeFile(filePath, content);
-      console.log(`✅ Processed: ${filePath}`);
-      
-      // If this is the main JS file, verify the content
-      if (filePath.includes('index') && filePath.endsWith('.js')) {
-        console.log(`Verifying EmailJS variables in ${filePath}...`);
-        console.log(`Service ID found: ${content.includes(HARDCODED_CREDENTIALS.VITE_EMAILJS_SERVICE_ID)}`);
-        console.log(`Template ID found: ${content.includes(HARDCODED_CREDENTIALS.VITE_EMAILJS_TEMPLATE_ID)}`);
-        console.log(`Public Key found: ${content.includes(HARDCODED_CREDENTIALS.VITE_EMAILJS_PUBLIC_KEY)}`);
-      }
     }
   } catch (error) {
     console.error(`Error processing file ${filePath}:`, error);
@@ -169,11 +144,9 @@ async function createConfigFile() {
 window.VITE_EMAILJS_SERVICE_ID = "service_wrmc1ui";
 window.VITE_EMAILJS_TEMPLATE_ID = "template_oo6sj7l";
 window.VITE_EMAILJS_PUBLIC_KEY = "CTUNxPC5QKaMYmT3K";
-console.log("EmailJS config loaded from separate file");
 `;
 
   await fs.writeFile(configFilePath, configContent);
-  console.log(`Created EmailJS config file at ${configFilePath}`);
   
   // Add script tag to index.html
   const indexHtmlPath = path.join(distDir, 'index.html');
@@ -184,7 +157,6 @@ console.log("EmailJS config loaded from separate file");
       `<script src="/emailjs-config.js"></script></head>`
     );
     await fs.writeFile(indexHtmlPath, indexHtml);
-    console.log('Added EmailJS config script to index.html');
   }
 }
 
@@ -196,8 +168,6 @@ async function main() {
     
     // Create a separate config file to be sure
     await createConfigFile();
-    
-    console.log('✅ Environment variables replaced in build files');
   } catch (error) {
     console.error('Failed to process files:', error);
     process.exit(1);

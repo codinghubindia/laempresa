@@ -108,14 +108,12 @@ const Services = () => {
           if (data && data.rates) {
             // CurrencyFreaks already uses USD as base currency
             setExchangeRates(data.rates);
-            console.log('Exchange rates loaded from CurrencyFreaks (fallback key):', data.rates);
           }
         } else {
           const data = await response.json();
           if (data && data.rates) {
             // CurrencyFreaks already uses USD as base currency
             setExchangeRates(data.rates);
-            console.log('Exchange rates loaded from CurrencyFreaks:', data.rates);
           }
         }
       } catch (error) {
@@ -130,7 +128,6 @@ const Services = () => {
           'AED': 3.67
         };
         setExchangeRates(fallbackRates);
-        console.log('Using fallback exchange rates:', fallbackRates);
       } finally {
         setIsLoadingRates(false);
       }

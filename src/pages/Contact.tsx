@@ -31,11 +31,8 @@ const Contact = () => {
     // Use hardcoded value first, then try window and import.meta.env as fallbacks
     const publicKey = EMAILJS_PUBLIC_KEY;
     
-    console.log('EmailJS init - Using public key:', publicKey);
-    
     try {
       emailjs.init(publicKey);
-      console.log('EmailJS initialized successfully');
     } catch (error) {
       console.error('Error initializing EmailJS:', error);
     }
@@ -79,11 +76,6 @@ const Contact = () => {
       const serviceId = EMAILJS_SERVICE_ID;
       const templateId = EMAILJS_TEMPLATE_ID;
       const publicKey = EMAILJS_PUBLIC_KEY;
-      
-      console.log('Form submission using:');
-      console.log('- Service ID:', serviceId);
-      console.log('- Template ID:', templateId);
-      console.log('- Public Key:', publicKey);
       
       // Create template parameters with exact variable names from HTML template
       const templateParams = {

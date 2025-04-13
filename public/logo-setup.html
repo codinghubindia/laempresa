@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Empresa Logo Setup</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #D4AF37;
+            text-align: center;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        .logo-item {
+            text-align: center;
+            margin: 20px;
+        }
+        .logo-item img {
+            max-width: 300px;
+            height: auto;
+            display: block;
+            margin-bottom: 15px;
+        }
+        .instructions {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        ol {
+            margin-left: 20px;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .dark-bg {
+            background-color: #1C1C1E;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .light-bg {
+            background-color: #F9F9F9;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>La Empresa Logo Setup</h1>
+    
+    <p>To complete the setup of your website with the La Empresa brand, you need to save the logo images to the correct location.</p>
+    
+    <div class="logo-container">
+        <div class="logo-item">
+            <h3>Light Background Version</h3>
+            <p>Right-click on this image and select "Save Image As..."</p>
+            <div class="light-bg">
+                <!-- You'll need to replace this with the actual logo -->
+                <img id="light-logo" alt="La Empresa Logo (Light Background)" />
+            </div>
+            <p>Save as: <code>public/assets/images/logo-light-bg.png</code></p>
+        </div>
+        
+        <div class="logo-item">
+            <h3>Dark Background Version</h3>
+            <p>Right-click on this image and select "Save Image As..."</p>
+            <div class="dark-bg">
+                <!-- You'll need to replace this with the actual logo -->
+                <img id="dark-logo" alt="La Empresa Logo (Dark Background)" />
+            </div>
+            <p>Save as: <code>public/assets/images/logo-dark-bg.png</code></p>
+        </div>
+    </div>
+    
+    <div class="instructions">
+        <h2>Step-by-Step Instructions</h2>
+        <ol>
+            <li>Right-click on each logo image above and select "Save Image As..."</li>
+            <li>Navigate to your project's <code>public/assets/images</code> directory</li>
+            <li>Save the light background version as <code>logo-light-bg.png</code></li>
+            <li>Save the dark background version as <code>logo-dark-bg.png</code></li>
+            <li>Refresh your website to see the logos in place</li>
+        </ol>
+        <p><strong>Note:</strong> The website is already configured to use these logos in both dark and light themes.</p>
+    </div>
+
+    <script>
+    // You'll need to replace these instructions with actual base64 or URLs to your logos
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('light-logo').src = 'INSERT_LIGHT_LOGO_URL_OR_BASE64_HERE';
+        document.getElementById('dark-logo').src = 'INSERT_DARK_LOGO_URL_OR_BASE64_HERE';
+        
+        // Placeholder message
+        if (!document.getElementById('light-logo').src.startsWith('data:') && 
+            !document.getElementById('light-logo').src.startsWith('http')) {
+            alert('Please replace the placeholder logo URLs in the HTML file with your actual logo images.');
+        }
+    });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add custom CSS for theme colors */
+:root {
+  /* Light theme colors (default) */
+  --color-background: #F9F9F9;
+  --color-surface: #EFE9E3;
+  --color-primary-accent: #00796B;
+  --color-secondary-accent: #D4AF37;
+  --color-creative-accent: #2AA79B;
+  --color-text-primary: #1C1C1E;
+  --color-text-secondary: #4A4A4A;
+  --color-border: #DCD2C0;
+  --color-error: #C62828;
+}
+
+/* Dark theme colors */
+.dark {
+  --color-background: #1C1C1E;
+  --color-surface: #C5BBAF;
+  --color-primary-accent: #D4AF37;
+  --color-secondary-accent: #FFCC80;
+  --color-creative-accent: #00796B;
+  --color-text-primary: #F5F5F5;
+  --color-text-secondary: #DADADA;
+  --color-border: #E1C16E;
+  --color-error: #D9534F;
+}
+
+/* Smooth transitions for theme changes */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

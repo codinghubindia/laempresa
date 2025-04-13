@@ -20,7 +20,15 @@
       l.hash
     );
   </script>
-</head>
+
+<script>
+// Injected environment variables
+window.VITE_EMAILJS_SERVICE_ID = "";
+window.VITE_EMAILJS_TEMPLATE_ID = "";
+window.VITE_EMAILJS_PUBLIC_KEY = "";
+console.log("Environment variables injected globally");
+</script>
+  </head>
 <body>
   <h2>Page Not Found</h2>
   <p>Redirecting to the home page...</p>

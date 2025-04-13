@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from './ThemeContext';
+import lampresa from '../assets/images/laempresa.png';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +50,7 @@ const Navbar = () => {
               >
                 <div className="absolute inset-0 rounded-full animate-pulse-slow bg-dark-primaryAccent/20 blur-lg"></div>
                 <img 
-                  src={isDark ? "/assets/images/LaEmpresa Base logo.png" : "/assets/images/LaEmpresa Base logo.png"} 
+                  src={lampresa} 
                   alt="La Empresa Logo" 
                   className="h-full w-full object-contain relative z-10"
                 />

@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../components/ThemeContext';
+import lampresa from '../assets/images/laempresa.png';
 
 // Motion variants for text animations
 const textVariants = {
@@ -74,7 +75,7 @@ const HeroSection = ({ isDark }: { isDark: boolean }) => {
               className="absolute inset-0 flex items-center justify-center"
             >
               <img
-                src="/assets/images/LaEmpresa Base logo.png"
+                src={lampresa}
                 alt="LaEmpresa Logo"
                 className="max-w-[60%] max-h-[60%] object-contain opacity-75"
               />

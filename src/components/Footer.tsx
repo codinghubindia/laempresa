@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Linkedin, Twitter, Github } from 'lucide-react';
 import { useTheme } from './ThemeContext';
+import lampresa from '../assets/images/laempresa.png';
 
 const Footer = () => {
   const { theme } = useTheme();
@@ -20,7 +21,7 @@ const Footer = () => {
               <div className="h-16 w-16 mr-3 relative">
                 <div className="absolute inset-0 rounded-full animate-pulse-slow bg-dark-primaryAccent/20 blur-md"></div>
                 <img 
-                  src={isDark ? "/assets/images/LaEmpresa Base logo.png" : "/assets/images/LaEmpresa Base logo.png"} 
+                  src= {lampresa}
                   alt="La Empresa Logo" 
                   className="h-full w-full object-contain relative z-10"
                 />

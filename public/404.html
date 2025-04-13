@@ -7,20 +7,22 @@
     // Single Page Apps for GitHub Pages
     // MIT License
     // https://github.com/rafgraph/spa-github-pages
-    var pathSegmentsToKeep = 1;
-
+    var segmentCount = 1;
     var l = window.location;
+    
+    var repo = "/laempresa";
+    
     l.replace(
       l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+      repo + '/?p=/' +
+      l.pathname.slice(1).split('/').slice(segmentCount).join('/').replace(/&/g, '~and~') +
+      (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
       l.hash
     );
   </script>
 </head>
 <body>
-  <h1>Page Not Found</h1>
-  <p>Redirecting you to the home page...</p>
+  <h2>Page Not Found</h2>
+  <p>Redirecting to the home page...</p>
 </body>
 </html> 

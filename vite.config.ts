@@ -8,4 +8,14 @@ export default defineConfig({
     exclude: ['lucide-react'],
   },
   base: '/laempresa/',
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+        assetFileNames: 'assets/[name].[ext]',
+        chunkFileNames: 'assets/[name].[hash].js',
+        entryFileNames: 'assets/[name].[hash].js',
+      },
+    },
+  },
 });

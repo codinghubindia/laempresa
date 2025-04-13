@@ -23,9 +23,18 @@ const Contact = () => {
     window.scrollTo(0, 0);
     
     // Initialize EmailJS with public key
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    // Try to get from window object first (injected by env.js) and fallback to import.meta.env
+    const publicKey = 
+      (window as any).VITE_EMAILJS_PUBLIC_KEY || 
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    
+    console.log('EmailJS init - Public key available:', !!publicKey);
+    
     if (publicKey) {
       emailjs.init(publicKey);
+      console.log('EmailJS initialized successfully');
+    } else {
+      console.error('EmailJS public key is missing. Contact form will not work.');
     }
   }, []);
   
@@ -58,10 +67,22 @@ const Contact = () => {
     try {
       setLoading(true);
       
-      // Get env variables
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+      // Get env variables with fallbacks
+      const serviceId = 
+        (window as any).VITE_EMAILJS_SERVICE_ID || 
+        import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      
+      const templateId = 
+        (window as any).VITE_EMAILJS_TEMPLATE_ID || 
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      
+      const publicKey = 
+        (window as any).VITE_EMAILJS_PUBLIC_KEY || 
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+      
+      console.log('Form submission - Service ID available:', !!serviceId);
+      console.log('Form submission - Template ID available:', !!templateId);
+      console.log('Form submission - Public key available:', !!publicKey);
       
       if (!serviceId || !templateId || !publicKey) {
         throw new Error('EmailJS configuration is missing. Please check your environment variables.');

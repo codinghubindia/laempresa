@@ -30,24 +30,37 @@ jobs:
           echo "VITE_EMAILJS_SERVICE_ID=${{ secrets.VITE_EMAILJS_SERVICE_ID }}" > .env
           echo "VITE_EMAILJS_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}" >> .env
           echo "VITE_EMAILJS_PUBLIC_KEY=${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}" >> .env
+          cat .env
         
       - name: Build
         run: npm run build
+        env:
+          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
+          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
+          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
         
       # Replace environment variables in build output
       - name: Process environment variables
         run: |
+          echo "Processing environment variables in build files..."
           node env.js
         env:
           VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
           VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
           VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
         
+      # Verify environment variables were correctly injected
+      - name: Verify build output
+        run: |
+          echo "Checking for EmailJS variables in build output..."
+          grep -r "VITE_EMAILJS" dist/ || echo "No direct references to VITE_EMAILJS variables found (this is good)"
+          grep -r "service_wrmc1ui" dist/ || echo "Service ID not found in build output"
+          
       # Create required files for GitHub Pages
       - name: Configure GitHub Pages specific files
         run: |
           touch dist/.nojekyll
-          cp public/_headers dist/
+          cp public/_headers dist/ || echo "No _headers file found"
           
       - name: Deploy with gh-pages
         uses: peaceiris/actions-gh-pages@v3

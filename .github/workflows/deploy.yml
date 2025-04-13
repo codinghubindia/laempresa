@@ -8,6 +8,11 @@ on:
 permissions:
   contents: write
 
+env:
+  VITE_EMAILJS_SERVICE_ID: service_wrmc1ui
+  VITE_EMAILJS_TEMPLATE_ID: template_oo6sj7l
+  VITE_EMAILJS_PUBLIC_KEY: CTUNxPC5QKaMYmT3K
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -27,17 +32,17 @@ jobs:
       # Create .env file with secrets
       - name: Create .env file
         run: |
-          echo "VITE_EMAILJS_SERVICE_ID=${{ secrets.VITE_EMAILJS_SERVICE_ID }}" > .env
-          echo "VITE_EMAILJS_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}" >> .env
-          echo "VITE_EMAILJS_PUBLIC_KEY=${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}" >> .env
+          echo "VITE_EMAILJS_SERVICE_ID=${VITE_EMAILJS_SERVICE_ID}" > .env
+          echo "VITE_EMAILJS_TEMPLATE_ID=${VITE_EMAILJS_TEMPLATE_ID}" >> .env
+          echo "VITE_EMAILJS_PUBLIC_KEY=${VITE_EMAILJS_PUBLIC_KEY}" >> .env
           cat .env
         
       - name: Build
         run: npm run build
         env:
-          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
-          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
-          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+          VITE_EMAILJS_SERVICE_ID: ${VITE_EMAILJS_SERVICE_ID}
+          VITE_EMAILJS_TEMPLATE_ID: ${VITE_EMAILJS_TEMPLATE_ID}
+          VITE_EMAILJS_PUBLIC_KEY: ${VITE_EMAILJS_PUBLIC_KEY}
         
       # Replace environment variables in build output
       - name: Process environment variables
@@ -45,16 +50,17 @@ jobs:
           echo "Processing environment variables in build files..."
           node env.js
         env:
-          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
-          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
-          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+          VITE_EMAILJS_SERVICE_ID: ${VITE_EMAILJS_SERVICE_ID}
+          VITE_EMAILJS_TEMPLATE_ID: ${VITE_EMAILJS_TEMPLATE_ID}
+          VITE_EMAILJS_PUBLIC_KEY: ${VITE_EMAILJS_PUBLIC_KEY}
         
       # Verify environment variables were correctly injected
       - name: Verify build output
         run: |
           echo "Checking for EmailJS variables in build output..."
-          grep -r "VITE_EMAILJS" dist/ || echo "No direct references to VITE_EMAILJS variables found (this is good)"
-          grep -r "service_wrmc1ui" dist/ || echo "Service ID not found in build output"
+          grep -r "service_wrmc1ui" dist/ || echo "Service ID not found in build output (should find it)"
+          grep -r "template_oo6sj7l" dist/ || echo "Template ID not found in build output (should find it)"
+          grep -r "CTUNxPC5QKaMYmT3K" dist/ || echo "Public Key not found in build output (should find it)"
           
       # Create required files for GitHub Pages
       - name: Configure GitHub Pages specific files

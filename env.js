@@ -1,6 +1,11 @@
 // This script replaces environment variables in the built HTML/JS files
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Get the directory name in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const distDir = path.join(__dirname, 'dist');
 
@@ -12,36 +17,55 @@ const env = {
 };
 
 // Function to process a file and replace environment variables
-function processFile(filePath) {
-  if (!fs.existsSync(filePath)) return;
-  
-  let content = fs.readFileSync(filePath, 'utf8');
-  
-  // Replace each environment variable
-  Object.keys(env).forEach(key => {
-    const regex = new RegExp(`process\\.env\\.${key}|import\\.meta\\.env\\.${key}`, 'g');
-    content = content.replace(regex, `"${env[key]}"`);
-  });
-  
-  fs.writeFileSync(filePath, content);
+async function processFile(filePath) {
+  try {
+    const fileExists = await fs.stat(filePath).catch(() => false);
+    if (!fileExists) return;
+    
+    let content = await fs.readFile(filePath, 'utf8');
+    
+    // Replace each environment variable
+    Object.keys(env).forEach(key => {
+      const regex = new RegExp(`process\\.env\\.${key}|import\\.meta\\.env\\.${key}`, 'g');
+      content = content.replace(regex, `"${env[key]}"`);
+    });
+    
+    await fs.writeFile(filePath, content);
+  } catch (error) {
+    console.error(`Error processing file ${filePath}:`, error);
+  }
 }
 
 // Process all JS files in the dist/assets directory
-function processDirectory(directory) {
-  const files = fs.readdirSync(directory);
-  
-  files.forEach(file => {
-    const filePath = path.join(directory, file);
-    const stat = fs.statSync(filePath);
+async function processDirectory(directory) {
+  try {
+    const files = await fs.readdir(directory);
     
-    if (stat.isDirectory()) {
-      processDirectory(filePath);
-    } else if (file.endsWith('.js')) {
-      processFile(filePath);
+    for (const file of files) {
+      const filePath = path.join(directory, file);
+      const stat = await fs.stat(filePath);
+      
+      if (stat.isDirectory()) {
+        await processDirectory(filePath);
+      } else if (file.endsWith('.js')) {
+        await processFile(filePath);
+      }
     }
-  });
+  } catch (error) {
+    console.error(`Error processing directory ${directory}:`, error);
+  }
 }
 
 // Start processing
-processDirectory(path.join(distDir, 'assets'));
-console.log('Environment variables replaced in build files'); 
+async function main() {
+  try {
+    const assetsDir = path.join(distDir, 'assets');
+    await processDirectory(assetsDir);
+    console.log('Environment variables replaced in build files');
+  } catch (error) {
+    console.error('Failed to process files:', error);
+    process.exit(1);
+  }
+}
+
+main(); 

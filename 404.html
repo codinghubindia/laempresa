@@ -23,10 +23,14 @@
 
 <script>
 // Injected environment variables
-window.VITE_EMAILJS_SERVICE_ID = "";
-window.VITE_EMAILJS_TEMPLATE_ID = "";
-window.VITE_EMAILJS_PUBLIC_KEY = "";
-console.log("Environment variables injected globally");
+window.VITE_EMAILJS_SERVICE_ID = "${VITE_EMAILJS_SERVICE_ID}";
+window.VITE_EMAILJS_TEMPLATE_ID = "${VITE_EMAILJS_TEMPLATE_ID}";
+window.VITE_EMAILJS_PUBLIC_KEY = "${VITE_EMAILJS_PUBLIC_KEY}";
+console.log("Environment variables injected globally", {
+  service: window.VITE_EMAILJS_SERVICE_ID,
+  template: window.VITE_EMAILJS_TEMPLATE_ID,
+  publicKey: window.VITE_EMAILJS_PUBLIC_KEY
+});
 </script>
   </head>
 <body>

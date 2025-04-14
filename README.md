@@ -103,4 +103,56 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 👥 Contact
 
-For any questions or feedback, please reach out to us at laempresa.team@gmail.com. 
+For any questions or feedback, please reach out to us at laempresa.team@gmail.com.
+
+## Security Improvements
+
+### EmailJS Secure Implementation
+- Credentials are now stored as environment variables and GitHub secrets
+- No hardcoded credentials in the codebase
+- Sensitive data is no longer visible in the browser
+
+### Setup GitHub Secrets
+To deploy this project, you need to set up the following GitHub secrets:
+
+1. Go to your repository settings
+2. Navigate to Secrets and Variables > Actions
+3. Add the following repository secrets:
+   - `EMAILJS_SERVICE_ID`: Your EmailJS service ID
+   - `EMAILJS_TEMPLATE_ID`: Your EmailJS template ID
+   - `EMAILJS_PUBLIC_KEY`: Your EmailJS public key
+
+## Performance Improvements
+
+### Added loading states
+- Added global loading state for initial page load
+- Implemented lazy loading for all pages to reduce initial load time
+- Added loading indicator for form submissions
+
+### Code Optimization
+- Removed hardcoded credentials in multiple files
+- Implemented a dedicated email service for better code organization
+- Improved form submission flow
+
+## Local Development
+
+1. Clone the repository
+2. Create a `.env` file with your EmailJS credentials (see `.env.example`)
+3. Install dependencies:
+   ```
+   npm install
+   ```
+4. Start the development server:
+   ```
+   npm run dev
+   ```
+
+## Building for Production
+
+```
+npm run build
+```
+
+## Deployment
+
+This project is configured to deploy to GitHub Pages automatically when pushing to the main branch. The deployment workflow uses GitHub Actions and is defined in `.github/workflows/deploy.yml`. 

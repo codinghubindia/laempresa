@@ -9,9 +9,9 @@ permissions:
   contents: write
 
 env:
-  VITE_EMAILJS_SERVICE_ID: service_wrmc1ui
-  VITE_EMAILJS_TEMPLATE_ID: template_oo6sj7l
-  VITE_EMAILJS_PUBLIC_KEY: CTUNxPC5QKaMYmT3K
+  VITE_EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
+  VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+  VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
 
 jobs:
   deploy:
@@ -32,45 +32,158 @@ jobs:
       # Create .env file with secrets
       - name: Create .env file
         run: |
-          echo "VITE_EMAILJS_SERVICE_ID=service_wrmc1ui" > .env
-          echo "VITE_EMAILJS_TEMPLATE_ID=template_oo6sj7l" >> .env
-          echo "VITE_EMAILJS_PUBLIC_KEY=CTUNxPC5QKaMYmT3K" >> .env
-          cat .env
+          echo "VITE_EMAILJS_SERVICE_ID=${{ secrets.EMAILJS_SERVICE_ID }}" > .env
+          echo "VITE_EMAILJS_TEMPLATE_ID=${{ secrets.EMAILJS_TEMPLATE_ID }}" >> .env
+          echo "VITE_EMAILJS_PUBLIC_KEY=${{ secrets.EMAILJS_PUBLIC_KEY }}" >> .env
+      
+      # Add production optimization flags
+      - name: Configure production build
+        run: |
+          echo "VITE_DROP_CONSOLE=true" >> .env
         
       - name: Build
         run: npm run build
         env:
-          VITE_EMAILJS_SERVICE_ID: service_wrmc1ui
-          VITE_EMAILJS_TEMPLATE_ID: template_oo6sj7l
-          VITE_EMAILJS_PUBLIC_KEY: CTUNxPC5QKaMYmT3K
+          VITE_EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
+          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
+          NODE_ENV: production
         
-      # Replace environment variables in build output
+      # Process environment variables in build output
       - name: Process environment variables
         run: |
           echo "Processing environment variables in build files..."
           node env.js
         env:
-          VITE_EMAILJS_SERVICE_ID: service_wrmc1ui
-          VITE_EMAILJS_TEMPLATE_ID: template_oo6sj7l
-          VITE_EMAILJS_PUBLIC_KEY: CTUNxPC5QKaMYmT3K
-        
-      # Verify environment variables were correctly injected
-      - name: Verify build output
-        run: |
-          echo "Checking for EmailJS variables in build output..."
-          grep -r "service_wrmc1ui" dist/ || echo "Service ID not found in build output (should find it)"
-          grep -r "template_oo6sj7l" dist/ || echo "Template ID not found in build output (should find it)"
-          grep -r "CTUNxPC5QKaMYmT3K" dist/ || echo "Public Key not found in build output (should find it)"
+          VITE_EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
+          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
           
-      # Create required files for GitHub Pages
-      - name: Configure GitHub Pages specific files
+      # Install build optimization tools
+      - name: Install optimization tools
+        run: |
+          npm install -g svgo
+          npm install -g sharp-cli
+          npm install -g html-minifier-terser
+          npm install -g csso-cli
+          npm install -g terser
+          
+      # Create public assets directories to ensure they exist
+      - name: Create assets directories
+        run: |
+          mkdir -p dist/assets/images
+          
+      # Copy public assets to ensure they're accessible
+      - name: Copy assets from public directory
+        run: |
+          if [ -d "public/assets" ]; then
+            cp -r public/assets/* dist/assets/
+          fi
+          
+      # Verify and fix public asset references
+      - name: Fix asset references
+        run: |
+          # Create empty assets if they don't exist
+          touch dist/assets/hero-bg.webp
+          touch dist/assets/about-hero.webp
+          touch dist/assets/services-hero.webp
+          
+          if [ -f "public/assets/images/laempresa.png" ]; then
+            cp public/assets/images/laempresa.png dist/assets/images/
+          fi
+          
+      # Optimize SVG files (higher compression)
+      - name: Optimize SVG files
+        run: |
+          find dist -name "*.svg" -exec svgo --multipass {} \;
+          
+      # Optimize images with advanced compression settings
+      - name: Optimize image files
+        run: |
+          mkdir -p dist/images/optimized
+          # Find all images and optimize them
+          find dist -type f \( -name "*.jpg" -o -name "*.jpeg" \) -exec sh -c 'sharp --input=$1 --output=${1%.*}_optimized.${1##*.} --quality=75 resize 1200 --withoutEnlargement' _ {} \;
+          find dist -type f -name "*.png" -exec sh -c 'sharp --input=$1 --output=${1%.*}_optimized.${1##*.} --quality=80 resize 1200 --withoutEnlargement' _ {} \;
+          find dist -type f -name "*.webp" -exec sh -c 'sharp --input=$1 --output=${1%.*}_optimized.${1##*.} --quality=75 resize 1200 --withoutEnlargement' _ {} \;
+          
+          # Replace original files with optimized versions
+          find dist -name "*_optimized.*" -exec sh -c 'mv "$1" "${1/_optimized/}"' _ {} \;
+          
+      # Convert large images to WebP format for better compression
+      - name: Convert to WebP
+        run: |
+          find dist -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" \) -size +100k -exec sh -c 'sharp --input=$1 --output=${1%.*}.webp --webp' _ {} \;
+          
+      # Minify HTML files with advanced options
+      - name: Minify HTML files
+        run: |
+          find dist -name "*.html" -exec html-minifier-terser --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true --html5 -o {} {} \;
+          
+      # Minify CSS files
+      - name: Minify CSS files
+        run: |
+          find dist -name "*.css" -exec csso {} -o {} \;
+          
+      # Minify JS files
+      - name: Minify JS files
+        run: |
+          find dist -name "*.js" -exec terser {} -c passes=3,pure_funcs=['console.log','console.info','console.debug','console.warn'] -m -o {} \;
+          
+      # Add resource hints to improve loading performance
+      - name: Add resource hints
+        run: |
+          if [ -f "dist/index.html" ]; then
+            # Preconnect to external domains
+            sed -i 's/<\/head>/<link rel="preconnect" href="https:\/\/api.emailjs.com" crossorigin><\/head>/' dist/index.html
+            sed -i 's/<\/head>/<link rel="preconnect" href="https:\/\/fonts.googleapis.com"><\/head>/' dist/index.html
+            sed -i 's/<\/head>/<link rel="preconnect" href="https:\/\/fonts.gstatic.com" crossorigin><\/head>/' dist/index.html
+            
+            # DNS prefetching
+            sed -i 's/<\/head>/<link rel="dns-prefetch" href="https:\/\/api.emailjs.com"><\/head>/' dist/index.html
+            
+            echo "Added resource hints for improved performance"
+          else
+            echo "index.html not found in dist directory"
+          fi
+          
+      # Copy public directory files to dist
+      - name: Copy public files
+        run: |
+          # Copy robots.txt and sitemap.xml if they exist
+          if [ -f "public/robots.txt" ]; then
+            cp public/robots.txt dist/
+          fi
+          if [ -f "public/sitemap.xml" ]; then
+            cp public/sitemap.xml dist/
+          fi
+          if [ -f "public/404.html" ]; then
+            cp public/404.html dist/
+          fi
+          if [ -f "public/manifest.json" ]; then
+            cp public/manifest.json dist/
+          fi
+          if [ -f "public/sw.js" ]; then
+            cp public/sw.js dist/
+          fi
+      
+      # Create GitHub Pages required files
+      - name: Configure GitHub Pages files
         run: |
           touch dist/.nojekyll
-          cp public/_headers dist/ || echo "No _headers file found"
-          cp public/emailjs-config.js dist/ || echo "No emailjs-config.js file found"
+          
+      # Add caching headers for optimal performance
+      - name: Setup caching headers
+        run: |
+          echo "/*" > dist/_headers
+          echo "  Cache-Control: public, max-age=86400" >> dist/_headers
+          echo "  X-Content-Type-Options: nosniff" >> dist/_headers
+          echo "/assets/*" >> dist/_headers
+          echo "  Cache-Control: public, max-age=31536000, immutable" >> dist/_headers
+          echo "/images/*" >> dist/_headers
+          echo "  Cache-Control: public, max-age=604800" >> dist/_headers
           
       - name: Deploy with gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ github.token }}
           publish_dir: ./dist

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f1116" />
+    
+    <!-- Performance optimizations -->
+    <link rel="preload" href="/src/main.tsx" as="script" type="module" crossorigin>
+    <link rel="modulepreload" href="/src/App.tsx" as="script" type="module" crossorigin>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="La Empresa - Premium web development and digital solutions in Bengaluru. We build modern, responsive websites and applications for businesses of all sizes." />
+    <meta name="keywords" content="web development, digital marketing, Bengaluru, website design, app development, UI/UX design, SEO, responsive design" />
+    <meta name="author" content="La Empresa" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://laempresa.in/" />
+    <meta property="og:title" content="La Empresa - Premium Web Development & Digital Solutions" />
+    <meta property="og:description" content="We build modern, responsive websites and applications to help businesses grow online." />
+    <meta property="og:image" content="https://laempresa.in/og-image.jpg" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://laempresa.in/" />
+    <meta property="twitter:title" content="La Empresa - Premium Web Development & Digital Solutions" />
+    <meta property="twitter:description" content="We build modern, responsive websites and applications to help businesses grow online." />
+    <meta property="twitter:image" content="https://laempresa.in/og-image.jpg" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://laempresa.in/" />
+    
+    <!-- Preload critical assets -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Critical CSS to prevent flash of white screen -->
+    <style>
+      /* Critical CSS */
+      :root {
+        --dark-background: #0f1116;
+        --dark-surface: #1a1c25;
+        --dark-text-primary: #f3f4f6;
+        --dark-primary-accent: #d4af37;
+        --dark-secondary-accent: #bf8c3c;
+      }
+      
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+      
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background-color: var(--dark-background);
+        color: var(--dark-text-primary);
+        text-rendering: optimizeSpeed;
+      }
+      
+      /* Enhance font loading with font-display: swap */
+      @font-face {
+        font-family: 'MainFont';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: local('System Font'), local('Segoe UI');
+      }
+      
+      /* Initial loader to immediately show before React mounts */
+      #root:empty::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-color: var(--dark-background);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+      
+      #root:empty::after {
+        content: "";
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 60px;
+        height: 60px;
+        margin-top: -30px;
+        margin-left: -30px;
+        border-radius: 50%;
+        border: 4px solid rgba(212, 175, 55, 0.3);
+        border-top-color: #d4af37;
+        animation: loader-spin 1s linear infinite;
+        z-index: 10000;
+      }
+      
+      @keyframes loader-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      
+      .dark {
+        color-scheme: dark;
+      }
+      
+      /* Hide scrollbar during initial load to prevent jank */
+      html.loading {
+        scrollbar-width: none;
+      }
+      html.loading::-webkit-scrollbar {
+        display: none;
+      }
+      
+      /* Content-visibility for off-screen elements to improve rendering */
+      .cv-auto {
+        content-visibility: auto;
+        contain-intrinsic-size: 1px 1000px;
+      }
+    </style>
+    <script>
+      // Mark html as loading
+      document.documentElement.classList.add('loading');
+      
+      // Initialize theme before content loads to prevent flash
+      (function() {
+        const storedTheme = localStorage.getItem('theme');
+        const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = storedTheme || (userPrefersDark ? 'dark' : 'light');
+        
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+        document.documentElement.style.colorScheme = theme;
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+      
+      // Optimize resource loading with priority hints
+      window.addEventListener('load', function() {
+        // Remove loading class after full page load
+        document.documentElement.classList.remove('loading');
+        
+        // Defer non-critical resources after page load
+        setTimeout(function() {
+          const deferredScripts = ['analytics', 'non-critical'];
+          deferredScripts.forEach(function(scriptName) {
+            const script = document.createElement('script');
+            script.src = `/assets/js/${scriptName}.js`;
+            script.defer = true;
+            document.body.appendChild(script);
+          });
+        }, 1000);
+      });
+    </script>
+    <title>La Empresa - Premium Web Development & Digital Solutions</title>
+  </head>
+  <body class="dark">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "La Empresa",
+        "url": "https://laempresa.in",
+        "logo": "https://laempresa.in/logo.svg",
+        "description": "Premium web development and digital solutions in Bengaluru.",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "BEML Layout, Ideal Homes Twp",
+          "addressLocality": "Rajarajeshwari Nagar, Bengaluru",
+          "addressRegion": "Karnataka",
+          "postalCode": "560098",
+          "addressCountry": "IN"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+919483001434",
+          "contactType": "customer service",
+          "email": "laempresa.team@gmail.com"
+        },
+        "sameAs": [
+          "https://facebook.com/laempresa",
+          "https://twitter.com/laempresa",
+          "https://instagram.com/laempresa",
+          "https://linkedin.com/company/laempresa"
+        ]
+      }
+    </script>
+  </body>
+</html> 

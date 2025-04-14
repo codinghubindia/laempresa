@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, memo, FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Send, 
@@ -8,11 +8,341 @@ import {
   Calendar,
   ArrowRight,
   MessageSquare,
-  Clock
+  Clock,
+  Loader2
 } from 'lucide-react';
 import { useTheme } from '../components/ThemeContext';
-import emailjs from '@emailjs/browser';
+import { sendEmail } from '../services/emailService';
 
+// Define form data type
+interface FormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  companyName: string;
+  phone: string;
+  projectType: string;
+  budget: string;
+  timeline: string;
+}
+
+// ContactForm props interface
+interface ContactFormProps {
+  isDark: boolean;
+  formData: FormData;
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  formRef: React.RefObject<HTMLFormElement>;
+  handleSubmit: (e: FormEvent) => Promise<void>;
+  loading: boolean;
+}
+
+// Submit Button with loading animation component
+const SubmitButton = memo(({ loading }: { loading: boolean }) => {
+  return (
+    <button
+      type="submit"
+      disabled={loading}
+      className="group w-full px-6 py-4 text-lg font-medium rounded-full bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent text-dark-background hover:shadow-[0_8px_30px_rgba(212,175,55,0.4)] transition-all duration-300 flex items-center justify-center overflow-hidden relative"
+    >
+      {loading ? (
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center"
+        >
+          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+          <span>Sending...</span>
+        </motion.div>
+      ) : (
+        <motion.div 
+          whileHover={{ x: 5 }}
+          className="flex items-center"
+        >
+          <span>Send Message</span>
+          <Send className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+        </motion.div>
+      )}
+      
+      {loading && (
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-r from-dark-primaryAccent/0 via-white/10 to-dark-primaryAccent/0"
+          initial={{ x: "-100%" }}
+          animate={{ x: "100%" }}
+          transition={{ 
+            repeat: Infinity, 
+            duration: 1.5, 
+            ease: "linear" 
+          }}
+        />
+      )}
+    </button>
+  );
+});
+
+SubmitButton.displayName = 'SubmitButton';
+
+// Memoize complex form components for better performance
+const ContactForm = memo(({ 
+  isDark, 
+  formData, 
+  setFormData, 
+  formRef, 
+  handleSubmit, 
+  loading 
+}: ContactFormProps) => {
+  // Form field change handler with debounce
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }, [setFormData]);
+  
+  return (
+    <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label 
+            htmlFor="name" 
+            className={`block text-sm font-medium ${
+              isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
+            }`}
+          >
+            Your Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className={`w-full p-3 rounded-lg border ${
+              isDark 
+                ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
+                : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
+            } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
+          />
+        </div>
+        <div className="space-y-2">
+          <label 
+            htmlFor="email" 
+            className={`block text-sm font-medium ${
+              isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
+            }`}
+          >
+            Email Address <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className={`w-full p-3 rounded-lg border ${
+              isDark 
+                ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
+                : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
+            } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label 
+            htmlFor="companyName" 
+            className={`block text-sm font-medium ${
+              isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
+            }`}
+          >
+            Company Name
+          </label>
+          <input
+            type="text"
+            id="companyName"
+            name="companyName"
+            value={formData.companyName}
+            onChange={handleChange}
+            className={`w-full p-3 rounded-lg border ${
+              isDark 
+                ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
+                : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
+            } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
+          />
+        </div>
+        <div className="space-y-2">
+          <label 
+            htmlFor="phone" 
+            className={`block text-sm font-medium ${
+              isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
+            }`}
+          >
+            Phone Number
+          </label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            className={`w-full p-3 rounded-lg border ${
+              isDark 
+                ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
+                : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
+            } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
+          />
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <label 
+          htmlFor="subject" 
+          className={`block text-sm font-medium ${
+            isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
+          }`}
+        >
+          Subject <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          id="subject"
+          name="subject"
+          value={formData.subject}
+          onChange={handleChange}
+          required
+          className={`w-full p-3 rounded-lg border ${
+            isDark 
+              ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
+              : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
+          } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label 
+            htmlFor="projectType" 
+            className={`block text-sm font-medium ${
+              isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
+            }`}
+          >
+            Project Type
+          </label>
+          <select
+            id="projectType"
+            name="projectType"
+            value={formData.projectType}
+            onChange={handleChange}
+            className={`w-full p-3 rounded-lg border ${
+              isDark 
+                ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
+                : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
+            } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
+          >
+            <option value="">Select a project type</option>
+            <option value="website">Website Development</option>
+            <option value="ecommerce">E-commerce Solution</option>
+            <option value="webapp">Web Application</option>
+            <option value="mobile">Mobile App</option>
+            <option value="design">UI/UX Design</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div className="space-y-2">
+          <label 
+            htmlFor="budget" 
+            className={`block text-sm font-medium ${
+              isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
+            }`}
+          >
+            Budget Range
+          </label>
+          <select
+            id="budget"
+            name="budget"
+            value={formData.budget}
+            onChange={handleChange}
+            className={`w-full p-3 rounded-lg border ${
+              isDark 
+                ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
+                : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
+            } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
+          >
+            <option value="">Select budget range</option>
+            <option value="<5k">Less than ₹5,000</option>
+            <option value="5k-10k">₹5,000 - ₹10,000</option>
+            <option value="10k-20k">₹10,000 - ₹20,000</option>
+            <option value="20k-50k">₹20,000 - ₹50,000</option>
+            <option value=">50k">More than ₹50,000</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <label 
+          htmlFor="timeline" 
+          className={`block text-sm font-medium ${
+            isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
+          }`}
+        >
+          Timeline
+        </label>
+        <select
+          id="timeline"
+          name="timeline"
+          value={formData.timeline}
+          onChange={handleChange}
+          className={`w-full p-3 rounded-lg border ${
+            isDark 
+              ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
+              : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
+          } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
+        >
+          <option value="">Select timeline</option>
+          <option value="asap">As soon as possible</option>
+          <option value="1month">Within 1 month</option>
+          <option value="3months">Within 3 months</option>
+          <option value="6months">Within 6 months</option>
+          <option value="flexible">Flexible</option>
+        </select>
+      </div>
+      
+      <div className="space-y-2">
+        <label 
+          htmlFor="message" 
+          className={`block text-sm font-medium ${
+            isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
+          }`}
+        >
+          Your Message <span className="text-red-500">*</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          rows={6}
+          value={formData.message}
+          onChange={handleChange}
+          required
+          className={`w-full p-3 rounded-lg border ${
+            isDark 
+              ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
+              : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
+          } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
+        ></textarea>
+      </div>
+      
+      <SubmitButton loading={loading} />
+    </form>
+  );
+});
+
+ContactForm.displayName = 'ContactForm';
+
+// Main Contact component 
 const Contact = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
@@ -20,25 +350,14 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
   
   useEffect(() => {
-    window.scrollTo(0, 0);
-    
-    // Hardcoded EmailJS credentials
-    const EMAILJS_SERVICE_ID = 'service_wrmc1ui';
-    const EMAILJS_TEMPLATE_ID = 'template_oo6sj7l';
-    const EMAILJS_PUBLIC_KEY = 'CTUNxPC5QKaMYmT3K';
-    
-    // Initialize EmailJS with the public key
-    // Use hardcoded value first, then try window and import.meta.env as fallbacks
-    const publicKey = EMAILJS_PUBLIC_KEY;
-    
-    try {
-      emailjs.init(publicKey);
-    } catch (error) {
-      console.error('Error initializing EmailJS:', error);
-    }
+    // Scroll to top with smooth animation
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }, []);
   
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     subject: '',
@@ -50,72 +369,43 @@ const Contact = () => {
     timeline: '',
   });
 
-  const [formStatus, setFormStatus] = useState<{
-    submitted: boolean;
-    success: boolean;
-    message: string;
-  }>({
+  const [formStatus, setFormStatus] = useState({
     submitted: false,
     success: false,
     message: '',
   });
 
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: FormEvent) => {
     e.preventDefault();
     
     try {
       setLoading(true);
       
-      // Hardcoded EmailJS credentials
-      const EMAILJS_SERVICE_ID = 'service_wrmc1ui';
-      const EMAILJS_TEMPLATE_ID = 'template_oo6sj7l';
-      const EMAILJS_PUBLIC_KEY = 'CTUNxPC5QKaMYmT3K';
+      // Use emailService to send the email
+      const success = await sendEmail(formData);
       
-      // Use hardcoded values directly
-      const serviceId = EMAILJS_SERVICE_ID;
-      const templateId = EMAILJS_TEMPLATE_ID;
-      const publicKey = EMAILJS_PUBLIC_KEY;
-      
-      // Create template parameters with exact variable names from HTML template
-      const templateParams = {
-        name: formData.name,
-        email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
-        companyName: formData.companyName || 'Not provided',
-        phone: formData.phone || 'Not provided',
-        projectType: formData.projectType || 'Not specified',
-        budget: formData.budget || 'Not specified',
-        timeline: formData.timeline || 'Not specified'
-      };
-      
-      // Send email using emailjs.send
-      await emailjs.send(
-        serviceId,
-        templateId,
-        templateParams,
-        publicKey
-      );
-      
-      setFormStatus({
-        submitted: true,
-        success: true,
-        message: 'Thanks for your message! We will get back to you soon.',
-      });
-      
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-        companyName: '',
-        phone: '',
-        projectType: '',
-        budget: '',
-        timeline: '',
-      });
+      if (success) {
+        setFormStatus({
+          submitted: true,
+          success: true,
+          message: 'Thanks for your message! We will get back to you soon.',
+        });
+        
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+          companyName: '',
+          phone: '',
+          projectType: '',
+          budget: '',
+          timeline: '',
+        });
+      } else {
+        throw new Error('Failed to send email');
+      }
       
     } catch (error) {
       console.error('Error sending message:', error);
@@ -125,18 +415,21 @@ const Contact = () => {
         message: 'There was an error sending your message. Please try again or contact us directly at laempresa.team@gmail.com',
       });
     } finally {
-      setLoading(false);
+      // Add a slight delay before removing loading state for better UX
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
     }
-  };
+  }, [formData]);
 
   return (
     <div className="pt-16">
       {/* Hero Section */}
       <section className={`relative py-24 ${isDark ? 'bg-dark-surface/20' : 'bg-light-surface/30'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center max-w-3xl mx-auto"
           >
@@ -148,8 +441,8 @@ const Contact = () => {
             </h1>
             <p className={`text-xl mb-8 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
               Have a project in mind? We'd love to discuss how we can help transform your ideas into reality.
-          </p>
-        </motion.div>
+            </p>
+          </motion.div>
         </div>
       </section>
 
@@ -157,10 +450,10 @@ const Contact = () => {
       <section className={`py-24 ${isDark ? 'bg-dark-background' : 'bg-light-background'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Contact Form */}
-          <motion.div
+            {/* Contact Form */}
+            <motion.div
               initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               className={`p-8 rounded-2xl ${
                 isDark ? 'bg-dark-surface/30' : 'bg-light-surface/50'
@@ -191,17 +484,6 @@ const Contact = () => {
                           success: false,
                           message: '',
                         });
-                        setFormData({
-                          name: '',
-                          email: '',
-                          subject: '',
-                          message: '',
-                          companyName: '',
-                          phone: '',
-                          projectType: '',
-                          budget: '',
-                          timeline: '',
-                        });
                       }}
                       className="mt-4 text-green-700 underline"
                     >
@@ -210,254 +492,19 @@ const Contact = () => {
                   )}
                 </motion.div>
               ) : (
-                <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label 
-                        htmlFor="name" 
-                        className={`block text-sm font-medium ${
-                          isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
-                        }`}
-                      >
-                        Your Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        required
-                        className={`w-full p-3 rounded-lg border ${
-                          isDark 
-                            ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
-                            : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
-                        } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
-                      />
-              </div>
-                    <div className="space-y-2">
-                      <label 
-                        htmlFor="email" 
-                        className={`block text-sm font-medium ${
-                          isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
-                        }`}
-                      >
-                        Email Address <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        required
-                        className={`w-full p-3 rounded-lg border ${
-                          isDark 
-                            ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
-                            : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
-                        } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label 
-                        htmlFor="companyName" 
-                        className={`block text-sm font-medium ${
-                          isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
-                        }`}
-                      >
-                        Company Name
-                      </label>
-                      <input
-                        type="text"
-                        id="companyName"
-                        name="companyName"
-                        value={formData.companyName}
-                        onChange={(e) => setFormData({...formData, companyName: e.target.value})}
-                        className={`w-full p-3 rounded-lg border ${
-                          isDark 
-                            ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
-                            : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
-                        } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label 
-                        htmlFor="phone" 
-                        className={`block text-sm font-medium ${
-                          isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
-                        }`}
-                      >
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                        className={`w-full p-3 rounded-lg border ${
-                          isDark 
-                            ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
-                            : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
-                        } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label 
-                      htmlFor="subject" 
-                      className={`block text-sm font-medium ${
-                        isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
-                      }`}
-                    >
-                      Subject <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                      required
-                      className={`w-full p-3 rounded-lg border ${
-                        isDark 
-                          ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
-                          : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
-                      } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label 
-                        htmlFor="projectType" 
-                        className={`block text-sm font-medium ${
-                          isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
-                        }`}
-                      >
-                        Project Type
-                      </label>
-                      <select
-                        id="projectType"
-                        name="projectType"
-                        value={formData.projectType}
-                        onChange={(e) => setFormData({...formData, projectType: e.target.value})}
-                        className={`w-full p-3 rounded-lg border ${
-                          isDark 
-                            ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
-                            : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
-                        } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
-                      >
-                        <option value="">Select a project type</option>
-                        <option value="website">Website Development</option>
-                        <option value="ecommerce">E-commerce Solution</option>
-                        <option value="webapp">Web Application</option>
-                        <option value="mobile">Mobile App</option>
-                        <option value="design">UI/UX Design</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-                    <div className="space-y-2">
-                      <label 
-                        htmlFor="budget" 
-                        className={`block text-sm font-medium ${
-                          isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
-                        }`}
-                      >
-                        Budget Range
-                      </label>
-                      <select
-                        id="budget"
-                        name="budget"
-                        value={formData.budget}
-                        onChange={(e) => setFormData({...formData, budget: e.target.value})}
-                        className={`w-full p-3 rounded-lg border ${
-                          isDark 
-                            ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
-                            : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
-                        } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
-                      >
-                        <option value="">Select budget range</option>
-                        <option value="<5k">Less than ₹5,000</option>
-                        <option value="5k-10k">₹5,000 - ₹10,000</option>
-                        <option value="10k-20k">₹10,000 - ₹20,000</option>
-                        <option value="20k-50k">₹20,000 - ₹50,000</option>
-                        <option value=">50k">More than ₹50,000</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label 
-                      htmlFor="timeline" 
-                      className={`block text-sm font-medium ${
-                        isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
-                      }`}
-                    >
-                      Timeline
-                    </label>
-                    <select
-                      id="timeline"
-                      name="timeline"
-                      value={formData.timeline}
-                      onChange={(e) => setFormData({...formData, timeline: e.target.value})}
-                      className={`w-full p-3 rounded-lg border ${
-                        isDark 
-                          ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
-                          : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
-                      } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
-                    >
-                      <option value="">Select timeline</option>
-                      <option value="asap">As soon as possible</option>
-                      <option value="1month">Within 1 month</option>
-                      <option value="3months">Within 3 months</option>
-                      <option value="6months">Within 6 months</option>
-                      <option value="flexible">Flexible</option>
-                    </select>
-              </div>
-              
-                  <div className="space-y-2">
-                    <label 
-                      htmlFor="message" 
-                      className={`block text-sm font-medium ${
-                        isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
-                      }`}
-                    >
-                      Your Message <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  id="message"
-                      name="message"
-                      rows={6}
-                      value={formData.message}
-                      onChange={(e) => setFormData({...formData, message: e.target.value})}
-                      required
-                      className={`w-full p-3 rounded-lg border ${
-                        isDark 
-                          ? 'bg-dark-background border-dark-border focus:border-dark-primaryAccent' 
-                          : 'bg-light-background border-light-border focus:border-dark-primaryAccent'
-                      } focus:outline-none focus:ring-2 focus:ring-dark-primaryAccent/20 transition`}
-                    ></textarea>
-              </div>
-              
-              <button
-                type="submit"
-                    disabled={loading}
-                    className={`group w-full px-6 py-4 text-lg font-medium rounded-full bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent text-dark-background hover:shadow-[0_8px_30px_rgba(212,175,55,0.4)] transition-all duration-300 flex items-center justify-center ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
-              >
-                    <span>{loading ? 'Sending...' : 'Send Message'}</span>
-                    {!loading && <Send className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />}
-              </button>
-            </form>
+                <ContactForm 
+                  isDark={isDark}
+                  formData={formData}
+                  setFormData={setFormData}
+                  formRef={formRef}
+                  handleSubmit={handleSubmit}
+                  loading={loading}
+                />
               )}
-          </motion.div>
+            </motion.div>
 
-          {/* Contact Information */}
-          <motion.div
+            {/* Contact Information */}
+            <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}

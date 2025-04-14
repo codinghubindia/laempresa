@@ -1,0 +1,14 @@
+# robots.txt for laempresa.in
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://laempresa.in/sitemap.xml
+
+# Prevent unnecessary crawling to improve crawl efficiency
+Disallow: /assets/
+Disallow: /*.js$
+Disallow: /*.css$
+
+# Crawl-delay for all bots (in seconds)
+Crawl-delay: 10 

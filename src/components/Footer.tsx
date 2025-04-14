@@ -86,8 +86,8 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <Phone className="h-4 w-4 mr-2 text-dark-primaryAccent drop-shadow-[0_0_1px_rgba(212,175,55,0.5)]" />
-                <a href="tel:+919483001434" className={isDark ? 'text-dark-textSecondary hover:text-dark-primary' : 'text-light-textSecondary hover:text-light-primary'}>
-                  +91 9483001434
+                <a href="tel:+917483001434" className={isDark ? 'text-dark-textSecondary hover:text-dark-primary' : 'text-light-textSecondary hover:text-light-primary'}>
+                  +91 7483001434
                 </a>
               </li>
               <li className="flex items-start">
@@ -108,7 +108,8 @@ const Footer = () => {
             }`}>Follow Us</h3>
             <div className="flex space-x-4">
               <a 
-                href="#" 
+                href="https://linkedin.com/company/laempresa-tech" 
+                target="_blank"
                 className={`relative ${
                   isDark 
                     ? 'text-dark-textSecondary hover:text-dark-primaryAccent' 
@@ -119,7 +120,7 @@ const Footer = () => {
                 <Linkedin className="h-5 w-5 group-hover:drop-shadow-[0_0_2px_rgba(212,175,55,0.6)]" />
               </a>
               <a 
-                href="#" 
+                href="/" 
                 className={`relative ${
                   isDark 
                     ? 'text-dark-textSecondary hover:text-dark-primaryAccent' 

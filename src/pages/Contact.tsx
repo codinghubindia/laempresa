@@ -559,10 +559,10 @@ const Contact = () => {
                     <div className="mt-2 ml-9">
                       <p className={`${isDark ? 'text-dark-text' : 'text-light-text'}`}>
                         <a 
-                          href="tel:+919483001434" 
+                          href="tel:+917483001434" 
                           className="hover:underline text-dark-primaryAccent"
                         >
-                          +91 9483001434
+                          +91 7483001434
                         </a>
                       </p>
                       <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>

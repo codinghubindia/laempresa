@@ -53,7 +53,7 @@ jobs:
       - name: Process environment variables
         run: |
           echo "Processing environment variables in build files..."
-          node env.js
+          node process-env.mjs
         env:
           VITE_EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
           VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}

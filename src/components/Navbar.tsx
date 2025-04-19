@@ -1,17 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Moon, Sun } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTheme } from './ThemeContext';
 import lampresa from '../assets/images/laempresa.png';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const { theme, toggleTheme } = useTheme();
-  
-  const isDark = theme === 'dark';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,12 +28,8 @@ const Navbar = () => {
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${
       scrolled 
-        ? isDark 
-          ? 'bg-dark-background/95 backdrop-blur-md shadow-lg' 
-          : 'bg-light-background/95 backdrop-blur-md shadow-lg' 
-        : isDark 
-          ? 'bg-dark-background/80 backdrop-blur-sm' 
-          : 'bg-light-background/80 backdrop-blur-sm'
+        ? 'bg-dark-background/95 backdrop-blur-md shadow-lg'
+        : 'bg-dark-background/80 backdrop-blur-sm'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
@@ -56,16 +48,10 @@ const Navbar = () => {
                 />
               </motion.div>
               <div className="ml-3">
-                <span className={`block text-2xl md:text-3xl font-headline font-semibold ${
-                  isDark 
-                    ? 'text-dark-primaryAccent' 
-                    : 'text-dark-primaryAccent'
-                } drop-shadow-[0_0_3px_rgba(212,175,55,0.5)]`}>
+                <span className="block text-2xl md:text-3xl font-headline font-semibold text-dark-primaryAccent drop-shadow-[0_0_3px_rgba(212,175,55,0.5)]">
                   La Empresa
                 </span>
-                <span className={`text-xs md:text-sm italic font-medium px-3 py-1 rounded-md ${
-                  isDark ? 'bg-dark-primaryAccent/20 text-dark-primaryAccent border border-dark-primaryAccent/30' : 'bg-light-primaryAccent/20 text-dark-primaryAccent border border-dark-primaryAccent/30'
-                }`}>
+                <span className="text-xs md:text-sm italic font-medium px-3 py-1 rounded-md bg-dark-primaryAccent/20 text-dark-primaryAccent border border-dark-primaryAccent/30">
                   Where Creativity Becomes Reality
                 </span>
               </div>
@@ -76,11 +62,7 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className={`relative px-3 py-2 ${
-                isDark 
-                  ? `text-dark-textPrimary hover:text-dark-primaryAccent ${isActive('/') ? 'text-dark-primaryAccent' : ''}` 
-                  : `text-light-textPrimary hover:text-dark-primaryAccent ${isActive('/') ? 'text-dark-primaryAccent' : ''}`
-              } transition-colors`}
+              className={`relative px-3 py-2 text-dark-textPrimary hover:text-dark-primaryAccent ${isActive('/') ? 'text-dark-primaryAccent' : ''} transition-colors`}
             >
               Home
               {isActive('/') && (
@@ -95,11 +77,7 @@ const Navbar = () => {
             </Link>
             <Link
               to="/about"
-              className={`relative px-3 py-2 ${
-                isDark 
-                  ? `text-dark-textPrimary hover:text-dark-primaryAccent ${isActive('/about') ? 'text-dark-primaryAccent' : ''}` 
-                  : `text-light-textPrimary hover:text-dark-primaryAccent ${isActive('/about') ? 'text-dark-primaryAccent' : ''}`
-              } transition-colors`}
+              className={`relative px-3 py-2 text-dark-textPrimary hover:text-dark-primaryAccent ${isActive('/about') ? 'text-dark-primaryAccent' : ''} transition-colors`}
             >
               About
               {isActive('/about') && (
@@ -114,14 +92,25 @@ const Navbar = () => {
             </Link>
             <Link
               to="/services"
-              className={`relative px-3 py-2 ${
-                isDark 
-                  ? `text-dark-textPrimary hover:text-dark-primaryAccent ${isActive('/services') ? 'text-dark-primaryAccent' : ''}` 
-                  : `text-light-textPrimary hover:text-dark-primaryAccent ${isActive('/services') ? 'text-dark-primaryAccent' : ''}`
-              } transition-colors`}
+              className={`relative px-3 py-2 text-dark-textPrimary hover:text-dark-primaryAccent ${isActive('/services') ? 'text-dark-primaryAccent' : ''} transition-colors`}
             >
               Services
               {isActive('/services') && (
+                <motion.div
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-dark-primaryAccent"
+                  initial="hidden"
+                  animate="visible"
+                  variants={activeIndicator}
+                  layoutId="navbar-underline"
+                />
+              )}
+            </Link>
+            <Link
+              to="/portfolio"
+              className={`relative px-3 py-2 text-dark-textPrimary hover:text-dark-primaryAccent ${isActive('/portfolio') ? 'text-dark-primaryAccent' : ''} transition-colors`}
+            >
+              Portfolio
+              {isActive('/portfolio') && (
                 <motion.div
                   className="absolute bottom-0 left-0 right-0 h-0.5 bg-dark-primaryAccent"
                   initial="hidden"
@@ -143,46 +132,18 @@ const Navbar = () => {
                 transition={{ duration: 0.3 }}
               />
             </Link>
-            
-            {/* Theme Toggle Button */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full transition-colors relative overflow-hidden bg-dark-surface/20 text-dark-primaryAccent hover:bg-dark-surface/30"
-              aria-label="Toggle theme"
-            >
-              <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity animate-pulse-slow bg-dark-primaryAccent/20 blur-md"></span>
-              {isDark ? (
-                <Sun className="h-5 w-5 relative z-10" />
-              ) : (
-                <Moon className="h-5 w-5 relative z-10" />
-              )}
-            </button>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-4">
-            {/* Theme Toggle Button (Mobile) */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full relative overflow-hidden bg-dark-surface/20 text-dark-primaryAccent hover:bg-dark-surface/30 transition-colors"
-              aria-label="Toggle theme"
-            >
-              <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity animate-pulse-slow bg-dark-primaryAccent/20 blur-md"></span>
-              {isDark ? (
-                <Sun className="h-5 w-5 relative z-10" />
-              ) : (
-                <Moon className="h-5 w-5 relative z-10" />
-              )}
-            </button>
-            
+          <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 rounded-full hover:bg-dark-primaryAccent/10 transition-colors"
             >
               {isOpen ? (
-                <X className={`h-6 w-6 ${isDark ? 'text-dark-textPrimary' : 'text-light-textPrimary'}`} />
+                <X className="h-6 w-6 text-dark-textPrimary" />
               ) : (
-                <Menu className={`h-6 w-6 ${isDark ? 'text-dark-textPrimary' : 'text-light-textPrimary'}`} />
+                <Menu className="h-6 w-6 text-dark-textPrimary" />
               )}
             </button>
           </div>
@@ -196,41 +157,36 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className={isDark ? 'md:hidden bg-dark-background shadow-xl' : 'md:hidden bg-light-background shadow-xl'}
+            className="md:hidden bg-dark-background shadow-xl"
           >
             <div className="px-2 pt-2 pb-3 space-y-1">
               <Link
                 to="/"
-                className={`block px-4 py-3 rounded-lg ${
-                  isDark 
-                    ? `text-dark-textPrimary hover:bg-dark-primaryAccent/10 ${isActive('/') ? 'bg-dark-primaryAccent/10 text-dark-primaryAccent' : ''}` 
-                    : `text-light-textPrimary hover:bg-dark-primaryAccent/10 ${isActive('/') ? 'bg-dark-primaryAccent/10 text-dark-primaryAccent' : ''}`
-                } transition-colors`}
+                className={`block px-4 py-3 rounded-lg text-dark-textPrimary hover:bg-dark-primaryAccent/10 ${isActive('/') ? 'bg-dark-primaryAccent/10 text-dark-primaryAccent' : ''} transition-colors`}
                 onClick={() => setIsOpen(false)}
               >
                 Home
               </Link>
               <Link
                 to="/about"
-                className={`block px-4 py-3 rounded-lg ${
-                  isDark 
-                    ? `text-dark-textPrimary hover:bg-dark-primaryAccent/10 ${isActive('/about') ? 'bg-dark-primaryAccent/10 text-dark-primaryAccent' : ''}` 
-                    : `text-light-textPrimary hover:bg-dark-primaryAccent/10 ${isActive('/about') ? 'bg-dark-primaryAccent/10 text-dark-primaryAccent' : ''}`
-                } transition-colors`}
+                className={`block px-4 py-3 rounded-lg text-dark-textPrimary hover:bg-dark-primaryAccent/10 ${isActive('/about') ? 'bg-dark-primaryAccent/10 text-dark-primaryAccent' : ''} transition-colors`}
                 onClick={() => setIsOpen(false)}
               >
                 About
               </Link>
               <Link
                 to="/services"
-                className={`block px-4 py-3 rounded-lg ${
-                  isDark 
-                    ? `text-dark-textPrimary hover:bg-dark-primaryAccent/10 ${isActive('/services') ? 'bg-dark-primaryAccent/10 text-dark-primaryAccent' : ''}` 
-                    : `text-light-textPrimary hover:bg-dark-primaryAccent/10 ${isActive('/services') ? 'bg-dark-primaryAccent/10 text-dark-primaryAccent' : ''}`
-                } transition-colors`}
+                className={`block px-4 py-3 rounded-lg text-dark-textPrimary hover:bg-dark-primaryAccent/10 ${isActive('/services') ? 'bg-dark-primaryAccent/10 text-dark-primaryAccent' : ''} transition-colors`}
                 onClick={() => setIsOpen(false)}
               >
                 Services
+              </Link>
+              <Link
+                to="/portfolio"
+                className={`block px-4 py-3 rounded-lg text-dark-textPrimary hover:bg-dark-primaryAccent/10 ${isActive('/portfolio') ? 'bg-dark-primaryAccent/10 text-dark-primaryAccent' : ''} transition-colors`}
+                onClick={() => setIsOpen(false)}
+              >
+                Portfolio
               </Link>
               <Link
                 to="/contact"

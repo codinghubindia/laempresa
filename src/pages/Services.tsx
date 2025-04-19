@@ -174,8 +174,8 @@ const Services = () => {
       ],
       timeline: "3–5 Days",
       originalPrice: 12000,
-      discountedPrice: 4799,
-      discount: "60% OFF",
+      discountedPrice: 2999,
+      discount: "75% OFF",
       popular: false
     },
     {
@@ -189,9 +189,9 @@ const Services = () => {
         "Performance Optimization"
       ],
       timeline: "7–14 Days",
-      originalPrice: 30000,
-      discountedPrice: 11999,
-      discount: "60% OFF",
+      originalPrice: 32000,
+      discountedPrice: 7999,
+      discount: "75% OFF",
       popular: true
     },
     {
@@ -207,8 +207,8 @@ const Services = () => {
       ],
       timeline: "3–6 Weeks",
       originalPrice: 120000,
-      discountedPrice: 47999,
-      discount: "60% OFF",
+      discountedPrice: 29999,
+      discount: "75% OFF",
       popular: false
     }
   ];
@@ -294,10 +294,10 @@ const Services = () => {
               WHAT WE DO
             </div>
             <h1 className="text-4xl md:text-5xl font-headline font-bold mb-6 bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
-              Digital Excellence, Delivered
+              Digital Excellence, Delivered Affordably
             </h1>
             <p className={`text-xl mb-8 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              At La Empresa, we craft powerful digital experiences that elevate your brand, streamline operations, and drive growth. Our mission is to bridge the gap between innovative ideas and high-performing digital products.
+              We provide premium digital solutions at prices up to 75% below market rates without sacrificing quality
             </p>
             <Link
               to="/contact"
@@ -328,7 +328,7 @@ const Services = () => {
               <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">Web Development</span>
             </h2>
             <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              We build fast, responsive, and scalable websites tailored to your brand and business goals. From sleek marketing sites to robust web platforms — we handle it all.
+              We build fast, responsive, and scalable websites at affordable rates. From sleek marketing sites to robust web platforms — we deliver exceptional quality for less.
             </p>
           </motion.div>
 
@@ -345,13 +345,13 @@ const Services = () => {
             <div className="flex items-center justify-center gap-3 mb-3">
               <BadgePercent className="h-6 w-6 text-dark-primaryAccent" />
               <h3 className="text-xl md:text-2xl font-bold text-dark-primaryAccent">
-                Launch Offer: 60% OFF All Packages
+                Limited Time Offer: 75% OFF All Packages
               </h3>
               <Sparkles className="h-6 w-6 text-dark-primaryAccent" />
             </div>
             <p className={`text-sm md:text-base max-w-2xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              Limited time offer to celebrate our launch! Lock in our best rates today before prices increase.
-              <span className="block mt-2 text-dark-primaryAccent font-medium">Offer valid until June 30, 2025</span>
+              We're committed to providing premium digital solutions at budget-friendly prices. Lock in our best rates today!
+              <span className="block mt-2 text-dark-primaryAccent font-medium">Our pricing beats competitors by 40-75%</span>
             </p>
           </motion.div>
 
@@ -477,7 +477,7 @@ const Services = () => {
 
           <div className="text-center mt-16">
             <p className={`text-sm italic max-w-2xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              * All packages can be customized to your specific needs. Contact us for a detailed quote based on your project requirements. Promotional pricing is valid for a limited time.
+              * All packages can be customized to your specific needs. Contact us for a detailed quote based on your project requirements. Our competitive pricing is designed to make premium digital solutions accessible to businesses of all sizes.
             </p>
           </div>
         </div>

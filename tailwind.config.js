@@ -20,7 +20,7 @@ export default {
           border: '#E1C16E',
           error: '#D9534F',
         },
-        // Light theme
+        // Light theme - no longer used, but kept for reference
         light: {
           background: '#F9F9F9',
           surface: '#EFE9E3',

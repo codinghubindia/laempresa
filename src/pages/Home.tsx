@@ -15,11 +15,18 @@ import {
   Lock,
   Clock,
   Phone,
-  ShoppingCart
+  ShoppingCart,
+  Star,
+  Mail
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../components/ThemeContext';
 import lampresa from '../assets/images/laempresa.png';
+import PortfolioSectionComponent from '../components/PortfolioSection';
+import TestimonialsSectionComponent from '../components/TestimonialsSection';
+import ContactForm from '../components/ContactForm';
+import SEO from '../components/SEO';
+import ServicesSection from '../components/ServicesSection';
 
 // Motion variants for text animations
 const textVariants = {
@@ -38,7 +45,7 @@ const textVariants = {
 //////////////////////////
 // Hero Section Component
 //////////////////////////
-const HeroSection = ({ isDark }: { isDark: boolean }) => {
+const HeroSection = () => {
   const controls = useAnimation();
   const heroRef = useRef<HTMLDivElement>(null);
 
@@ -57,7 +64,7 @@ const HeroSection = ({ isDark }: { isDark: boolean }) => {
   return (
     <section
       ref={heroRef}
-      className={`relative min-h-screen flex flex-col justify-center ${isDark ? 'bg-dark-background' : 'bg-light-background'}`}
+      className="relative min-h-screen flex flex-col justify-center bg-dark-background"
       aria-label="Hero Section"
     >
       {/* Background Image & Animated Overlays */}
@@ -79,7 +86,7 @@ const HeroSection = ({ isDark }: { isDark: boolean }) => {
                 alt="LaEmpresa Logo"
                 className="max-w-[60%] max-h-[60%] object-contain opacity-75"
               />
-              <div className={`absolute inset-0 ${isDark ? 'bg-dark-background/80' : 'bg-light-background/70'}`}></div>
+              <div className="absolute inset-0 bg-dark-background/80"></div>
             </motion.div>
 
             {/* Animated Overlays */}
@@ -124,21 +131,19 @@ const HeroSection = ({ isDark }: { isDark: boolean }) => {
               className="px-6 py-2 rounded-full text-sm font-medium bg-dark-primaryAccent/10 text-dark-primaryAccent"
               aria-label="Established date"
             >
-              ESTABLISHED 2025
+              PREMIUM DIGITAL SOLUTIONS
             </span>
           </motion.div>
 
           <motion.h1
-            className={`text-4xl md:text-6xl lg:text-7xl font-headline font-bold leading-tight tracking-tight mb-6 ${
-              isDark ? 'text-dark-textPrimary' : 'text-light-textPrimary'
-            }`}
+            className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold leading-tight tracking-tight mb-6 text-dark-textPrimary"
             initial="hidden"
             animate="visible"
             custom={0}
             variants={textVariants}
           >
             <span className="block mb-2">
-              The Future of <span className="text-dark-primaryAccent relative z-10">Digital</span> is Here
+              Launch Your Brand With A <span className="text-dark-primaryAccent relative z-10">Stunning Website</span> In Just 72 Hours
             </span>
           </motion.h1>
 
@@ -148,10 +153,8 @@ const HeroSection = ({ isDark }: { isDark: boolean }) => {
             custom={1}
             variants={textVariants}
           >
-            <p className={`text-xl md:text-2xl mb-10 max-w-3xl mx-auto ${
-              isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
-            }`}>
-              Pioneering digital solutions that propel your business into a new era of success
+            <p className="text-dark-textSecondary text-xl md:text-2xl mb-10 max-w-3xl mx-auto">
+              Elevate your digital presence with our expert team's tailored solutions that drive real business growth
             </p>
           </motion.div>
 
@@ -164,20 +167,16 @@ const HeroSection = ({ isDark }: { isDark: boolean }) => {
             className="flex flex-wrap justify-center gap-4 mb-12"
           >
             {[
-              { text: "Innovative Strategies", icon: <Rocket className="h-4 w-4" /> },
-              { text: "Custom Solutions", icon: <PenTool className="h-4 w-4" /> },
+              { text: "72-Hour Turnaround", icon: <Clock className="h-4 w-4" /> },
+              { text: "100% Satisfaction Guarantee", icon: <Shield className="h-4 w-4" /> },
               { text: "Expert Team", icon: <Users className="h-4 w-4" /> }
             ].map((feature, index) => (
               <div 
                 key={index} 
-                className={`flex items-center space-x-2 px-4 py-2 rounded-full ${
-                  isDark ? 'bg-dark-surface/30' : 'bg-light-surface/30'
-                }`}
+                className="flex items-center space-x-2 px-4 py-2 rounded-full bg-dark-surface/30"
               >
                 <span className="text-dark-primaryAccent">{feature.icon}</span>
-                <span className={`text-sm font-medium ${
-                  isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
-                }`}>{feature.text}</span>
+                <span className="text-sm font-medium text-dark-textSecondary">{feature.text}</span>
               </div>
             ))}
           </motion.div>
@@ -188,20 +187,36 @@ const HeroSection = ({ isDark }: { isDark: boolean }) => {
               className="group px-8 py-4 text-lg font-medium rounded-full bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent text-dark-background hover:shadow-[0_8px_30px_rgba(212,175,55,0.4)] transition-all duration-300 relative overflow-hidden flex items-center"
             >
               <span className="absolute inset-0 bg-dark-primaryAccent/20 opacity-0 group-hover:opacity-100 blur-lg transition-opacity rounded-full"></span>
-              <span className="relative z-10">Get a Free Consultation</span>
+              <span className="relative z-10">Get Started Now</span>
               <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform relative z-10" />
             </Link>
 
             <Link
-              to="/services"
+              to="/portfolio"
               className="group px-8 py-4 text-lg font-medium rounded-full border-2 border-dark-primaryAccent/60 hover:border-dark-primaryAccent text-dark-primaryAccent hover:bg-dark-primaryAccent/5 transition-all duration-300 flex items-center"
             >
-              <span className="relative z-10">Explore Services</span>
+              <span className="relative z-10">View Portfolio</span>
               <ArrowUpRight className="ml-2 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </Link>
           </motion.div>
         </div>
       </div>
+
+      {/* Contact Form Quick Access */}
+      <motion.div 
+        className="absolute bottom-10 right-10 md:flex hidden"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1.8, duration: 0.5 }}
+      >
+        <Link
+          to="/contact"
+          className="group rounded-full p-4 bg-dark-primaryAccent text-dark-background hover:shadow-[0_0_20px_rgba(212,175,55,0.6)] transition-all duration-300"
+        >
+          <Phone className="h-6 w-6" />
+          <span className="sr-only">Contact Us</span>
+        </Link>
+      </motion.div>
 
       {/* Floating scroll indicator */}
       <motion.div 
@@ -224,179 +239,11 @@ const HeroSection = ({ isDark }: { isDark: boolean }) => {
 };
 
 //////////////////////////
-// Services Section Component
-//////////////////////////
-const ServicesSection = ({ isDark }: { isDark: boolean }) => {
-  return (
-    <section className={`py-24 ${isDark ? 'bg-dark-background' : 'bg-light-background'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <div className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/10 text-dark-primaryAccent mb-6">
-            OUR SERVICES
-          </div>
-          <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6">
-            <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
-              Tailored Digital Solutions
-            </span>
-          </h2>
-          <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-            From stunning websites to powerful web applications, we craft digital experiences that elevate your brand and drive business growth
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            viewport={{ once: true }}
-            className={`rounded-xl p-8 ${
-              isDark ? 'bg-dark-primary/5' : 'bg-light-primary/5'
-            } border border-dark-primaryAccent/10 hover:border-dark-primaryAccent/30 transition-all duration-300`}
-          >
-            <div className="flex items-center mb-6">
-              <div className="p-3 bg-dark-primaryAccent/10 rounded-lg mr-4">
-                <Laptop className="w-6 h-6 text-dark-primaryAccent" />
-              </div>
-              <h3 className="text-xl font-bold">Website Development</h3>
-            </div>
-            <p className={isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}>
-              Custom responsive websites that captivate your audience with eye-catching designs and seamless navigation, optimized for performance and search engines.
-            </p>
-            <ul className="mt-6 space-y-3">
-              <li className="flex items-start">
-                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
-                <span className={isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}>Responsive design for all devices</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
-                <span className={isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}>SEO-optimized structure</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
-                <span className={isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}>Fast loading speed</span>
-              </li>
-            </ul>
-            <Link
-              to="/services"
-              className="inline-flex items-center text-dark-primaryAccent mt-6 hover:text-dark-secondaryAccent transition-colors"
-            >
-              <span>Learn more</span>
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-            viewport={{ once: true }}
-            className={`rounded-xl p-8 ${
-              isDark ? 'bg-dark-primary/5' : 'bg-light-primary/5'
-            } border border-dark-primaryAccent/10 hover:border-dark-primaryAccent/30 transition-all duration-300`}
-          >
-            <div className="flex items-center mb-6">
-              <div className="p-3 bg-dark-primaryAccent/10 rounded-lg mr-4">
-                <Code className="w-6 h-6 text-dark-primaryAccent" />
-              </div>
-              <h3 className="text-xl font-bold">Web Application Development</h3>
-            </div>
-            <p className={isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}>
-              Powerful, scalable web applications built with modern frameworks to solve complex business challenges and streamline operations.
-            </p>
-            <ul className="mt-6 space-y-3">
-              <li className="flex items-start">
-                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
-                <span className={isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}>Custom functionality</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
-                <span className={isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}>Secure user authentication</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
-                <span className={isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}>Cloud-based infrastructure</span>
-              </li>
-            </ul>
-            <Link
-              to="/services"
-              className="inline-flex items-center text-dark-primaryAccent mt-6 hover:text-dark-secondaryAccent transition-colors"
-            >
-              <span>Learn more</span>
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-            viewport={{ once: true }}
-            className={`rounded-xl p-8 ${
-              isDark ? 'bg-dark-primary/5' : 'bg-light-primary/5'
-            } border border-dark-primaryAccent/10 hover:border-dark-primaryAccent/30 transition-all duration-300`}
-          >
-            <div className="flex items-center mb-6">
-              <div className="p-3 bg-dark-primaryAccent/10 rounded-lg mr-4">
-                <ShoppingCart className="w-6 h-6 text-dark-primaryAccent" />
-              </div>
-              <h3 className="text-xl font-bold">E-commerce Solutions</h3>
-            </div>
-            <p className={isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}>
-              Complete online stores that turn visitors into customers with intuitive shopping experiences and secure payment processing.
-            </p>
-            <ul className="mt-6 space-y-3">
-              <li className="flex items-start">
-                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
-                <span className={isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}>Product catalog management</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
-                <span className={isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}>Secure checkout process</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
-                <span className={isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}>Multiple payment gateways</span>
-              </li>
-            </ul>
-            <Link
-              to="/services"
-              className="inline-flex items-center text-dark-primaryAccent mt-6 hover:text-dark-secondaryAccent transition-colors"
-            >
-              <span>Learn more</span>
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
-        </div>
-
-        <div className="text-center mt-16">
-          <Link
-            to="/services"
-            className="inline-flex items-center px-8 py-3 rounded-full border border-dark-primaryAccent text-dark-primaryAccent hover:bg-dark-primaryAccent hover:text-dark-background transition-all duration-300"
-          >
-            <span>View All Services</span>
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-//////////////////////////
-// Future Vision Section Component (Replaces Testimonials)
+// Future Vision Section Component
 //////////////////////////
 const FutureVisionSection = ({ isDark }: { isDark: boolean }) => {
   return (
-    <section className={`py-24 ${
-      isDark ? 'bg-dark-background' : 'bg-light-background'
-    }`} aria-label="Our Vision">
+    <section className="py-24 bg-dark-background" aria-label="Our Vision">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -411,9 +258,7 @@ const FutureVisionSection = ({ isDark }: { isDark: boolean }) => {
           <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
             Setting New Standards
             </h2>
-          <p className={`text-lg max-w-2xl mx-auto ${
-            isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
-          }`}>
+          <p className="text-lg max-w-2xl mx-auto text-dark-textSecondary">
             As we launch in 2025, we're committed to revolutionizing digital experiences
             </p>
           </motion.div>
@@ -520,7 +365,7 @@ const ProcessSection = ({ isDark }: { isDark: boolean }) => {
   ];
 
   return (
-    <section className={`py-24 ${isDark ? 'bg-dark-surface/20' : 'bg-light-surface/50'}`} aria-label="Our Process">
+    <section className="py-24 bg-dark-surface/20" aria-label="Our Process">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -535,9 +380,7 @@ const ProcessSection = ({ isDark }: { isDark: boolean }) => {
           <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
             Excellence in Motion
           </h2>
-          <p className={`text-lg max-w-2xl mx-auto ${
-            isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'
-          }`}>
+          <p className="text-lg max-w-2xl mx-auto text-dark-textSecondary">
             Our signature process transforms complex challenges into streamlined success stories
           </p>
         </motion.div>
@@ -628,21 +471,21 @@ const CTASection = ({ }: { isDark: boolean }) => {
       </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <motion.div
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true, margin: '-100px' }}
-          className="max-w-3xl mx-auto text-center"
+          className="text-center max-w-3xl mx-auto"
         >
           <div className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/20 text-dark-primaryAccent mb-6">
-            START YOUR JOURNEY
+            LIMITED TIME OFFER
           </div>
           <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-dark-textPrimary drop-shadow-[0_0_1px_rgba(245,245,245,0.3)]">
-            Ready to <span className="text-dark-primaryAccent">Dominate</span> Your Market?
-            </h2>
+            Premium Quality at <span className="text-dark-primaryAccent">75% OFF</span>
+          </h2>
           <p className="text-xl mb-10 text-dark-textSecondary">
-            One conversation can revolutionize your business trajectory — let's make it happen
+            Get a high-performance website or application at a fraction of the market price — without compromising on quality
           </p>
           
           {/* Trust indicators */}
@@ -657,31 +500,28 @@ const CTASection = ({ }: { isDark: boolean }) => {
             </div>
             <div className="flex items-center">
               <Clock className="h-5 w-5 text-dark-primaryAccent mr-2" />
-              <span className="text-dark-textSecondary text-sm">24/7 Support</span>
+              <span className="text-dark-textSecondary text-sm">Fast Turnaround</span>
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+          <div className="flex flex-col items-center space-y-4">
             <Link
               to="/contact"
-              className="group w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-full bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent text-dark-background hover:shadow-[0_0_20px_rgba(212,175,55,0.6)] transition-all duration-300 relative overflow-hidden"
+              className="group inline-flex items-center justify-center px-10 py-5 text-lg font-medium rounded-full bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent text-dark-background hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] transition-all duration-300 relative overflow-hidden"
             >
               <span className="absolute inset-0 bg-dark-primaryAccent/30 opacity-0 group-hover:opacity-100 blur-md transition-opacity rounded-full"></span>
-              <span className="relative z-10">Schedule a Free Consultation</span>
+              <Mail className="mr-3 h-5 w-5 relative z-10" />
+              <span className="relative z-10">Get Your Free Consultation</span>
               <ArrowRight className="ml-4 h-5 w-5 group-hover:translate-x-1 transition-transform relative z-10" />
             </Link>
             
-            <Link
-              to="/contact"
-              className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-medium rounded-full border border-dark-primaryAccent/30 hover:border-dark-primaryAccent text-dark-primaryAccent transition-all duration-300 hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]"
-            >
-              <Phone className="h-5 w-5" />
-              <span className="relative z-10">Call Us Now</span>
-            </Link>
+            <p className="text-dark-textSecondary mt-6">
+              Fill out our detailed form to get the most accurate quote for your project
+            </p>
           </div>
-          </motion.div>
-        </div>
-      </section>
+        </motion.div>
+      </div>
+    </section>
   );
 };
 
@@ -694,8 +534,15 @@ const Home = () => {
 
   return (
     <div className="pt-0">
-      <HeroSection isDark={isDark} />
+      <SEO 
+        title="Premium Digital Solutions"
+        description="Launch your brand with a stunning website in just 72 hours. We offer expert web development, application design, and e-commerce solutions to elevate your business."
+        keywords="web design, website development, e-commerce, web application, UI/UX design, fast turnaround, digital solutions"
+      />
+      <HeroSection />
       <ServicesSection isDark={isDark} />
+      <PortfolioSectionComponent />
+      <TestimonialsSectionComponent />
       <FutureVisionSection isDark={isDark} />
       <ProcessSection isDark={isDark} />
       <CTASection isDark={isDark} />

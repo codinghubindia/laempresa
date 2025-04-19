@@ -10,10 +10,15 @@ import {
   Lightbulb,
   Code,
   Users,
-  Rocket
+  Rocket,
+  CheckCircle,
+  BadgePercent,
+  Mail,
+  ChevronRight
 } from 'lucide-react';
 import { useTheme } from '../components/ThemeContext';
 import { useEffect } from 'react';
+import SEO from '../components/SEO';
 
 const About = () => {
   const { theme } = useTheme();
@@ -45,12 +50,12 @@ const About = () => {
     {
       year: "Q1 2025",
       title: "Grand Launch",
-      description: "Official launch of La Empresa, offering premium web development services."
+      description: "Official launch of our premium web development services with 75% market price discounts."
     },
     {
       year: "Q2 2025",
       title: "UI/UX Design",
-      description: "Expansion of our service offerings to include comprehensive UI/UX design packages."
+      description: "Expansion of our service offerings to include comprehensive UI/UX design packages at the same competitive rates."
     },
     {
       year: "Q3 2025",
@@ -60,12 +65,18 @@ const About = () => {
     {
       year: "Q4 2025",
       title: "Custom Solutions",
-      description: "Introduction of bespoke software development for enterprise clients."
+      description: "Introduction of bespoke software development for enterprise clients without enterprise prices."
     }
   ];
 
   return (
     <div className="pt-16">
+      <SEO 
+        title="About Us | Premium Digital Solutions"
+        description="Learn about our mission to deliver premium digital solutions at prices up to 75% below market rates. Discover our values, vision, and approach."
+        keywords="about us, web development company, affordable digital agency, premium websites, discounted web services"
+      />
+      
       {/* Hero Section */}
       <section className={`relative py-24 ${isDark ? 'bg-dark-surface/20' : 'bg-light-surface/30'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,10 +90,10 @@ const About = () => {
               OUR STORY
             </div>
             <h1 className="text-4xl md:text-5xl font-headline font-bold mb-6 bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
-              Innovation Starts Here
+              Premium Quality, Affordable Prices
             </h1>
             <p className={`text-xl mb-8 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              Founded by a team of passionate digital creators, La Empresa is a new digital studio preparing to transform the way businesses approach digital solutions.
+              Founded by a team of passionate digital creators, we're revolutionizing the industry by delivering top-tier solutions at prices up to 75% below market rates.
             </p>
           </motion.div>
         </div>
@@ -105,14 +116,14 @@ const About = () => {
               </div>
               <h2 className="text-3xl font-headline font-bold mb-6">
                 <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
-                  Digital Excellence at Scale
+                  Digital Excellence at Affordable Prices
                 </span>
               </h2>
               <p className={`mb-6 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                We envision a world where businesses of all sizes have access to exceptional digital solutions that drive growth, enhance user experiences, and create lasting impact.
+                We envision a world where businesses of all sizes have access to exceptional digital solutions that drive growth, enhance user experiences, and create lasting impact - without breaking the bank.
               </p>
               <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                La Empresa aims to be the leading digital partner for forward-thinking businesses, known for our innovative approach, technical excellence, and exceptional client outcomes.
+                We aim to be the leading digital partner for cost-conscious businesses, known for our innovative approach, technical excellence, and exceptional client outcomes at prices up to 75% below industry standards.
               </p>
             </motion.div>
             
@@ -129,14 +140,14 @@ const About = () => {
               </div>
               <h2 className="text-3xl font-headline font-bold mb-6">
                 <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
-                  Bridge Ideas to Impact
+                  Bridge Ideas to Impact, Affordably
                 </span>
               </h2>
               <p className={`mb-6 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                To empower businesses by transforming innovative ideas into high-performing digital products that solve real-world problems and create meaningful connections with users.
+                To empower businesses by transforming innovative ideas into high-performing digital products that solve real-world problems and create meaningful connections with users - at prices up to 75% below market rates.
               </p>
               <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                We're committed to delivering scalable, user-centered solutions through collaborative partnerships, cutting-edge technology, and a relentless focus on quality.
+                We're committed to delivering scalable, user-centered solutions through collaborative partnerships, cutting-edge technology, and a relentless focus on quality without expensive overhead costs.
               </p>
             </motion.div>
           </div>
@@ -162,7 +173,7 @@ const About = () => {
               </span>
             </h2>
             <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              Our core values shape our approach and define how we work with clients and each other
+              Our core values shape our approach and define how we deliver premium solutions at affordable prices
             </p>
           </motion.div>
 
@@ -212,7 +223,7 @@ const About = () => {
               </span>
             </h2>
             <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              Our structured approach ensures we deliver exceptional results, on time and within budget
+              Our structured approach ensures we deliver exceptional results, on time and within budget - always at prices up to 75% below market rates
             </p>
           </motion.div>
 
@@ -258,11 +269,11 @@ const About = () => {
                   </div>
                 </div>
                 <div className="p-3 bg-dark-primaryAccent/10 rounded-xl inline-block mb-6">
-                  <Users className="h-8 w-8 text-dark-primaryAccent" />
+                  <Rocket className="h-8 w-8 text-dark-primaryAccent" />
                 </div>
-                <h3 className="text-xl font-bold mb-4">Design</h3>
+                <h3 className="text-xl font-bold mb-4">Strategy</h3>
                 <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                  We create user-centered designs that balance aesthetic appeal with functional excellence to deliver exceptional experiences.
+                  We develop a comprehensive plan that outlines the technical approach, timeline, and deliverables to achieve your objectives.
                 </p>
               </div>
             </motion.div>
@@ -285,9 +296,9 @@ const About = () => {
                 <div className="p-3 bg-dark-primaryAccent/10 rounded-xl inline-block mb-6">
                   <Code className="h-8 w-8 text-dark-primaryAccent" />
                 </div>
-                <h3 className="text-xl font-bold mb-4">Development</h3>
+                <h3 className="text-xl font-bold mb-4">Creation</h3>
                 <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                  Our skilled developers bring designs to life using clean, efficient code and cutting-edge technologies.
+                  Our skilled team builds your solution using modern technologies and best practices, with regular updates and feedback cycles.
                 </p>
               </div>
             </motion.div>
@@ -308,11 +319,11 @@ const About = () => {
                   </div>
                 </div>
                 <div className="p-3 bg-dark-primaryAccent/10 rounded-xl inline-block mb-6">
-                  <Rocket className="h-8 w-8 text-dark-primaryAccent" />
+                  <Users className="h-8 w-8 text-dark-primaryAccent" />
                 </div>
                 <h3 className="text-xl font-bold mb-4">Launch & Support</h3>
                 <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                  We ensure smooth deployment and provide ongoing support to help your digital solution evolve and grow.
+                  We ensure a smooth deployment and provide ongoing support to help you maximize the value of your new digital asset.
                 </p>
               </div>
             </motion.div>
@@ -320,8 +331,41 @@ const About = () => {
         </div>
       </section>
 
+      {/* Special Offer Banner */}
+      <section className={`py-16 ${isDark ? 'bg-dark-background' : 'bg-light-background'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className={`py-8 px-6 rounded-2xl ${
+              isDark ? 'bg-dark-primaryAccent/20' : 'bg-dark-primaryAccent/10'
+            } border border-dark-primaryAccent/30 text-center`}
+          >
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <BadgePercent className="h-6 w-6 text-dark-primaryAccent" />
+              <h3 className="text-xl md:text-2xl font-bold text-dark-primaryAccent">
+                Limited Time Offer: 75% OFF All Services
+              </h3>
+              <BadgePercent className="h-6 w-6 text-dark-primaryAccent" />
+            </div>
+            <p className={`text-lg max-w-3xl mx-auto mb-8 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
+              Experience premium quality digital solutions at a fraction of the cost. Our special launch pricing offers up to 75% off standard market rates without compromising on quality or delivery.
+            </p>
+            <Link
+              to="/services"
+              className="inline-flex items-center px-8 py-3 rounded-full bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent text-dark-background hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300"
+            >
+              <span>View Our Pricing</span>
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Roadmap Section */}
-      <section className={`py-24 ${isDark ? 'bg-dark-background' : 'bg-light-background'}`}>
+      <section className={`py-24 ${isDark ? 'bg-dark-surface/30' : 'bg-light-surface/30'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -331,15 +375,15 @@ const About = () => {
             className="text-center mb-16"
           >
             <div className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/10 text-dark-primaryAccent mb-6">
-              OUR ROADMAP
+              FUTURE VISION
             </div>
             <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6">
               <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
-                Building the Future
+                Our 2025 Roadmap
               </span>
             </h2>
             <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              Our journey is just beginning - here's what's on the horizon for 2025
+              We're committed to expanding our offerings while maintaining our commitment to exceptional quality at affordable rates
             </p>
           </motion.div>
 
@@ -381,40 +425,74 @@ const About = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className={`py-24 relative overflow-hidden ${isDark ? 'bg-dark-surface/20' : 'bg-light-surface/30'}`}>
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 right-0 w-72 h-72 rounded-full bg-dark-primaryAccent/5 blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-dark-secondaryAccent/5 blur-3xl"></div>
+      {/* CTA Section - Updated */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-dark-background via-dark-background/95 to-dark-background/90"></div>
+        
+        {/* Decorative elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-64 h-64 rounded-full bg-dark-primaryAccent/10 blur-3xl"></div>
+          <div className="absolute bottom-0 right-1/4 w-64 h-64 rounded-full bg-dark-secondaryAccent/10 blur-3xl"></div>
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-soft-light"></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
             className="text-center max-w-3xl mx-auto"
           >
-            <div className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/10 text-dark-primaryAccent mb-6">
-              JOIN OUR JOURNEY
+            <div className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/20 text-dark-primaryAccent mb-6">
+              LIMITED TIME OFFER
             </div>
-            <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6">
-              <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
-                Be Part of Our Story
-              </span>
+            <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-dark-textPrimary drop-shadow-[0_0_1px_rgba(245,245,245,0.3)]">
+              Premium Quality at <span className="text-dark-primaryAccent">75% OFF</span>
             </h2>
-            <p className={`text-lg mb-8 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              Ready to transform your digital presence? Connect with us to learn more about our launch plans and how we can help your business thrive.
+            <p className="text-xl mb-10 text-dark-textSecondary">
+              Get a high-performance website or application at a fraction of the market price — without compromising on quality
             </p>
             
-            <Link
-              to="/contact"
-              className="group px-8 py-4 text-lg font-medium rounded-full bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent text-dark-background hover:shadow-[0_8px_30px_rgba(212,175,55,0.4)] transition-all duration-300 inline-flex items-center"
-            >
-              <span>Connect With Us</span>
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            {/* Trust indicators */}
+            <div className="mb-10 flex flex-wrap justify-center gap-6">
+              <div className="flex items-center">
+                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2" />
+                <span className="text-dark-textSecondary text-sm">Fast Turnaround</span>
+              </div>
+              <div className="flex items-center">
+                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2" />
+                <span className="text-dark-textSecondary text-sm">Expert Development</span>
+              </div>
+              <div className="flex items-center">
+                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2" />
+                <span className="text-dark-textSecondary text-sm">100% Satisfaction</span>
+              </div>
+            </div>
+            
+            <div className="flex flex-col items-center space-y-4">
+              <Link
+                to="/contact"
+                className="group inline-flex items-center justify-center px-10 py-5 text-lg font-medium rounded-full bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent text-dark-background hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] transition-all duration-300 relative overflow-hidden"
+              >
+                <span className="absolute inset-0 bg-dark-primaryAccent/30 opacity-0 group-hover:opacity-100 blur-md transition-opacity rounded-full"></span>
+                <Mail className="mr-3 h-5 w-5 relative z-10" />
+                <span className="relative z-10">Get Your Free Consultation</span>
+                <ArrowRight className="ml-4 h-5 w-5 group-hover:translate-x-1 transition-transform relative z-10" />
+              </Link>
+              
+              <p className="text-dark-textSecondary mt-6">
+                Fill out our detailed form to get the most accurate quote for your project
+              </p>
+              
+              <Link
+                to="/contact"
+                className="text-dark-primaryAccent inline-flex items-center hover:underline mt-2"
+              >
+                <span>Go to contact page</span>
+                <ChevronRight className="h-4 w-4 ml-1" />
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

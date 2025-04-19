@@ -34,6 +34,7 @@ Home.preload = () => {
   preloadPages([
     () => import('./pages/About'),
     () => import('./pages/Services'),
+    () => import('./pages/Portfolio'),
     () => import('./pages/Contact')
   ]);
 };
@@ -47,6 +48,10 @@ const About = optimizePage(() => import('./pages/About'), {
 const Services = optimizePage(() => import('./pages/Services'), {
   priority: 'high',
   preloadImages: ['./assets/services-hero.webp']
+});
+
+const Portfolio = optimizePage(() => import('./pages/Portfolio'), {
+  priority: 'high'
 });
 
 const Contact = optimizePage(() => import('./pages/Contact'), {
@@ -183,6 +188,13 @@ const AnimatedRoutes = () => {
             </PageTransition>
           </Suspense>
         } />
+        <Route path="/portfolio" element={
+          <Suspense fallback={<LoadingScreen isLoading={true} progress={50} />}>
+            <PageTransition>
+              <Portfolio />
+            </PageTransition>
+          </Suspense>
+        } />
         <Route path="/contact" element={
           <Suspense fallback={<LoadingScreen isLoading={true} progress={50} />}>
             <PageTransition>
@@ -197,15 +209,10 @@ const AnimatedRoutes = () => {
 
 // Memoize the ThemedApp component to prevent unnecessary re-renders
 const ThemedApp = memo(() => {
-  const { isDark } = useTheme();
   const { isLoading, progress } = useLoadingManager();
   
   return (
-    <div className={`min-h-screen font-body transition-colors duration-300 flex flex-col ${
-      isDark 
-        ? 'bg-dark-background text-dark-textPrimary' 
-        : 'bg-light-background text-light-textPrimary'
-    }`}>
+    <div className="min-h-screen font-body transition-colors duration-300 flex flex-col bg-dark-background text-dark-textPrimary">
       <LoadingScreen isLoading={isLoading} progress={progress} />
       <NavbarWithSuspense />
       <main className="flex-grow">

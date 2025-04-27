@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 const PortfolioSection = () => {
   const portfolioItems = [
     {
-      title: "MedinesTT",
+      title: "MediNest",
       category: "Healthcare Platform",
       description: "Medical appointment scheduling system with integrated patient management and telemedicine features.",
-      image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80",
+      image: "https://res.cloudinary.com/dbnzoosjq/image/upload/v1745735790/medinest_qzje5c.png",
       technologies: ["React", "Node.js", "MongoDB"],
       url: "https://medinestt.netlify.app/"
     },
@@ -16,7 +16,7 @@ const PortfolioSection = () => {
       title: "NexaCart",
       category: "E-commerce Platform",
       description: "Feature-rich e-commerce platform with advanced product filtering, user accounts and secure payment processing.",
-      image: "https://images.unsplash.com/photo-1607082349566-187342175e2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80",
+      image: "https://res.cloudinary.com/dbnzoosjq/image/upload/v1745735793/nexacart_wswpsi.png",
       technologies: ["React", "Redux", "Stripe API"],
       url: "https://nexacart.netlify.app/"
     },
@@ -24,7 +24,7 @@ const PortfolioSection = () => {
       title: "Velva Essence",
       category: "Designer Portfolio",
       description: "Elegant portfolio website for design professionals featuring project showcases, client testimonials, and contact forms.",
-      image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80",
+      image: "https://res.cloudinary.com/dbnzoosjq/image/upload/v1745735795/Velva_Essence_tyspqw.png",
       technologies: ["Next.js", "Tailwind CSS", "Contentful CMS"],
       url: "https://velvaessence.netlify.app/"
     }

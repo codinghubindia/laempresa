@@ -7,7 +7,7 @@ const TestimonialsSection = () => {
     {
       quote: "La Empresa delivered our healthcare platform with exceptional attention to detail. The telemedicine integration works flawlessly, and our appointment no-shows decreased by 30% since launch.",
       author: "Dr. Emily Chen",
-      position: "Medical Director, MedinesTT",
+      position: "Medical Director, MediNest",
       project: "Healthcare Platform",
       rating: 5,
       image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&h=150&q=80"
@@ -15,7 +15,7 @@ const TestimonialsSection = () => {
     {
       quote: "The e-commerce solution La Empresa built for us has completely transformed our online presence. Our sales increased by 40% in the first month, and the advanced filtering system has significantly improved the shopping experience.",
       author: "Michael Rodriguez",
-      position: "CEO, NexaCart",
+      position: "H R Manager, NexaCart",
       project: "E-commerce Platform",
       rating: 5,
       image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&h=150&q=80"

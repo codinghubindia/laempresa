@@ -5,34 +5,28 @@ import { Link } from 'react-router-dom';
 const PortfolioSection = () => {
   const portfolioItems = [
     {
-      title: "Luxe Haven Interiors",
-      category: "E-commerce Website",
-      description: "Premium home decor online store with integrated payment system and custom product showcases.",
-      image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80",
-      technologies: ["React", "Shopify", "Tailwind CSS"],
-      price: "$1,299",
-      timeline: "7 days",
-      url: "/portfolio/luxe-haven"
+      title: "MedinesTT",
+      category: "Healthcare Platform",
+      description: "Medical appointment scheduling system with integrated patient management and telemedicine features.",
+      image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80",
+      technologies: ["React", "Node.js", "MongoDB"],
+      url: "https://medinestt.netlify.app/"
     },
     {
-      title: "FinTrack Pro",
-      category: "Web Application",
-      description: "Financial analytics dashboard for small businesses with real-time reporting and user authentication.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80",
-      technologies: ["Vue.js", "Node.js", "Chart.js"],
-      price: "$1,999",
-      timeline: "14 days",
-      url: "/portfolio/fintrack"
+      title: "NexaCart",
+      category: "E-commerce Platform",
+      description: "Feature-rich e-commerce platform with advanced product filtering, user accounts and secure payment processing.",
+      image: "https://images.unsplash.com/photo-1607082349566-187342175e2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80",
+      technologies: ["React", "Redux", "Stripe API"],
+      url: "https://nexacart.netlify.app/"
     },
     {
-      title: "EcoVenture",
-      category: "Corporate Website",
-      description: "Environmental consulting firm with appointment booking system and resource library.",
-      image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80",
-      technologies: ["Next.js", "Strapi CMS", "Tailwind CSS"],
-      price: "$799",
-      timeline: "5 days",
-      url: "/portfolio/ecoventure"
+      title: "Velva Essence",
+      category: "Designer Portfolio",
+      description: "Elegant portfolio website for design professionals featuring project showcases, client testimonials, and contact forms.",
+      image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80",
+      technologies: ["Next.js", "Tailwind CSS", "Contentful CMS"],
+      url: "https://velvaessence.netlify.app/"
     }
   ];
 
@@ -55,7 +49,7 @@ const PortfolioSection = () => {
             </span>
           </h2>
           <p className="text-lg max-w-3xl mx-auto text-dark-textSecondary">
-            Browse through our latest projects and see how we've helped businesses transform their digital presence at competitive rates
+            Browse through our latest projects and see how we've helped businesses transform their digital presence
           </p>
         </motion.div>
 
@@ -74,6 +68,7 @@ const PortfolioSection = () => {
                   src={item.image} 
                   alt={item.title} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading={index === 0 ? "eager" : "lazy"}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-background to-transparent opacity-70"></div>
                 <div className="absolute bottom-0 left-0 w-full p-6">
@@ -85,6 +80,7 @@ const PortfolioSection = () => {
               </div>
               <div className="p-6">
                 <p className="text-dark-textSecondary mb-4">{item.description}</p>
+                {/* Project technologies */}
                 <div className="flex flex-wrap gap-2 mb-4">
                   {item.technologies.map((tech, techIndex) => (
                     <span 
@@ -96,23 +92,15 @@ const PortfolioSection = () => {
                   ))}
                 </div>
                 
-                {/* Project details */}
-                <div className="flex justify-between text-sm text-dark-textSecondary mb-4">
-                  <div>
-                    <span className="font-medium text-dark-primaryAccent">Investment:</span> {item.price}
-                  </div>
-                  <div>
-                    <span className="font-medium text-dark-primaryAccent">Timeline:</span> {item.timeline}
-                  </div>
-                </div>
-                
-                <Link
-                  to={item.url}
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center text-dark-primaryAccent hover:text-dark-secondaryAccent transition-colors"
                 >
-                  <span>View project details</span>
+                  <span>Visit Project</span>
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                </a>
               </div>
             </motion.div>
           ))}

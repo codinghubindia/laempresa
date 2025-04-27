@@ -1,9 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, lazy, Suspense } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import {
   ArrowRight,
   ArrowUpRight,
-  Laptop,
   PenTool,
   Users,
   LineChart,
@@ -15,18 +14,25 @@ import {
   Lock,
   Clock,
   Phone,
-  ShoppingCart,
-  Star,
-  Mail
+  Mail,
+  Zap
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../components/ThemeContext';
 import lampresa from '../assets/images/laempresa.png';
-import PortfolioSectionComponent from '../components/PortfolioSection';
-import TestimonialsSectionComponent from '../components/TestimonialsSection';
-import ContactForm from '../components/ContactForm';
 import SEO from '../components/SEO';
-import ServicesSection from '../components/ServicesSection';
+
+// Lazy loaded components
+const PortfolioSectionComponent = lazy(() => import('../components/PortfolioSection'));
+const TestimonialsSectionComponent = lazy(() => import('../components/TestimonialsSection'));
+const ServicesSection = lazy(() => import('../components/ServicesSection'));
+
+// Loading fallback
+const SectionLoading = () => (
+  <div className="py-24 flex justify-center items-center">
+    <div className="w-12 h-12 rounded-full border-4 border-dark-primaryAccent/20 border-t-dark-primaryAccent animate-spin"></div>
+  </div>
+);
 
 // Motion variants for text animations
 const textVariants = {
@@ -68,7 +74,7 @@ const HeroSection = () => {
       aria-label="Hero Section"
     >
       {/* Background Image & Animated Overlays */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
           <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -85,6 +91,10 @@ const HeroSection = () => {
                 src={lampresa}
                 alt="LaEmpresa Logo"
                 className="max-w-[60%] max-h-[60%] object-contain opacity-75"
+                loading="eager"
+                fetchPriority="high"
+                width="400"
+                height="400"
               />
               <div className="absolute inset-0 bg-dark-background/80"></div>
             </motion.div>
@@ -114,7 +124,7 @@ const HeroSection = () => {
           </div>
         </motion.div>
         {/* Grain Overlay */}
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.15] mix-blend-overlay" aria-hidden="true"></div>
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.15] mix-blend-overlay"></div>
       </div>
 
       {/* Hero Content */}
@@ -129,7 +139,7 @@ const HeroSection = () => {
           >
             <span
               className="px-6 py-2 rounded-full text-sm font-medium bg-dark-primaryAccent/10 text-dark-primaryAccent"
-              aria-label="Established date"
+              aria-label="Company tagline"
             >
               PREMIUM DIGITAL SOLUTIONS
             </span>
@@ -143,7 +153,7 @@ const HeroSection = () => {
             variants={textVariants}
           >
             <span className="block mb-2">
-              Launch Your Brand With A <span className="text-dark-primaryAccent relative z-10">Stunning Website</span> In Just 72 Hours
+              Trusted <span className="text-dark-primaryAccent relative z-10">Full Stack Solutions</span> Engineered For Business Growth
             </span>
           </motion.h1>
 
@@ -154,7 +164,7 @@ const HeroSection = () => {
             variants={textVariants}
           >
             <p className="text-dark-textSecondary text-xl md:text-2xl mb-10 max-w-3xl mx-auto">
-              Elevate your digital presence with our expert team's tailored solutions that drive real business growth
+              Elevate your digital presence with our expert team's tailored solutions built with cutting-edge technology and professional execution
             </p>
           </motion.div>
 
@@ -167,9 +177,9 @@ const HeroSection = () => {
             className="flex flex-wrap justify-center gap-4 mb-12"
           >
             {[
-              { text: "72-Hour Turnaround", icon: <Clock className="h-4 w-4" /> },
-              { text: "100% Satisfaction Guarantee", icon: <Shield className="h-4 w-4" /> },
-              { text: "Expert Team", icon: <Users className="h-4 w-4" /> }
+              { text: "Full Stack Development", icon: <Code className="h-4 w-4" aria-hidden="true" /> },
+              { text: "AI-Enhanced Solutions", icon: <Zap className="h-4 w-4" aria-hidden="true" /> },
+              { text: "Expert Engineering Team", icon: <Users className="h-4 w-4" aria-hidden="true" /> }
             ].map((feature, index) => (
               <div 
                 key={index} 
@@ -185,18 +195,20 @@ const HeroSection = () => {
             <Link
               to="/contact"
               className="group px-8 py-4 text-lg font-medium rounded-full bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent text-dark-background hover:shadow-[0_8px_30px_rgba(212,175,55,0.4)] transition-all duration-300 relative overflow-hidden flex items-center"
+              aria-label="Get started with our services"
             >
               <span className="absolute inset-0 bg-dark-primaryAccent/20 opacity-0 group-hover:opacity-100 blur-lg transition-opacity rounded-full"></span>
               <span className="relative z-10">Get Started Now</span>
-              <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform relative z-10" />
+              <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform relative z-10" aria-hidden="true" />
             </Link>
 
             <Link
               to="/portfolio"
               className="group px-8 py-4 text-lg font-medium rounded-full border-2 border-dark-primaryAccent/60 hover:border-dark-primaryAccent text-dark-primaryAccent hover:bg-dark-primaryAccent/5 transition-all duration-300 flex items-center"
+              aria-label="View our portfolio"
             >
               <span className="relative z-10">View Portfolio</span>
-              <ArrowUpRight className="ml-2 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              <ArrowUpRight className="ml-2 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" aria-hidden="true" />
             </Link>
           </motion.div>
         </div>
@@ -212,9 +224,9 @@ const HeroSection = () => {
         <Link
           to="/contact"
           className="group rounded-full p-4 bg-dark-primaryAccent text-dark-background hover:shadow-[0_0_20px_rgba(212,175,55,0.6)] transition-all duration-300"
+          aria-label="Quick contact access"
         >
-          <Phone className="h-6 w-6" />
-          <span className="sr-only">Contact Us</span>
+          <Phone className="h-6 w-6" aria-hidden="true" />
         </Link>
       </motion.div>
 
@@ -224,6 +236,7 @@ const HeroSection = () => {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5, duration: 0.5 }}
+        aria-hidden="true"
       >
         <span className="text-xs mb-2">Scroll to explore</span>
         <motion.div
@@ -479,13 +492,13 @@ const CTASection = ({ }: { isDark: boolean }) => {
           className="text-center max-w-3xl mx-auto"
         >
           <div className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/20 text-dark-primaryAccent mb-6">
-            LIMITED TIME OFFER
+            START YOUR PROJECT
           </div>
           <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-dark-textPrimary drop-shadow-[0_0_1px_rgba(245,245,245,0.3)]">
-            Premium Quality at <span className="text-dark-primaryAccent">75% OFF</span>
+            Premium Quality <span className="text-dark-primaryAccent">Digital Solutions</span>
           </h2>
           <p className="text-xl mb-10 text-dark-textSecondary">
-            Get a high-performance website or application at a fraction of the market price — without compromising on quality
+            Get a high-performance website or application built with expert engineering and innovative technology
           </p>
           
           {/* Trust indicators */}
@@ -535,17 +548,29 @@ const Home = () => {
   return (
     <div className="pt-0">
       <SEO 
-        title="Premium Digital Solutions"
-        description="Launch your brand with a stunning website in just 72 hours. We offer expert web development, application design, and e-commerce solutions to elevate your business."
-        keywords="web design, website development, e-commerce, web application, UI/UX design, fast turnaround, digital solutions"
+        title="Premium Digital Solutions | La Empresa"
+        description="Elevate your business with our expert full stack development solutions. We deliver trusted, high-quality digital products that drive business growth."
+        keywords="web design, website development, e-commerce, web application, full stack development, digital solutions, business growth"
       />
       <HeroSection />
-      <ServicesSection isDark={isDark} />
-      <PortfolioSectionComponent />
-      <TestimonialsSectionComponent />
-      <FutureVisionSection isDark={isDark} />
-      <ProcessSection isDark={isDark} />
-      <CTASection isDark={isDark} />
+      <Suspense fallback={<SectionLoading />}>
+        <ServicesSection isDark={isDark} />
+      </Suspense>
+      <Suspense fallback={<SectionLoading />}>
+        <PortfolioSectionComponent />
+      </Suspense>
+      <Suspense fallback={<SectionLoading />}>
+        <TestimonialsSectionComponent />
+      </Suspense>
+      <Suspense fallback={<SectionLoading />}>
+        <FutureVisionSection isDark={isDark} />
+      </Suspense>
+      <Suspense fallback={<SectionLoading />}>
+        <ProcessSection isDark={isDark} />
+      </Suspense>
+      <Suspense fallback={<SectionLoading />}>
+        <CTASection isDark={isDark} />
+      </Suspense>
     </div>
   );
 };

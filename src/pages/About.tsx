@@ -12,9 +12,10 @@ import {
   Users,
   Rocket,
   CheckCircle,
-  BadgePercent,
   Mail,
-  ChevronRight
+  ChevronRight,
+  ShoppingCart,
+  LineChart
 } from 'lucide-react';
 import { useTheme } from '../components/ThemeContext';
 import { useEffect } from 'react';
@@ -49,23 +50,51 @@ const About = () => {
   const roadmap = [
     {
       year: "Q1 2025",
-      title: "Grand Launch",
-      description: "Official launch of our premium web development services with 75% market price discounts."
+      title: "AI Integration",
+      description: "Launch of our AI-powered solutions that enhance digital products with predictive analytics, personalization, and automation."
     },
     {
       year: "Q2 2025",
-      title: "UI/UX Design",
-      description: "Expansion of our service offerings to include comprehensive UI/UX design packages at the same competitive rates."
+      title: "Mobile App Development",
+      description: "Expansion into native and cross-platform mobile application development for iOS and Android platforms."
     },
     {
       year: "Q3 2025",
-      title: "Mobile App Dev",
-      description: "Launch of our mobile application development services for iOS and Android platforms."
+      title: "Enterprise Solutions",
+      description: "Introduction of enterprise-grade solutions featuring complex workflows, authentication systems, and multi-tenant architectures."
     },
     {
       year: "Q4 2025",
-      title: "Custom Solutions",
-      description: "Introduction of bespoke software development for enterprise clients without enterprise prices."
+      title: "Global Expansion",
+      description: "Scaling our operations to serve clients globally with 24/7 support and tailored solutions for diverse regional markets."
+    }
+  ];
+
+  // New specialties section to be added after the Values section
+  const specialties = [
+    {
+      icon: <ShoppingCart className="h-8 w-8 text-dark-primaryAccent" />,
+      title: "E-commerce Platforms",
+      description: "Custom-built online stores with advanced filtering, secure checkout processes, and inventory management systems.",
+      projects: ["NexaCart", "Velva Essence"]
+    },
+    {
+      icon: <Users className="h-8 w-8 text-dark-primaryAccent" />,
+      title: "Healthcare Solutions",
+      description: "Specialized platforms for medical practices featuring appointment scheduling, patient management, and telemedicine capabilities.",
+      projects: ["MedinesTT"]
+    },
+    {
+      icon: <LineChart className="h-8 w-8 text-dark-primaryAccent" />,
+      title: "Business Management",
+      description: "CRM systems and business tools to streamline operations, manage customer relationships, and track performance metrics.",
+      projects: ["ClientNest CRM"]
+    },
+    {
+      icon: <CheckCircle className="h-8 w-8 text-dark-primaryAccent" />,
+      title: "Form & Data Solutions",
+      description: "Advanced form-building platforms with conditional logic, data collection tools, and comprehensive analytics.",
+      projects: ["Velvet Form"]
     }
   ];
 
@@ -73,7 +102,7 @@ const About = () => {
     <div className="pt-16">
       <SEO 
         title="About Us | Premium Digital Solutions"
-        description="Learn about our mission to deliver premium digital solutions at prices up to 75% below market rates. Discover our values, vision, and approach."
+        description="Learn about our mission to deliver premium digital solutions with expert engineering and innovative technology. Discover our values, vision, and approach."
         keywords="about us, web development company, affordable digital agency, premium websites, discounted web services"
       />
       
@@ -90,10 +119,10 @@ const About = () => {
               OUR STORY
             </div>
             <h1 className="text-4xl md:text-5xl font-headline font-bold mb-6 bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
-              Premium Quality, Affordable Prices
+              Premium Quality, Professional Solutions
             </h1>
             <p className={`text-xl mb-8 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              Founded by a team of passionate digital creators, we're revolutionizing the industry by delivering top-tier solutions at prices up to 75% below market rates.
+              Founded by a team of passionate digital creators, we're revolutionizing the industry by delivering top-tier solutions with cutting-edge technology and expert engineering.
             </p>
           </motion.div>
         </div>
@@ -116,14 +145,14 @@ const About = () => {
               </div>
               <h2 className="text-3xl font-headline font-bold mb-6">
                 <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
-                  Digital Excellence at Affordable Prices
+                  Digital Excellence Through Innovation
                 </span>
               </h2>
               <p className={`mb-6 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                We envision a world where businesses of all sizes have access to exceptional digital solutions that drive growth, enhance user experiences, and create lasting impact - without breaking the bank.
+                We envision a world where businesses of all sizes have access to exceptional digital solutions that drive growth, enhance user experiences, and create lasting impact with innovative technology.
               </p>
               <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                We aim to be the leading digital partner for cost-conscious businesses, known for our innovative approach, technical excellence, and exceptional client outcomes at prices up to 75% below industry standards.
+                We aim to be the leading digital partner for forward-thinking businesses, known for our innovative approach, technical excellence, and exceptional client outcomes.
               </p>
             </motion.div>
             
@@ -140,14 +169,14 @@ const About = () => {
               </div>
               <h2 className="text-3xl font-headline font-bold mb-6">
                 <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
-                  Bridge Ideas to Impact, Affordably
+                  Bridge Ideas to Impact Through Expertise
                 </span>
               </h2>
               <p className={`mb-6 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                To empower businesses by transforming innovative ideas into high-performing digital products that solve real-world problems and create meaningful connections with users - at prices up to 75% below market rates.
+                To empower businesses by transforming innovative ideas into high-performing digital products that solve real-world problems and create meaningful connections with users through professional execution.
               </p>
               <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                We're committed to delivering scalable, user-centered solutions through collaborative partnerships, cutting-edge technology, and a relentless focus on quality without expensive overhead costs.
+                We're committed to delivering scalable, user-centered solutions through collaborative partnerships, cutting-edge technology, and a relentless focus on quality.
               </p>
             </motion.div>
           </div>
@@ -204,6 +233,69 @@ const About = () => {
         </div>
       </section>
 
+      {/* Our Specialties Section */}
+      <section className={`py-24 ${isDark ? 'bg-dark-background' : 'bg-light-background'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <div className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/10 text-dark-primaryAccent mb-6">
+              OUR EXPERTISE
+            </div>
+            <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6">
+              <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
+                Areas of Specialization
+              </span>
+            </h2>
+            <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
+              We've developed expertise in key digital domains, delivering specialized solutions tailored to diverse industry needs
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {specialties.map((specialty, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                viewport={{ once: true }}
+                className={`rounded-xl p-8 ${
+                  isDark 
+                    ? 'bg-dark-surface/30' 
+                    : 'bg-light-surface/30'
+                } transition-all duration-300 border border-dark-primaryAccent/10 hover:border-dark-primaryAccent/30 hover:shadow-[0_10px_30px_rgba(212,175,55,0.1)]`}
+              >
+                <div className="p-3 bg-dark-primaryAccent/10 rounded-xl inline-block mb-6">
+                  {specialty.icon}
+                </div>
+                <h3 className="text-2xl font-bold mb-4">{specialty.title}</h3>
+                <p className={`mb-4 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
+                  {specialty.description}
+                </p>
+                <div className="mt-4">
+                  <span className="text-sm font-medium text-dark-primaryAccent mb-2">Featured Projects:</span>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {specialty.projects.map((project, projectIndex) => (
+                      <span 
+                        key={projectIndex}
+                        className="px-3 py-1 rounded-full text-xs font-medium bg-dark-primaryAccent/10 text-dark-primaryAccent"
+                      >
+                        {project}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Our Approach Section */}
       <section className={`py-24 ${isDark ? 'bg-dark-surface/20' : 'bg-light-surface/30'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -223,7 +315,7 @@ const About = () => {
               </span>
             </h2>
             <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              Our structured approach ensures we deliver exceptional results, on time and within budget - always at prices up to 75% below market rates
+              Our structured approach ensures we deliver exceptional results, on time and within budget
             </p>
           </motion.div>
 
@@ -344,20 +436,20 @@ const About = () => {
             } border border-dark-primaryAccent/30 text-center`}
           >
             <div className="flex items-center justify-center gap-3 mb-3">
-              <BadgePercent className="h-6 w-6 text-dark-primaryAccent" />
+              <Zap className="h-6 w-6 text-dark-primaryAccent" />
               <h3 className="text-xl md:text-2xl font-bold text-dark-primaryAccent">
-                Limited Time Offer: 75% OFF All Services
+                Full Stack Development Expertise
               </h3>
-              <BadgePercent className="h-6 w-6 text-dark-primaryAccent" />
+              <Zap className="h-6 w-6 text-dark-primaryAccent" />
             </div>
             <p className={`text-lg max-w-3xl mx-auto mb-8 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              Experience premium quality digital solutions at a fraction of the cost. Our special launch pricing offers up to 75% off standard market rates without compromising on quality or delivery.
+              Experience premium quality digital solutions built with cutting-edge technology. Our expert team delivers custom websites and applications that drive business growth and enhance user experiences.
             </p>
             <Link
               to="/services"
               className="inline-flex items-center px-8 py-3 rounded-full bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent text-dark-background hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300"
             >
-              <span>View Our Pricing</span>
+              <span>Explore Our Services</span>
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </motion.div>
@@ -383,7 +475,7 @@ const About = () => {
               </span>
             </h2>
             <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              We're committed to expanding our offerings while maintaining our commitment to exceptional quality at affordable rates
+              We're committed to expanding our offerings while maintaining our dedication to exceptional quality and innovation
             </p>
           </motion.div>
 
@@ -445,28 +537,28 @@ const About = () => {
             className="text-center max-w-3xl mx-auto"
           >
             <div className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/20 text-dark-primaryAccent mb-6">
-              LIMITED TIME OFFER
+              READY TO INNOVATE?
             </div>
             <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-dark-textPrimary drop-shadow-[0_0_1px_rgba(245,245,245,0.3)]">
-              Premium Quality at <span className="text-dark-primaryAccent">75% OFF</span>
+              Premium Quality <span className="text-dark-primaryAccent">Digital Solutions</span>
             </h2>
             <p className="text-xl mb-10 text-dark-textSecondary">
-              Get a high-performance website or application at a fraction of the market price — without compromising on quality
+              Get a high-performance website or application built with expert engineering and innovative technology
             </p>
             
             {/* Trust indicators */}
             <div className="mb-10 flex flex-wrap justify-center gap-6">
               <div className="flex items-center">
                 <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2" />
-                <span className="text-dark-textSecondary text-sm">Fast Turnaround</span>
+                <span className="text-dark-textSecondary text-sm">Full Stack Development</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2" />
-                <span className="text-dark-textSecondary text-sm">Expert Development</span>
+                <span className="text-dark-textSecondary text-sm">Custom Solutions</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2" />
-                <span className="text-dark-textSecondary text-sm">100% Satisfaction</span>
+                <span className="text-dark-textSecondary text-sm">Expert Engineering</span>
               </div>
             </div>
             
@@ -477,19 +569,19 @@ const About = () => {
               >
                 <span className="absolute inset-0 bg-dark-primaryAccent/30 opacity-0 group-hover:opacity-100 blur-md transition-opacity rounded-full"></span>
                 <Mail className="mr-3 h-5 w-5 relative z-10" />
-                <span className="relative z-10">Get Your Free Consultation</span>
+                <span className="relative z-10">Schedule a Consultation</span>
                 <ArrowRight className="ml-4 h-5 w-5 group-hover:translate-x-1 transition-transform relative z-10" />
               </Link>
               
               <p className="text-dark-textSecondary mt-6">
-                Fill out our detailed form to get the most accurate quote for your project
+                Let's discuss how we can help transform your business with custom digital solutions
               </p>
               
               <Link
                 to="/contact"
                 className="text-dark-primaryAccent inline-flex items-center hover:underline mt-2"
               >
-                <span>Go to contact page</span>
+                <span>Contact our team</span>
                 <ChevronRight className="h-4 w-4 ml-1" />
               </Link>
             </div>

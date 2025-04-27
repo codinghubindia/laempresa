@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Code, 
@@ -9,278 +9,160 @@ import {
   Clock,
   ArrowRight,
   Globe,
-  MapPin,
-  BadgePercent,
-  Sparkles
+  Users,
+  LineChart,
+  ShoppingCart,
+  Server,
+  Bolt,
+  Shield,
+  Zap,
+  Braces,
+  Database
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../components/ThemeContext';
-
-// Type definitions
-type Region = {
-  id: string;
-  name: string;
-  icon: React.ReactNode;
-  currency: string;
-  code: string;
-};
-
-type ExchangeRates = {
-  [key: string]: number;
-};
-
-type Package = {
-  name: string;
-  subtitle: string;
-  features: string[];
-  timeline: string;
-  originalPrice: number;
-  discountedPrice: number;
-  discount: string;
-  popular: boolean;
-};
+import SEO from '../components/SEO';
 
 const Services = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const [selectedRegion, setSelectedRegion] = useState<string>('north-america');
-  const [userRegion, setUserRegion] = useState<string>('');
-  const [isDetectingRegion, setIsDetectingRegion] = useState<boolean>(true);
-  const [exchangeRates, setExchangeRates] = useState<ExchangeRates>({});
-  const [isLoadingRates, setIsLoadingRates] = useState<boolean>(true);
-
-  // Get user's region based on their timezone or locale
-  useEffect(() => {
-    const detectUserRegion = async () => {
-      setIsDetectingRegion(true);
-      try {
-        // Try to get region from browser timezone
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        let detectedRegion = 'india'; // Default fallback
-        
-        // Simple region detection based on timezone
-        if (timezone.includes('America')) {
-          detectedRegion = 'north-america';
-        } else if (timezone.includes('Europe')) {
-          detectedRegion = 'europe';
-        } else if (timezone.includes('London') || timezone.includes('GMT')) {
-          detectedRegion = 'uk';
-        } else if (timezone.includes('Australia')) {
-          detectedRegion = 'australia';
-        } else if (timezone.includes('Dubai') || timezone.includes('UAE')) {
-          detectedRegion = 'uae';
-        } else if (timezone.includes('India') || timezone.includes('Asia/Kolkata')) {
-          detectedRegion = 'india';
-        }
-
-        setUserRegion(detectedRegion);
-        setSelectedRegion(detectedRegion);
-      } catch (error) {
-        console.error('Error detecting region:', error);
-        // Fall back to India if detection fails
-        setUserRegion('india');
-        setSelectedRegion('india');
-      } finally {
-        setIsDetectingRegion(false);
-      }
-    };
-
-    detectUserRegion();
-  }, []);
-
-  // Fetch exchange rates
-  useEffect(() => {
-    const fetchExchangeRates = async () => {
-      setIsLoadingRates(true);
-      try {
-        // Use CurrencyFreaks API instead of Open Exchange Rates
-        const response = await fetch(`https://api.currencyfreaks.com/v2.0/rates/latest?apikey=6f36d22da6264470beeef702f0e3b73e`);
-        
-        if (!response.ok) {
-          // If first API key fails, try the second one
-          const fallbackResponse = await fetch(`https://api.currencyfreaks.com/v2.0/rates/latest?apikey=d6172f50fe8b44da89237bfadb34ebc4`);
-          
-          if (!fallbackResponse.ok) {
-            throw new Error('Both API requests failed');
-          }
-          
-          const data = await fallbackResponse.json();
-          if (data && data.rates) {
-            // CurrencyFreaks already uses USD as base currency
-            setExchangeRates(data.rates);
-          }
-        } else {
-          const data = await response.json();
-          if (data && data.rates) {
-            // CurrencyFreaks already uses USD as base currency
-            setExchangeRates(data.rates);
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching exchange rates:', error);
-        // Fallback to hardcoded exchange rates
-        const fallbackRates = {
-          'EUR': 0.93,
-          'INR': 83.5,
-          'USD': 1,
-          'GBP': 0.79,
-          'AUD': 1.52,
-          'AED': 3.67
-        };
-        setExchangeRates(fallbackRates);
-      } finally {
-        setIsLoadingRates(false);
-      }
-    };
-
-    fetchExchangeRates();
-  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const regions: Region[] = [
-    { id: 'india', name: 'India', icon: <MapPin className="h-4 w-4" />, currency: '₹', code: 'INR' },
-    { id: 'north-america', name: 'North America', icon: <Globe className="h-4 w-4" />, currency: '$', code: 'USD' },
-    { id: 'europe', name: 'Europe', icon: <Globe className="h-4 w-4" />, currency: '€', code: 'EUR' },
-    { id: 'uk', name: 'United Kingdom', icon: <Globe className="h-4 w-4" />, currency: '£', code: 'GBP' },
-    { id: 'australia', name: 'Australia', icon: <Globe className="h-4 w-4" />, currency: 'A$', code: 'AUD' },
-    { id: 'uae', name: 'UAE', icon: <Globe className="h-4 w-4" />, currency: 'د.إ', code: 'AED' },
-  ];
-
-  // Get currency symbol for the selected region
-  const getCurrencyForRegion = (regionId: string): string => {
-    const region = regions.find(r => r.id === regionId);
-    return region ? region.currency : '₹';
-  };
-
-  // Get currency code for region
-  const getCurrencyCodeForRegion = (regionId: string): string => {
-    const region = regions.find(r => r.id === regionId);
-    return region ? region.code : 'INR';
-  };
-
-  // Standard packages with INR base prices
-  const standardPackages: Package[] = [
+  // Core services
+  const coreServices = [
     {
-      name: "Starter",
-      subtitle: "Perfect for personal brands & portfolios",
+      id: "websites",
+      title: "Website Development",
+      description: "Custom responsive websites built to engage audiences, drive conversions, and strengthen brand authority — optimized for speed, SEO, and modern UX.",
+      icon: <Globe className="h-12 w-12 text-dark-primaryAccent" />,
       features: [
-        "1–3 Pages",
-        "Responsive Design",
-        "Contact Form",
-        "Basic SEO Setup"
-      ],
-      timeline: "3–5 Days",
-      originalPrice: 12000,
-      discountedPrice: 2999,
-      discount: "75% OFF",
-      popular: false
+        "Responsive design for all devices",
+        "Performance optimization",
+        "SEO-friendly architecture",
+        "Content management systems",
+        "Analytics integration"
+      ]
     },
     {
-      name: "Business Pro",
-      subtitle: "Ideal for startups & small businesses",
+      id: "web-apps",
+      title: "Web Application Development",
+      description: "Powerful, scalable web apps tailored to specific business needs, using modern frameworks and APIs to streamline operations and user workflows.",
+      icon: <Code className="h-12 w-12 text-dark-primaryAccent" />,
       features: [
-        "5–10 Pages",
-        "Custom UI",
-        "Blog or CMS Integration",
-        "Contact & Quote Forms",
-        "Performance Optimization"
-      ],
-      timeline: "7–14 Days",
-      originalPrice: 32000,
-      discountedPrice: 7999,
-      discount: "75% OFF",
-      popular: true
+        "Custom business logic implementation",
+        "API development and integration",
+        "Real-time functionality",
+        "Authentication systems",
+        "Progressive web app capabilities"
+      ]
     },
     {
-      name: "Enterprise Solution",
-      subtitle: "For platforms & dashboard-based products",
+      id: "e-commerce",
+      title: "E-commerce Platform Development",
+      description: "Robust online stores with advanced product management, secure checkout systems, customer account portals, and analytics integration.",
+      icon: <ShoppingCart className="h-12 w-12 text-dark-primaryAccent" />,
       features: [
-        "Full-stack Web App",
-        "User Authentication",
-        "Admin Panel",
-        "API Integrations",
-        "Deployment & CI/CD",
-        "Priority Support"
-      ],
-      timeline: "3–6 Weeks",
-      originalPrice: 120000,
-      discountedPrice: 29999,
-      discount: "75% OFF",
-      popular: false
+        "Advanced product catalog management",
+        "Secure payment processing",
+        "User account systems",
+        "Order management workflows",
+        "Inventory synchronization"
+      ]
+    },
+    {
+      id: "healthcare",
+      title: "Healthcare Platforms",
+      description: "Medical appointment scheduling systems, telemedicine portals, patient record management — fully HIPAA-compliant where needed.",
+      icon: <Users className="h-12 w-12 text-dark-primaryAccent" />,
+      features: [
+        "Secure appointment scheduling",
+        "Telemedicine integration",
+        "Patient record management",
+        "HIPAA compliance measures",
+        "Healthcare provider portals"
+      ]
+    },
+    {
+      id: "crm",
+      title: "CRM Systems",
+      description: "Complete customer relationship management solutions featuring lead scoring, task management, analytics dashboards, and automation workflows.",
+      icon: <LineChart className="h-12 w-12 text-dark-primaryAccent" />,
+      features: [
+        "Lead tracking and management",
+        "Task automation workflows",
+        "Performance analytics dashboards",
+        "Email integration",
+        "Customer data management"
+      ]
+    },
+    {
+      id: "form-builder",
+      title: "Form and Data Platforms",
+      description: "Drag-and-drop form builders with conditional logic, customizable templates, file upload support, and deep analytics capabilities.",
+      icon: <CheckCircle className="h-12 w-12 text-dark-primaryAccent" />,
+      features: [
+        "Intuitive form builder interfaces",
+        "Conditional logic implementation",
+        "File upload capabilities",
+        "Data visualization tools",
+        "Response analytics"
+      ]
     }
   ];
 
+  // Technology stack section
+  const techStacks = [
+    {
+      category: "Frontend",
+      technologies: ["React", "Vue.js", "Next.js", "Angular", "Tailwind CSS", "Material UI", "TypeScript"]
+    },
+    {
+      category: "Backend",
+      technologies: ["Node.js", "Express", "Django", "Laravel", "Spring Boot", "ASP.NET Core"]
+    },
+    {
+      category: "Database",
+      technologies: ["MongoDB", "PostgreSQL", "MySQL", "Firebase", "Redis", "Elasticsearch"]
+    },
+    {
+      category: "Cloud & DevOps",
+      technologies: ["AWS", "Google Cloud", "Azure", "Docker", "Kubernetes", "CI/CD Pipelines"]
+    },
+  ];
+
+  // Upcoming services
   const upcomingServices = [
     {
-      icon: <Code className="h-10 w-10 text-dark-primaryAccent" />,
-      title: "Custom App Development",
-      description: "End-to-end solutions for your SaaS, productivity tools, internal systems, or AI-powered platforms — built from scratch and scaled for success."
-    },
-    {
-      icon: <Palette className="h-10 w-10 text-dark-primaryAccent" />,
-      title: "UI/UX Design",
-      description: "Conversion-focused, user-tested design systems and interfaces. Whether it's mobile, web, or enterprise — we make your product look and feel world-class."
-    },
-    {
-      icon: <Smartphone className="h-10 w-10 text-dark-primaryAccent" />,
       title: "Mobile App Development",
-      description: "Native or cross-platform (Flutter), we create high-performance apps with pixel-perfect UI and smooth user flows."
+      description: "Cross-platform and native mobile applications for iOS and Android with offline capabilities, push notifications, and seamless API integration.",
+      icon: <Smartphone className="h-10 w-10 text-dark-primaryAccent" />,
+      comingSoon: true
+    },
+    {
+      title: "AI Integration Services",
+      description: "Enhance your applications with machine learning algorithms, natural language processing, computer vision, and intelligent automation.",
+      icon: <Bolt className="h-10 w-10 text-dark-primaryAccent" />,
+      comingSoon: true
+    },
+    {
+      title: "Enterprise Solutions",
+      description: "Large-scale enterprise applications with complex workflows, authentication systems, and multi-tenant architectures.",
+      icon: <Server className="h-10 w-10 text-dark-primaryAccent" />,
+      comingSoon: true
     }
   ];
-
-  // Convert price from INR to the selected region's currency
-  const convertPrice = (priceINR: number, targetRegion: string): number => {
-    if (!Object.keys(exchangeRates).length) {
-      return priceINR; // If exchange rates aren't loaded yet, return original price
-    }
-
-    const targetCurrency = getCurrencyCodeForRegion(targetRegion);
-    
-    if (targetCurrency === 'INR') {
-      return priceINR;
-    }
-    
-    // First convert INR to USD (as exchange rates are based on USD)
-    // CurrencyFreaks API returns rates as strings, so we need to parse them
-    const inrRate = typeof exchangeRates['INR'] === 'string' 
-      ? parseFloat(exchangeRates['INR']) 
-      : (exchangeRates['INR'] as number || 83.5);
-    
-    const inrToUsd = 1 / inrRate;
-    const priceUSD = priceINR * inrToUsd;
-    
-    // Then convert USD to target currency
-    const targetRate = typeof exchangeRates[targetCurrency] === 'string'
-      ? parseFloat(exchangeRates[targetCurrency] as string)
-      : (exchangeRates[targetCurrency] as number);
-    
-    if (!targetRate) {
-      return priceINR;
-    }
-    
-    return priceUSD * targetRate;
-  };
-
-  // Format price with appropriate currency symbol
-  const formatPrice = (price: number, regionId: string): string => {
-    const currencySymbol = getCurrencyForRegion(regionId);
-    const convertedPrice = convertPrice(price, regionId);
-    
-    // Format based on region
-    if (regionId === 'india') {
-      return `${currencySymbol} ${Math.round(convertedPrice).toLocaleString('en-IN')}`;
-    } else if (regionId === 'uae') {
-      return `${currencySymbol} ${Math.round(convertedPrice).toLocaleString('en')}`;
-    } else {
-      return `${currencySymbol}${Math.round(convertedPrice).toLocaleString('en')}`;
-    }
-  };
 
   return (
     <div className="pt-16">
+      <SEO 
+        title="Full Stack Web Development Services | La Empresa"
+        description="Our comprehensive web development services include custom websites, web applications, e-commerce platforms, healthcare solutions, and more."
+        keywords="web development, full stack development, custom web applications, e-commerce, healthcare platforms, CRM systems"
+      />
+      
       {/* Hero Section */}
       <section className={`relative py-24 ${isDark ? 'bg-dark-surface/30' : 'bg-light-surface/30'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -291,194 +173,218 @@ const Services = () => {
             className="text-center max-w-3xl mx-auto"
           >
             <div className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/10 text-dark-primaryAccent mb-6">
-              WHAT WE DO
+              OUR EXPERTISE
             </div>
             <h1 className="text-4xl md:text-5xl font-headline font-bold mb-6 bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
-              Digital Excellence, Delivered Affordably
+              Full Stack Development Solutions
             </h1>
             <p className={`text-xl mb-8 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              We provide premium digital solutions at prices up to 75% below market rates without sacrificing quality
+              We build powerful, scalable applications that solve real business challenges through expert engineering and innovative technology
             </p>
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-full bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent text-dark-background hover:shadow-[0_8px_30px_rgba(212,175,55,0.4)] transition-all duration-300"
-            >
-              <span>Get a Free Consultation</span>
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
           </motion.div>
         </div>
       </section>
-
-      {/* Current Services Section */}
+      
+      {/* Core Services Section */}
       <section className={`py-24 ${isDark ? 'bg-dark-background' : 'bg-light-background'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <div className="inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/10 text-dark-primaryAccent mb-6">
-              <span className="block w-2 h-2 rounded-full bg-green-500"></span>
-              CURRENTLY AVAILABLE
+            <div className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/10 text-dark-primaryAccent mb-6">
+              CORE SERVICES
             </div>
             <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6">
-              <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">Web Development</span>
+              <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
+                Comprehensive Development Services
+              </span>
             </h2>
             <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              We build fast, responsive, and scalable websites at affordable rates. From sleek marketing sites to robust web platforms — we deliver exceptional quality for less.
+              We deliver end-to-end solutions from planning and design to development and ongoing maintenance
             </p>
           </motion.div>
 
-          {/* Launch Offer Banner */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {coreServices.map((service, index) => (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                key={service.id}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className={`mb-12 py-5 px-6 rounded-2xl ${
-              isDark ? 'bg-dark-primaryAccent/20' : 'bg-dark-primaryAccent/10'
-            } border border-dark-primaryAccent/30 text-center`}
-          >
-            <div className="flex items-center justify-center gap-3 mb-3">
-              <BadgePercent className="h-6 w-6 text-dark-primaryAccent" />
-              <h3 className="text-xl md:text-2xl font-bold text-dark-primaryAccent">
-                Limited Time Offer: 75% OFF All Packages
-              </h3>
-              <Sparkles className="h-6 w-6 text-dark-primaryAccent" />
-            </div>
-            <p className={`text-sm md:text-base max-w-2xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              We're committed to providing premium digital solutions at budget-friendly prices. Lock in our best rates today!
-              <span className="block mt-2 text-dark-primaryAccent font-medium">Our pricing beats competitors by 40-75%</span>
-            </p>
-          </motion.div>
-
-          {userRegion && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mb-6 text-center"
-            >
-              <p className={`text-sm ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                Showing prices for your detected region: <span className="font-medium text-dark-primaryAccent">{regions.find(r => r.id === userRegion)?.name}</span>
-              </p>
-            </motion.div>
-          )}
-
-          {/* Region Selector */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
-            {regions.map((region) => (
-              <button
-                key={region.id}
-                onClick={() => setSelectedRegion(region.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                  selectedRegion === region.id
-                    ? 'bg-dark-primaryAccent text-dark-background'
-                    : `${isDark ? 'bg-dark-surface/50' : 'bg-light-surface/50'} ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'} hover:bg-dark-primaryAccent/20 hover:text-dark-primaryAccent`
-                }`}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className={`rounded-xl overflow-hidden ${
+                  isDark ? 'bg-dark-surface/30' : 'bg-light-surface/30'
+                } border border-dark-primaryAccent/10 hover:border-dark-primaryAccent/30 hover:shadow-[0_10px_30px_rgba(212,175,55,0.1)] transition-all duration-300`}
               >
-                {region.icon}
-                {region.name} ({region.currency})
-              </button>
-            ))}
-          </div>
-
-          {isLoadingRates ? (
-            <div className="text-center py-12">
-              <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                Loading pricing information...
-              </p>
-            </div>
-          ) : (
-            /* Packages */
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-              {standardPackages.map((pkg, index) => (
-                <motion.div
-                  key={index}
-                  custom={index}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.2 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  className={`group rounded-xl overflow-hidden relative ${
-                    isDark ? 'bg-dark-surface/50' : 'bg-light-surface/50'
-                  } border ${pkg.popular ? 'border-dark-primaryAccent' : 'border-dark-primaryAccent/20'} hover:border-dark-primaryAccent transition-all duration-300 hover:shadow-[0_15px_35px_rgba(212,175,55,0.15)]`}
-                >
-                  {pkg.popular && (
-                    <div className="absolute top-0 right-0">
-                      <div className="bg-dark-primaryAccent text-dark-background text-xs font-bold px-3 py-1 rounded-bl-lg">
-                        MOST POPULAR
-                      </div>
+                <div className="p-8">
+                  <div className="flex items-start justify-between mb-6">
+                    <div>
+                      <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
+                      <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
+                        {service.description}
+                      </p>
                     </div>
-                  )}
-                  
-                  <div className="absolute -top-5 -left-5">
-                    <div className="bg-dark-primaryAccent text-dark-background text-xs font-bold px-3 py-1 rounded-br-lg rounded-tl-lg transform rotate-[-12deg]">
-                      {pkg.discount}
+                    <div className="p-3 bg-dark-primaryAccent/10 rounded-xl">
+                      {service.icon}
                     </div>
                   </div>
                   
-                  <div className="p-8">
-                    <h3 className="text-2xl font-bold text-dark-primaryAccent mb-2">{pkg.name}</h3>
-                    <p className={`mb-6 text-sm ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>{pkg.subtitle}</p>
-                    
-                    <div className="mb-8">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-sm text-dark-textSecondary line-through">
-                          {formatPrice(pkg.originalPrice, selectedRegion)}
+                  <ul className="space-y-3 mb-6">
+                    {service.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-dark-primaryAccent shrink-0 mt-0.5 mr-3" />
+                        <span className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
+                          {feature}
                         </span>
-                        <span className="bg-dark-primaryAccent/10 text-dark-primaryAccent text-xs px-2 py-1 rounded-full">
-                          LAUNCH PRICE
-                        </span>
-                      </div>
-                      <div className="text-3xl font-bold text-dark-primaryAccent">
-                        {formatPrice(pkg.discountedPrice, selectedRegion)}
-                        {pkg.name === "Enterprise Solution" && "+"}
-                      </div>
-                </div>
-                    
-                    <ul className="space-y-3 mb-8">
-                      {pkg.features.map((feature, i) => (
-                        <li key={i} className="flex items-start">
-                          <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
-                          <span className={isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                    
-                    <div className="pt-6 border-t border-dark-border/20">
-                      <div className="flex items-center mb-2">
-                        <Clock className="h-4 w-4 text-dark-primaryAccent mr-2" />
-                        <span className={`text-sm ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>Timeline: {pkg.timeline}</span>
-                      </div>
-                    </div>
-                  </div>
+                      </li>
+                    ))}
+                  </ul>
                   
-                  <div className="px-8 py-4 bg-dark-primaryAccent/5">
-                    <Link
-                      to="/contact"
-                      className={`inline-flex items-center justify-center w-full py-3 rounded-lg ${
-                        pkg.popular 
-                          ? 'bg-dark-primaryAccent text-dark-background hover:shadow-md' 
-                          : 'text-dark-primaryAccent hover:text-dark-secondaryAccent'
-                      } transition-all`}
-                    >
-                      <span>{pkg.popular ? 'Get started now' : 'Get started'}</span>
+                  <div className="flex justify-end pt-6 border-t border-dark-primaryAccent/10">
+                    <Link to="/contact" className="flex items-center text-dark-primaryAccent hover:text-dark-secondaryAccent transition-colors">
+                      <span className="font-medium">Discuss your project</span>
                       <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </div>
+                </div>
               </motion.div>
             ))}
-            </div>
-          )}
+          </div>
+        </div>
+      </section>
 
-          <div className="text-center mt-16">
-            <p className={`text-sm italic max-w-2xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              * All packages can be customized to your specific needs. Contact us for a detailed quote based on your project requirements. Our competitive pricing is designed to make premium digital solutions accessible to businesses of all sizes.
+      {/* Our Process Section */}
+      <section className={`py-24 ${isDark ? 'bg-dark-surface/30' : 'bg-light-surface/30'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <div className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/10 text-dark-primaryAccent mb-6">
+              OUR APPROACH
+            </div>
+            <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6">
+              <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
+                Development Process
+              </span>
+            </h2>
+            <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
+              Our structured methodology ensures efficient delivery of high-quality solutions that meet your business objectives
             </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: <Users className="h-10 w-10 text-dark-primaryAccent" />,
+                title: "Discovery",
+                description: "We begin by understanding your business needs, target audience, and project goals through in-depth consultations."
+              },
+              {
+                icon: <Palette className="h-10 w-10 text-dark-primaryAccent" />,
+                title: "Design",
+                description: "Our designers create intuitive interfaces and user experiences that align with your brand and business requirements."
+              },
+              {
+                icon: <Code className="h-10 w-10 text-dark-primaryAccent" />,
+                title: "Development",
+                description: "Our engineering team builds your solution using modern technologies and best practices for optimal performance."
+              },
+              {
+                icon: <Zap className="h-10 w-10 text-dark-primaryAccent" />,
+                title: "Deployment & Support",
+                description: "We ensure smooth deployment and provide ongoing support to help you maximize the value of your solution."
+              }
+            ].map((step, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className={`p-8 rounded-xl ${
+                  isDark ? 'bg-dark-background' : 'bg-light-background'
+                } border border-dark-primaryAccent/10 relative`}
+              >
+                <div className="absolute -top-5 -left-5">
+                  <div className="w-10 h-10 rounded-full bg-dark-primaryAccent flex items-center justify-center text-dark-background font-bold">
+                    {index + 1}
+                  </div>
+                </div>
+                <div className="p-3 bg-dark-primaryAccent/10 rounded-xl inline-block mb-4">
+                  {step.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-3">{step.title}</h3>
+                <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
+                  {step.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Technology Stack Section */}
+      <section className={`py-24 ${isDark ? 'bg-dark-background' : 'bg-light-background'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <div className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/10 text-dark-primaryAccent mb-6">
+              OUR TOOLBOX
+            </div>
+            <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6">
+              <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
+                Technology Stack
+              </span>
+            </h2>
+            <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
+              We use industry-leading technologies to build robust, scalable, and maintainable applications
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {techStacks.map((stack, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className={`p-6 rounded-xl ${
+                  isDark ? 'bg-dark-surface/30' : 'bg-light-surface/30'
+                } border border-dark-primaryAccent/10`}
+              >
+                <div className="flex items-center mb-4">
+                  {index === 0 && <Braces className="h-5 w-5 text-dark-primaryAccent mr-2" />}
+                  {index === 1 && <Server className="h-5 w-5 text-dark-primaryAccent mr-2" />}
+                  {index === 2 && <Database className="h-5 w-5 text-dark-primaryAccent mr-2" />}
+                  {index === 3 && <Globe className="h-5 w-5 text-dark-primaryAccent mr-2" />}
+                  <h3 className="text-xl font-bold">{stack.category}</h3>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {stack.technologies.map((tech, techIndex) => (
+                    <span
+                      key={techIndex}
+                      className="px-3 py-1 rounded-full text-xs font-medium bg-dark-primaryAccent/10 text-dark-primaryAccent"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -489,104 +395,77 @@ const Services = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <div className="inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/10 text-dark-primaryAccent mb-6">
-              <Calendar className="h-4 w-4" />
-              LAUNCHING SOON
-          </div>
+            <div className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-dark-primaryAccent/10 text-dark-primaryAccent mb-6">
+              COMING SOON
+            </div>
             <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6">
-              <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">Upcoming Services</span>
+              <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
+                Expanding Our Capabilities
+              </span>
             </h2>
             <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              We're expanding to become your full-service digital partner. Here's what's coming:
+              We're constantly evolving to meet your future business needs with these upcoming service offerings
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {upcomingServices.map((service, index) => (
               <motion.div
                 key={index}
-                custom={index}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                viewport={{ once: true, margin: "-50px" }}
-                className={`relative rounded-xl p-8 border border-dashed border-dark-primaryAccent/30 ${
-                  isDark ? 'bg-dark-background/70' : 'bg-light-background/70'
-                }`}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className={`p-8 rounded-xl ${
+                  isDark ? 'bg-dark-background' : 'bg-light-background'
+                } border border-dark-primaryAccent/10 text-center relative overflow-hidden group hover:border-dark-primaryAccent/30 transition-all duration-300`}
               >
-                <div className="p-3 bg-dark-primaryAccent/10 rounded-xl inline-block mb-6">
+                <div className="absolute top-0 right-0">
+                  <div className="bg-dark-primaryAccent/20 text-dark-primaryAccent text-xs font-medium py-1 px-3 rounded-bl-lg">
+                    Coming Soon
+                  </div>
+                </div>
+                <div className="p-4 bg-dark-primaryAccent/10 rounded-full inline-flex items-center justify-center mb-4">
                   {service.icon}
                 </div>
-                <h3 className="text-2xl font-bold mb-4">
-                  <span className="bg-gradient-to-r from-dark-primaryAccent/90 to-dark-secondaryAccent/90 bg-clip-text text-transparent">
-                    {service.title}
-                  </span>
-                </h3>
+                <h3 className="text-xl font-bold mb-3">{service.title}</h3>
                 <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
                   {service.description}
                 </p>
-                
-                <div className="mt-6">
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center text-dark-primaryAccent hover:text-dark-secondaryAccent transition-colors"
-                  >
-                    <span>Get early access</span>
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Built to Evolve Section */}
-      <section className={`py-24 relative overflow-hidden ${isDark ? 'bg-dark-background' : 'bg-light-background'}`}>
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 right-0 w-72 h-72 rounded-full bg-dark-primaryAccent/5 blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-dark-secondaryAccent/5 blur-3xl"></div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      {/* CTA Section */}
+      <section className={`py-24 ${isDark ? 'bg-dark-background' : 'bg-light-background'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="text-center"
           >
-          <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6">
-              <span className="bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
-                Built to Evolve with You
-              </span>
-          </h2>
-            <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              Every solution we deliver is designed with scalability, performance, and growth in mind. Whether you're starting small or going big — La Empresa evolves with your vision.
+            <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6 bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent bg-clip-text text-transparent">
+              Ready to Build Your Next Digital Solution?
+            </h2>
+            <p className={`text-xl mb-10 max-w-3xl mx-auto ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
+              Contact us today to discuss your project requirements and discover how we can help you achieve your business goals
             </p>
-          </motion.div>
-          
-          <div className="flex flex-col md:flex-row items-center justify-center gap-6 mt-12">
             <Link
               to="/contact"
-              className="group px-8 py-4 text-base font-medium rounded-full bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent text-dark-background hover:shadow-[0_8px_30px_rgba(212,175,55,0.4)] transition-all duration-300 flex items-center"
+              className="inline-flex items-center px-8 py-4 rounded-full bg-gradient-to-r from-dark-primaryAccent to-dark-secondaryAccent text-dark-background hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300"
             >
-              <span>Schedule a Consultation</span>
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              <span>Start a Conversation</span>
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
-            
-            <Link
-              to="/about"
-              className="group px-8 py-4 text-base font-medium rounded-full border border-dark-primaryAccent/60 text-dark-primaryAccent hover:border-dark-primaryAccent hover:bg-dark-primaryAccent/5 transition-all duration-300 flex items-center"
-            >
-              <span>Learn About Our Approach</span>
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>

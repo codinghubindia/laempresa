@@ -22,7 +22,7 @@ const ServicesSection = ({ isDark }: { isDark: boolean }) => {
             </span>
           </h2>
           <p className="text-lg max-w-3xl mx-auto text-dark-textSecondary">
-            From stunning websites to powerful web applications, we craft digital experiences that elevate your brand and drive business growth at prices up to 75% below market rates
+            From stunning websites to powerful web applications, we craft digital experiences that elevate your brand and drive business growth
           </p>
         </motion.div>
 
@@ -32,7 +32,7 @@ const ServicesSection = ({ isDark }: { isDark: boolean }) => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
             viewport={{ once: true }}
-            className="rounded-xl p-8 bg-dark-primary/5 border border-dark-primaryAccent/10 hover:border-dark-primaryAccent/30 transition-all duration-300"
+            className="rounded-xl p-8 bg-dark-primary/5 border border-dark-primaryAccent/10 hover:border-dark-primaryAccent/30 hover:shadow-[0_10px_30px_rgba(212,175,55,0.1)] transition-all duration-300"
           >
             <div className="flex items-center mb-6">
               <div className="p-3 bg-dark-primaryAccent/10 rounded-lg mr-4">
@@ -56,32 +56,20 @@ const ServicesSection = ({ isDark }: { isDark: boolean }) => {
                 <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
                 <span className="text-dark-textSecondary">Fast loading speed</span>
               </li>
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
+                <span className="text-dark-textSecondary">Content management systems</span>
+              </li>
             </ul>
             
-            {/* Pricing and Timeline */}
             <div className="mt-6 pt-6 border-t border-dark-primaryAccent/10">
-              <div className="flex flex-col mb-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-dark-textSecondary font-medium">Original price:</span>
-                  <span className="text-dark-textSecondary font-medium line-through">$141</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-dark-textSecondary font-medium">75% discount:</span>
-                  <span className="text-dark-primaryAccent font-bold text-lg">$35+</span>
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-dark-textSecondary font-medium">Delivery:</span>
-                <span className="text-dark-textSecondary">3-5 days</span>
-              </div>
-              <div className="mt-4">
-                <Link
-                  to="/services"
-                  className="block w-full py-3 text-center rounded-md bg-dark-primaryAccent/10 text-dark-primaryAccent hover:bg-dark-primaryAccent/20 transition-colors"
-                >
-                  View Details
-                </Link>
-              </div>
+              <Link
+                to="/services"
+                className="inline-flex items-center text-dark-primaryAccent hover:text-dark-secondaryAccent transition-colors"
+              >
+                <span>Learn more</span>
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </div>
           </motion.div>
 
@@ -90,7 +78,7 @@ const ServicesSection = ({ isDark }: { isDark: boolean }) => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.2 }}
             viewport={{ once: true }}
-            className="rounded-xl p-8 bg-dark-primary/5 border border-dark-primaryAccent/10 hover:border-dark-primaryAccent/30 transition-all duration-300"
+            className="rounded-xl p-8 bg-dark-primary/5 border border-dark-primaryAccent/10 hover:border-dark-primaryAccent/30 hover:shadow-[0_10px_30px_rgba(212,175,55,0.1)] transition-all duration-300"
           >
             <div className="flex items-center mb-6">
               <div className="p-3 bg-dark-primaryAccent/10 rounded-lg mr-4">
@@ -114,32 +102,20 @@ const ServicesSection = ({ isDark }: { isDark: boolean }) => {
                 <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
                 <span className="text-dark-textSecondary">Cloud-based infrastructure</span>
               </li>
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
+                <span className="text-dark-textSecondary">API development and integration</span>
+              </li>
             </ul>
             
-            {/* Pricing and Timeline */}
             <div className="mt-6 pt-6 border-t border-dark-primaryAccent/10">
-              <div className="flex flex-col mb-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-dark-textSecondary font-medium">Original price:</span>
-                  <span className="text-dark-textSecondary font-medium line-through">$375</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-dark-textSecondary font-medium">75% discount:</span>
-                  <span className="text-dark-primaryAccent font-bold text-lg">$94+</span>
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-dark-textSecondary font-medium">Delivery:</span>
-                <span className="text-dark-textSecondary">2-4 weeks</span>
-              </div>
-              <div className="mt-4">
-                <Link
-                  to="/services"
-                  className="block w-full py-3 text-center rounded-md bg-dark-primaryAccent/10 text-dark-primaryAccent hover:bg-dark-primaryAccent/20 transition-colors"
-                >
-                  View Details
-                </Link>
-              </div>
+              <Link
+                to="/services"
+                className="inline-flex items-center text-dark-primaryAccent hover:text-dark-secondaryAccent transition-colors"
+              >
+                <span>Learn more</span>
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </div>
           </motion.div>
 
@@ -148,7 +124,7 @@ const ServicesSection = ({ isDark }: { isDark: boolean }) => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.3 }}
             viewport={{ once: true }}
-            className="rounded-xl p-8 bg-dark-primary/5 border border-dark-primaryAccent/10 hover:border-dark-primaryAccent/30 transition-all duration-300"
+            className="rounded-xl p-8 bg-dark-primary/5 border border-dark-primaryAccent/10 hover:border-dark-primaryAccent/30 hover:shadow-[0_10px_30px_rgba(212,175,55,0.1)] transition-all duration-300"
           >
             <div className="flex items-center mb-6">
               <div className="p-3 bg-dark-primaryAccent/10 rounded-lg mr-4">
@@ -172,32 +148,20 @@ const ServicesSection = ({ isDark }: { isDark: boolean }) => {
                 <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
                 <span className="text-dark-textSecondary">Multiple payment gateways</span>
               </li>
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 text-dark-primaryAccent mr-2 flex-shrink-0 mt-0.5" />
+                <span className="text-dark-textSecondary">Order management workflows</span>
+              </li>
             </ul>
             
-            {/* Pricing and Timeline */}
             <div className="mt-6 pt-6 border-t border-dark-primaryAccent/10">
-              <div className="flex flex-col mb-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-dark-textSecondary font-medium">Original price:</span>
-                  <span className="text-dark-textSecondary font-medium line-through">$1,406</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-dark-textSecondary font-medium">75% discount:</span>
-                  <span className="text-dark-primaryAccent font-bold text-lg">$351+</span>
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-dark-textSecondary font-medium">Delivery:</span>
-                <span className="text-dark-textSecondary">7-10 days</span>
-              </div>
-              <div className="mt-4">
-                <Link
-                  to="/services"
-                  className="block w-full py-3 text-center rounded-md bg-dark-primaryAccent/10 text-dark-primaryAccent hover:bg-dark-primaryAccent/20 transition-colors"
-                >
-                  View Details
-                </Link>
-              </div>
+              <Link
+                to="/services"
+                className="inline-flex items-center text-dark-primaryAccent hover:text-dark-secondaryAccent transition-colors"
+              >
+                <span>Learn more</span>
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </div>
           </motion.div>
         </div>
@@ -211,13 +175,6 @@ const ServicesSection = ({ isDark }: { isDark: boolean }) => {
             <span>View All Services</span>
             <ArrowRight className="ml-2 h-5 w-5" />
           </Link>
-        </div>
-        
-        {/* Multi-Currency Note */}
-        <div className="text-center mt-6">
-          <p className="text-sm text-dark-textSecondary">
-            * Prices shown in USD. We're offering a limited-time 75% discount. <Link to="/services" className="text-dark-primaryAccent hover:underline">See pricing details</Link>
-          </p>
         </div>
       </div>
     </section>

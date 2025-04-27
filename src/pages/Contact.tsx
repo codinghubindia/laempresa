@@ -658,10 +658,10 @@ const Contact = () => {
                     <h4 className={`font-medium mb-2 ${
                       isDark ? 'text-dark-text' : 'text-light-text'
                     }`}>
-                      What makes your pricing so affordable?
+                      How do you ensure the best value for your clients?
                     </h4>
                     <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                      We maintain low overhead costs, use efficient development processes, and leverage pre-built components to deliver high-quality work at prices 40-75% lower than market rates.
+                      We maintain low overhead costs, use efficient development processes, and leverage pre-built components to deliver high-quality work at competitive prices.
                     </p>
                   </div>
                   <div>
@@ -671,7 +671,7 @@ const Contact = () => {
                       Do you offer maintenance after launch?
                     </h4>
                     <p className={`${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-                      Yes, we offer affordable maintenance packages to keep your website secure, up-to-date, and running smoothly.
+                      Yes, we offer comprehensive maintenance packages to keep your website secure, up-to-date, and running smoothly.
                     </p>
                   </div>
                 </div>

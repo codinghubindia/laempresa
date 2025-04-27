@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Code, Laptop, ShoppingCart, CheckCircle, Mail } from 'lucide-react';
+import { ArrowRight, Code, Laptop, ShoppingCart, CheckCircle, Mail, Users, Lock, LineChart, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../components/ThemeContext';
 import SEO from '../components/SEO';
@@ -18,152 +18,130 @@ const Portfolio = () => {
 
   const portfolioItems = [
     {
-      id: 'luxe-haven',
-      title: "Luxe Haven Interiors",
-      category: "E-commerce Website",
-      description: "Premium home decor online store with integrated payment system and custom product showcases.",
-      fullDescription: "We developed a high-converting e-commerce platform for Luxe Haven Interiors, featuring custom product showcases, seamless checkout experiences, and mobile-responsive design that increased their online sales by 45% within the first month of launch.",
-      image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
-      technologies: ["React", "Shopify", "Tailwind CSS", "Node.js", "Stripe"],
+      id: 'medinestt',
+      title: "MedinesTT",
+      category: "Healthcare Platform",
+      description: "Medical appointment scheduling system with integrated patient management and telemedicine features.",
+      fullDescription: "MedinesTT is a comprehensive healthcare platform designed to streamline medical appointment scheduling and patient management. The platform features integrated telemedicine capabilities, patient record management, and automated appointment reminders to enhance the healthcare experience for both providers and patients.",
+      image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
+      technologies: ["React", "Node.js", "MongoDB", "Express", "Socket.io", "Tailwind CSS"],
       features: [
-        "Custom product showcases",
+        "Online appointment scheduling",
+        "Telemedicine video consultations",
+        "Patient record management",
+        "Prescription management",
+        "Automated reminders"
+      ],
+      results: [
+        "30% reduction in appointment no-shows",
+        "Improved patient satisfaction scores by 45%",
+        "Streamlined administrative processes"
+      ],
+      url: "https://medinestt.netlify.app/"
+    },
+    {
+      id: 'nexacart',
+      title: "NexaCart",
+      category: "E-commerce Platform",
+      description: "Feature-rich e-commerce platform with advanced product filtering, user accounts and secure payment processing.",
+      fullDescription: "NexaCart is a modern e-commerce solution built with scalability and user experience in mind. The platform offers advanced product filtering, personalized user accounts, secure payment processing, and a responsive design that provides an optimal shopping experience across all devices.",
+      image: "https://images.unsplash.com/photo-1607082349566-187342175e2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
+      technologies: ["React", "Redux", "Node.js", "MongoDB", "Stripe API", "JWT Authentication"],
+      features: [
+        "Advanced product filtering",
         "User account management",
-        "Integrated payment system",
-        "Inventory management",
+        "Secure payment processing",
+        "Order tracking system",
         "Responsive design"
       ],
       results: [
-        "45% increase in online sales",
-        "65% reduction in cart abandonment",
-        "3.5x increase in mobile conversions"
+        "55% increase in conversion rate",
+        "40% reduction in cart abandonment",
+        "3x increase in average order value"
       ],
-      price: "$599",
-      timeline: "7 days"
+      url: "https://nexacart.netlify.app/"
     },
     {
-      id: 'fintrack',
-      title: "FinTrack Pro",
+      id: 'velvaessence',
+      title: "Velva Essence",
+      category: "Designer Portfolio",
+      description: "Elegant portfolio website for design professionals featuring project showcases, client testimonials, and contact forms.",
+      fullDescription: "Velva Essence is a premium portfolio platform for design professionals to showcase their work. The site features elegant project showcases, detailed case studies, client testimonials, and custom contact forms to help designers connect with potential clients and highlight their creative expertise.",
+      image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
+      technologies: ["Next.js", "Tailwind CSS", "Contentful CMS", "Vercel", "Algolia Search"],
+      features: [
+        "Elegant project showcases",
+        "Custom case study layouts",
+        "Client testimonial system",
+        "Contact form with filtering",
+        "Design process timeline"
+      ],
+      results: [
+        "50% increase in client inquiries",
+        "35% growth in project bookings",
+        "Improved portfolio presentation"
+      ],
+      url: "https://velvaessence.netlify.app/"
+    },
+    {
+      id: 'clientnestcrm',
+      title: "ClientNest CRM",
       category: "Web Application",
-      description: "Financial analytics dashboard for small businesses with real-time reporting and user authentication.",
-      fullDescription: "FinTrack Pro needed a sophisticated web application to help small businesses track financial metrics in real-time. We delivered a secure, intuitive dashboard with custom reporting tools, multi-level user permissions, and data visualization capabilities.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
-      technologies: ["Vue.js", "Node.js", "Chart.js", "Express", "MongoDB", "Auth0"],
+      description: "Customer relationship management system with lead tracking, task management, and performance analytics.",
+      fullDescription: "ClientNest CRM is a comprehensive customer relationship management system designed for small to medium businesses. The application features lead tracking, task management, performance analytics, and automated follow-up sequences to help businesses nurture relationships and close more deals.",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
+      technologies: ["React", "Firebase", "Redux", "Material UI", "ChartJS", "Auth0"],
       features: [
-        "Real-time financial tracking",
-        "Custom report generation",
-        "Multi-level user permissions",
-        "Data visualization tools",
-        "Secure authentication"
+        "Lead tracking and scoring",
+        "Task management system",
+        "Performance analytics",
+        "Automated follow-up sequences",
+        "Email integration"
       ],
       results: [
-        "Saved 20+ hours per month in financial reporting",
-        "Improved decision-making speed by 70%",
-        "Enabled remote team collaboration"
+        "65% improvement in lead conversion",
+        "40% reduction in sales cycle length",
+        "Centralized customer data management"
       ],
-      price: "$799",
-      timeline: "14 days"
+      url: "https://clientnestcrm.netlify.app/login"
     },
     {
-      id: 'ecoventure',
-      title: "EcoVenture",
-      category: "Corporate Website",
-      description: "Environmental consulting firm with appointment booking system and resource library.",
-      fullDescription: "EcoVenture required a professional corporate website to showcase their environmental consulting services. We built a modern, content-rich platform featuring an intuitive appointment booking system, searchable resource library, and blog integration.",
-      image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
-      technologies: ["Next.js", "Strapi CMS", "Tailwind CSS", "PostgreSQL", "Calendly API"],
+      id: 'velvetform',
+      title: "Velvet Form",
+      category: "Form Builder",
+      description: "Elegant form building platform with customizable templates, conditional logic, and response analytics.",
+      fullDescription: "Velvet Form is a sophisticated form building platform that allows users to create beautiful, functional forms with ease. The platform includes customizable templates, conditional logic, file uploads, and comprehensive response analytics to help users gather and analyze data effectively.",
+      image: "https://images.unsplash.com/photo-1586282391129-76a3138a11a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
+      technologies: ["Vue.js", "Node.js", "PostgreSQL", "AWS Lambda", "Tailwind CSS"],
       features: [
-        "Content management system",
-        "Appointment booking integration",
-        "Resource library with search",
-        "Blog with categories",
-        "Contact form with filtering"
+        "Drag-and-drop form builder",
+        "Customizable templates",
+        "Conditional logic",
+        "File upload capability",
+        "Response analytics"
       ],
       results: [
-        "200% increase in online appointment bookings",
-        "5x growth in resource downloads",
-        "Reduced administrative workload by 35%"
+        "75% reduction in form creation time",
+        "Increased form completion rates by 40%",
+        "Enhanced data collection capabilities"
       ],
-      price: "$299",
-      timeline: "5 days"
-    },
-    {
-      id: 'fitquest',
-      title: "FitQuest",
-      category: "Fitness Web App",
-      description: "Personalized workout tracking application with progress analytics and community features.",
-      fullDescription: "FitQuest wanted to create a modern fitness web application to help users track workouts, set goals, and connect with other fitness enthusiasts. We delivered a feature-rich platform with custom workout plans, progress tracking, and social features.",
-      image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
-      technologies: ["React", "Firebase", "Redux", "Node.js", "Express", "MongoDB"],
-      features: [
-        "Custom workout planning",
-        "Progress tracking with charts",
-        "Social sharing capabilities",
-        "Achievement system",
-        "Nutrition logging"
-      ],
-      results: [
-        "10,000+ active users within first month",
-        "Average session time of 15+ minutes",
-        "92% user retention rate"
-      ],
-      price: "$799",
-      timeline: "12 days"
-    },
-    {
-      id: 'artisan-cafe',
-      title: "Artisan Café",
-      category: "Restaurant Website",
-      description: "Elegant website with online ordering system and table reservations for a boutique café.",
-      fullDescription: "Artisan Café needed a visually appealing website to showcase their menu and enable online ordering. We created a mobile-friendly site with reservation capabilities, online ordering integration, and gallery features to highlight their unique dining atmosphere.",
-      image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
-      technologies: ["WordPress", "WooCommerce", "Custom PHP", "MySQL", "JavaScript"],
-      features: [
-        "Menu display with filtering",
-        "Online ordering system",
-        "Table reservation integration",
-        "Event calendar",
-        "Newsletter subscription"
-      ],
-      results: [
-        "35% increase in table reservations",
-        "Added revenue stream through online orders",
-        "Reduced phone inquiries by 50%"
-      ],
-      price: "$299",
-      timeline: "6 days"
-    },
-    {
-      id: 'techwave',
-      title: "TechWave Solutions",
-      category: "Corporate Website",
-      description: "Modern tech company website with service offerings, case studies, and streamlined client portal.",
-      fullDescription: "TechWave Solutions sought a professional website to establish their brand in the tech consulting space. We developed a polished corporate site with detailed service pages, interactive case studies, and a secure client portal for project updates.",
-      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
-      technologies: ["React", "Node.js", "Express", "MongoDB", "JWT Authentication"],
-      features: [
-        "Dynamic service pages",
-        "Filterable case studies",
-        "Client portal with dashboards",
-        "Team member profiles",
-        "Contact routing system"
-      ],
-      results: [
-        "40% increase in qualified leads",
-        "Reduced client onboarding time by 65%",
-        "Improved client satisfaction scores"
-      ],
-      price: "$399",
-      timeline: "8 days"
+      url: "https://velvetform.netlify.app/"
     }
   ];
 
   // Get icon for category
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'E-commerce Website':
+      case 'E-commerce Platform':
         return <ShoppingCart className="h-5 w-5" />;
       case 'Web Application':
         return <Code className="h-5 w-5" />;
+      case 'Healthcare Platform':
+        return <Users className="h-5 w-5" />;
+      case 'Form Builder':
+        return <CheckCircle className="h-5 w-5" />;
+      case 'Beauty & Cosmetics':
+        return <ShoppingCart className="h-5 w-5" />;
       default:
         return <Laptop className="h-5 w-5" />;
     }
@@ -194,7 +172,7 @@ const Portfolio = () => {
               Portfolio of Success
             </h1>
             <p className={`text-xl mb-8 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              Browse our collection of website and application projects that have helped businesses elevate their digital presence at 75% below market rates
+              Browse our collection of website and application projects that have helped businesses elevate their digital presence
             </p>
           </motion.div>
         </div>
@@ -255,10 +233,10 @@ const Portfolio = () => {
                   {/* Project details */}
                   <div className="flex justify-between text-sm text-dark-textSecondary mb-4 mt-auto">
                     <div>
-                      <span className="font-medium text-dark-primaryAccent">Investment:</span> {item.price}
+                      <span className="font-medium text-dark-primaryAccent">Client:</span> Premium Project
                     </div>
                     <div>
-                      <span className="font-medium text-dark-primaryAccent">Timeline:</span> {item.timeline}
+                      <span className="font-medium text-dark-primaryAccent">Sector:</span> {item.category.split(' ')[0]}
                     </div>
                   </div>
                   
@@ -313,12 +291,14 @@ const Portfolio = () => {
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div className={`p-4 rounded-lg ${isDark ? 'bg-dark-background' : 'bg-light-background'}`}>
-                    <h4 className="text-dark-primaryAccent font-medium mb-2">Investment</h4>
-                    <p className="text-2xl font-bold">{item.price}</p>
+                    <h4 className="text-dark-primaryAccent font-medium mb-2">Project Type</h4>
+                    <p className="text-2xl font-bold">{item.category}</p>
                   </div>
                   <div className={`p-4 rounded-lg ${isDark ? 'bg-dark-background' : 'bg-light-background'}`}>
-                    <h4 className="text-dark-primaryAccent font-medium mb-2">Timeline</h4>
-                    <p className="text-2xl font-bold">{item.timeline}</p>
+                    <h4 className="text-dark-primaryAccent font-medium mb-2">Visit</h4>
+                    <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-xl font-bold flex items-center hover:text-dark-primaryAccent">
+                      Website <ArrowUpRight className="ml-2 h-4 w-4" />
+                    </a>
                   </div>
                 </div>
               </motion.div>
@@ -419,7 +399,7 @@ const Portfolio = () => {
               Ready to Create Your Success Story?
             </h2>
             <p className={`text-xl mb-8 ${isDark ? 'text-dark-textSecondary' : 'text-light-textSecondary'}`}>
-              We deliver premium results at prices up to 75% below market rates. Let's start building your digital presence today.
+              We deliver premium results with expert engineering and innovative technology. Let's start building your digital presence today.
             </p>
             <div className="flex flex-col items-center space-y-4">
               <Link

@@ -1,158 +1,114 @@
-# La Empresa - Web Development Agency
+# La Empresa - Premium Digital Solutions
 
-A modern, responsive website for La Empresa - a web development agency. Built with React, TypeScript, Tailwind CSS, and Framer Motion.
+A professionally designed website for La Empresa, showcasing their full stack development services and digital solutions.
 
-## 🌟 Features
+![Netlify Status](https://api.netlify.com/api/v1/badges/your-netlify-app-id-here/deploy-status)
 
-- Responsive design for all devices
-- Dark/Light theme toggle
-- Smooth animations with Framer Motion
-- Contact form with EmailJS integration
-- Multi-currency support
-- Region detection based on timezone
-- Fully responsive UI components
+## Deployment Instructions
 
-## 🔧 Tech Stack
+This project is configured for easy deployment to Netlify.
 
-- **React** - Frontend library
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **Framer Motion** - Animations
-- **React Router** - Routing
-- **EmailJS** - Contact form functionality
-- **Vite** - Build tool
+### Deploy via Netlify UI
 
-## 🚀 Live Demo
+1. Create a new site on Netlify from Git
+2. Connect to your GitHub repository
+3. Use the following build settings:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+4. Click on "Deploy site"
 
-Visit the live site: [La Empresa](https://yourusername.github.io/la-empresa/)
+### Deploy via CLI
 
-## 📋 Getting Started
-
-### Prerequisites
-
-- Node.js (v14+)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository
-   ```bash
-   git clone https://github.com/yourusername/la-empresa.git
-   cd la-empresa
-   ```
-
-2. Install dependencies
+1. Install the Netlify CLI (already included in devDependencies)
    ```bash
    npm install
    ```
 
-3. Create an `.env` file in the root directory with your EmailJS keys:
-   ```
-   VITE_EMAILJS_SERVICE_ID=your_service_id
-   VITE_EMAILJS_TEMPLATE_ID=your_template_id
-   VITE_EMAILJS_PUBLIC_KEY=your_public_key
-   ```
-
-4. Start the development server
+2. Login to Netlify CLI
    ```bash
-   npm run dev
+   npx netlify login
    ```
 
-## 🛠️ Deployment
-
-### GitHub Pages Deployment
-
-#### Automatic Deployment (via GitHub Actions)
-
-1. Push your code to the `main` branch:
+3. Initialize Netlify site (first time only)
    ```bash
-   git add .
-   git commit -m "Your commit message"
-   git push origin main
+   npx netlify init
    ```
 
-2. The GitHub Actions workflow will automatically deploy your site to GitHub Pages.
-
-#### Manual Deployment
-
-You can also deploy manually using the gh-pages package:
-
-1. Make sure you've updated the `vite.config.ts` file with your repository name:
-   ```typescript
-   base: '/your-repo-name/',
-   ```
-
-2. Run the deploy script:
+4. Deploy to preview
    ```bash
    npm run deploy
    ```
 
-### Environment Variables
-
-For both deployment methods, add your EmailJS keys as secrets in your GitHub repository:
-- Go to your GitHub repository
-- Navigate to Settings > Secrets and variables > Actions
-- Add the following repository secrets:
-  - `VITE_EMAILJS_SERVICE_ID`
-  - `VITE_EMAILJS_TEMPLATE_ID`
-  - `VITE_EMAILJS_PUBLIC_KEY`
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 👥 Contact
-
-For any questions or feedback, please reach out to us at laempresa.team@gmail.com.
-
-## Security Improvements
-
-### EmailJS Secure Implementation
-- Credentials are now stored as environment variables and GitHub secrets
-- No hardcoded credentials in the codebase
-- Sensitive data is no longer visible in the browser
-
-### Setup GitHub Secrets
-To deploy this project, you need to set up the following GitHub secrets:
-
-1. Go to your repository settings
-2. Navigate to Secrets and Variables > Actions
-3. Add the following repository secrets:
-   - `EMAILJS_SERVICE_ID`: Your EmailJS service ID
-   - `EMAILJS_TEMPLATE_ID`: Your EmailJS template ID
-   - `EMAILJS_PUBLIC_KEY`: Your EmailJS public key
-
-## Performance Improvements
-
-### Added loading states
-- Added global loading state for initial page load
-- Implemented lazy loading for all pages to reduce initial load time
-- Added loading indicator for form submissions
-
-### Code Optimization
-- Removed hardcoded credentials in multiple files
-- Implemented a dedicated email service for better code organization
-- Improved form submission flow
-
-## Local Development
-
-1. Clone the repository
-2. Create a `.env` file with your EmailJS credentials (see `.env.example`)
-3. Install dependencies:
+5. Deploy to production
+   ```bash
+   npm run deploy:prod
    ```
+
+## Environment Variables
+
+Create a `.env` file based on `.env.example` and add your environment variables:
+
+```
+# Required variables
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_USER_ID=your_user_id
+
+# SEO variables
+VITE_SITE_URL=https://laempresa.in
+VITE_SITE_NAME=La Empresa
+VITE_SITE_DESCRIPTION=Premium Full Stack Development Solutions
+```
+
+For Netlify deployment, add these environment variables in Netlify's dashboard under Site settings > Build & deploy > Environment.
+
+## Development
+
+1. Install dependencies
+   ```bash
    npm install
    ```
-4. Start the development server:
-   ```
+
+2. Start development server
+   ```bash
    npm run dev
    ```
 
-## Building for Production
+3. Build for production
+   ```bash
+   npm run build
+   ```
 
-```
-npm run build
-```
+## SEO Optimization
 
-## Deployment
+This project includes several SEO optimization features:
 
-This project is configured to deploy to GitHub Pages automatically when pushing to the main branch. The deployment workflow uses GitHub Actions and is defined in `.github/workflows/deploy.yml`. 
+- Structured data with Schema.org markup
+- SEO component for all pages
+- Optimized meta tags
+- Sitemap.xml and robots.txt
+- Optimized asset loading
+- Fast page loads with code splitting
+- Proper OpenGraph and Twitter card tags
+- Semantic HTML structure
+
+## Performance Optimization
+
+- Image optimization with lazy loading
+- CSS and JS minification
+- Code splitting
+- Preloading critical assets
+- Tree shaking
+- Service worker for offline support
+- Font optimization with display swap
+- Cache control headers
+
+## Built With
+
+- React.js
+- TypeScript
+- Vite
+- Tailwind CSS
+- Framer Motion
+- React Router
+- React Helmet Async 

@@ -19,7 +19,6 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../components/ThemeContext';
-import lampresa from '../assets/images/laempresa.png';
 import SEO from '../components/SEO';
 
 // Lazy loaded components
@@ -88,7 +87,7 @@ const HeroSection = () => {
               className="absolute inset-0 flex items-center justify-center"
             >
               <img
-                src={lampresa}
+                src="https://res.cloudinary.com/dbnzoosjq/image/upload/v1745737561/LaEmpresa_Base_logo_pqon8l.png"
                 alt="LaEmpresa Logo"
                 className="max-w-[60%] max-h-[60%] object-contain opacity-75"
                 loading="eager"
@@ -153,7 +152,7 @@ const HeroSection = () => {
             variants={textVariants}
           >
             <span className="block mb-2">
-              Trusted <span className="text-dark-primaryAccent relative z-10">Full Stack Solutions</span> Engineered For Business Growth
+              Building <span className="text-dark-primaryAccent relative z-10">Scalable Digital Futures</span>
             </span>
           </motion.h1>
 
@@ -164,7 +163,7 @@ const HeroSection = () => {
             variants={textVariants}
           >
             <p className="text-dark-textSecondary text-xl md:text-2xl mb-10 max-w-3xl mx-auto">
-              Elevate your digital presence with our expert team's tailored solutions built with cutting-edge technology and professional execution
+            Empowering businesses with scalable, future-ready digital solutions crafted by industry experts.
             </p>
           </motion.div>
 

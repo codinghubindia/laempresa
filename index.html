@@ -2,33 +2,38 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="./assets/images/laempresa.png" />
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dbnzoosjq/image/upload/v1745737561/LaEmpresa_Base_logo_pqon8l.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Development asset helper - creates placeholders for missing assets -->
-    <script src="./devAssets.js"></script>
-    
     <!-- PWA Support -->
-    <link rel="manifest" href="./manifest.json" />
-    <meta name="theme-color" content="#0069d9" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#D4AF37" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <link rel="apple-touch-icon" href="./assets/images/laempresa.png" />
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/dbnzoosjq/image/upload/v1745737561/LaEmpresa_Base_logo_pqon8l.png" />
     
-    <!-- Performance optimization: Preconnect to external domains -->
+    <!-- Performance optimization: Preconnect and resource hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.emailjs.com" crossorigin>
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="assets/vendor.Dv67sa-R.js" as="script">
+    <link rel="preload" href="assets/index.CDSiAjSg.js" as="script">
+    <link rel="preload" href="assets/index.CQeDAbNi.css" as="style">
+    <link rel="preload" href="https://res.cloudinary.com/dbnzoosjq/image/upload/v1745737561/LaEmpresa_Base_logo_pqon8l.png" as="image" type="image/png">
     
     <!-- Critical CSS to prevent FOUC (Flash of Unstyled Content) -->
     <style>
       :root {
-        --primary-color: #333;
-        --secondary-color: #666;
-        --accent-color: #0069d9;
-        --background-color: #ffffff;
-        --text-color: #333333;
+        --primary-color: #D4AF37;
+        --secondary-color: #171717;
+        --accent-color: #D4AF37;
+        --background-color: #1C1C1E;
+        --text-color: #F8F8F8;
         --font-primary: 'Inter', sans-serif;
         --font-secondary: 'Playfair Display', serif;
       }
@@ -41,12 +46,15 @@
         color: var(--text-color);
         line-height: 1.6;
         overflow-x: hidden;
+        text-rendering: optimizeSpeed;
       }
       
       #root {
         display: flex;
         flex-direction: column;
         min-height: 100vh;
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
       
       /* Loading indicator styles */
@@ -67,9 +75,9 @@
       .loader-spinner {
         width: 50px;
         height: 50px;
-        border: 5px solid rgba(0, 105, 217, 0.2);
+        border: 5px solid rgba(212, 175, 55, 0.2);
         border-radius: 50%;
-        border-top-color: #0069d9;
+        border-top-color: #D4AF37;
         animation: spin 1s ease-in-out infinite;
       }
       
@@ -81,45 +89,53 @@
     <!-- Font loading with display swap to improve perceived performance -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     
-    <title>La Empresa - Full Stack Development Solutions</title>
+    <title>La Empresa - Premium Full Stack Development Solutions</title>
     <meta name="description" content="La Empresa delivers custom full stack development solutions including websites, web applications, e-commerce platforms, and specialized digital products to transform your business." />
     
     <!-- SEO Meta Tags -->
     <meta name="author" content="La Empresa Development Team" />
     <meta name="keywords" content="full stack development, web applications, custom software, e-commerce platforms, CRM systems, healthcare platforms, form builders, enterprise solutions, professional development, digital transformation" />
+    <meta name="geo.region" content="IN" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://laempresa.in" />
     <meta property="og:title" content="La Empresa - Premium Full Stack Development Solutions" />
     <meta property="og:description" content="La Empresa delivers custom full stack development solutions including websites, web applications, e-commerce platforms, and specialized digital products to transform your business." />
-    <meta property="og:image" content="./assets/images/laempresa.png" />
-    <meta property="og:url" content="https://laempresa.in" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:image" content="https://res.cloudinary.com/dbnzoosjq/image/upload/v1745737561/LaEmpresa_Base_logo_pqon8l.png" />
+    <meta property="og:site_name" content="La Empresa" />
+    <meta property="og:locale" content="en_US" />
     
-    <!-- GitHub Pages SPA redirect script -->
-    <script type="text/javascript">
-      // Handle GitHub Pages routing for SPAs
-      (function() {
-        // Check if we need to redirect to the index page
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        
-        if (redirect && redirect != location.href) {
-          history.replaceState(null, null, redirect);
-        }
-        
-        // Parse query params for SPA routing
-        var l = window.location;
-        if (l.search) {
-          var q = {};
-          l.search.slice(1).split('&').forEach(function(v) {
-            var a = v.split('=');
-            q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&');
-          });
-          if (q.p !== undefined) {
-            window.history.replaceState(null, null, l.pathname.slice(0, -1) + (q.p || '') +
-              (q.q ? ('?' + q.q) : '') + l.hash);
-          }
-        }
-      }(window.location));
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://laempresa.in" />
+    <meta name="twitter:title" content="La Empresa - Premium Full Stack Development Solutions" />
+    <meta name="twitter:description" content="La Empresa delivers custom full stack development solutions including websites, web applications, e-commerce platforms, and specialized digital products to transform your business." />
+    <meta name="twitter:image" content="https://laempresa.in/assets/images/laempresa.png" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://laempresa.in" />
+    
+    <!-- Structured Data for Rich Snippets -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "La Empresa",
+        "url": "https://laempresa.in",
+        "logo": "https://laempresa.in/assets/images/laempresa.png",
+        "description": "Custom full stack development solutions including websites, web applications, e-commerce platforms, and digital products to transform your business.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "IN"
+        },
+        "sameAs": [
+          "https://twitter.com/laempresa",
+          "https://linkedin.com/company/laempresa",
+          "https://github.com/laempresa"
+        ]
+      }
     </script>
     
     <!-- Performance: Init theme immediately before content loads -->
@@ -127,21 +143,16 @@
       // Check for stored theme preference and apply immediately
       (function() {
         try {
+          // Set dark theme as default - immediate application to prevent flash
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.documentElement.style.colorScheme = 'dark';
+          document.documentElement.classList.add('dark');
+          
           const storedTheme = localStorage.getItem('theme');
-          if (storedTheme) {
+          if (storedTheme && storedTheme !== 'dark') {
             document.documentElement.setAttribute('data-theme', storedTheme);
-            if (storedTheme === 'dark') {
-              document.documentElement.style.colorScheme = 'dark';
-              document.documentElement.classList.add('dark');
-            }
-          } else {
-            // Check system preference if no stored preference
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            if (prefersDark) {
-              document.documentElement.setAttribute('data-theme', 'dark');
-              document.documentElement.style.colorScheme = 'dark';
-              document.documentElement.classList.add('dark');
-            }
+            document.documentElement.style.colorScheme = storedTheme;
+            document.documentElement.classList.remove('dark');
           }
         } catch (e) {
           console.error('Theme initialization error:', e);
@@ -164,7 +175,7 @@
     
     <div id="root"></div>
     
-    <script type="module" src="./src/main.tsx"></script>
+    <script type="module" src="/src/main.tsx"></script>
     
     <!-- Hide loader once app is ready -->
     <script>
@@ -172,12 +183,38 @@
         performance.mark('full-load');
         performance.measure('total-load-time', 'html-parse-start', 'full-load');
         
+        // Show content
+        const root = document.getElementById('root');
+        if (root) {
+          root.style.opacity = '1';
+        }
+        
+        // Hide loader
         const loader = document.getElementById('initial-loader');
         if (loader) {
           loader.style.opacity = '0';
           setTimeout(() => {
             loader.style.display = 'none';
           }, 300);
+        }
+        
+        // Lazy load non-critical resources
+        const lazyLoadResources = () => {
+          // Load analytics script if in production
+          if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            const analyticsScript = document.createElement('script');
+            analyticsScript.async = true;
+            analyticsScript.defer = true;
+            analyticsScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
+            document.head.appendChild(analyticsScript);
+          }
+        };
+        
+        // Use requestIdleCallback for non-critical operations
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(lazyLoadResources, { timeout: 2000 });
+        } else {
+          setTimeout(lazyLoadResources, 1000);
         }
       });
     </script>
@@ -187,7 +224,7 @@
       // Register service worker for PWA support in production only
       if ('serviceWorker' in navigator && window.location.hostname !== 'localhost') {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js')
+          navigator.serviceWorker.register('/sw.js')
             .then(registration => {
               console.log('Service Worker registered successfully:', registration.scope);
             })

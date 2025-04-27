@@ -7,17 +7,41 @@ interface SEOProps {
   ogImage?: string;
   ogUrl?: string;
   canonical?: string;
+  schema?: object;
 }
 
 const SEO = ({ 
   title, 
   description, 
   keywords, 
-  ogImage = 'https://via.placeholder.com/1200x630/1C1C1E/D4AF37?text=La+Empresa', 
-  ogUrl = 'https://laempresa.com', 
-  canonical 
+  ogImage = 'https://laempresa.in/logo-large.png', 
+  ogUrl = 'https://laempresa.in', 
+  canonical,
+  schema
 }: SEOProps) => {
   const siteTitle = `${title} | La Empresa - Premium Digital Solutions`;
+  
+  // Default organization schema
+  const defaultSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "La Empresa",
+    "url": "https://laempresa.in",
+    "logo": "https://laempresa.in/logo-large.png",
+    "description": "Custom full stack development solutions including websites, web applications, e-commerce platforms, and digital products to transform your business.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "IN"
+    },
+    "sameAs": [
+      "https://twitter.com/laempresa",
+      "https://linkedin.com/company/laempresa",
+      "https://github.com/laempresa"
+    ]
+  };
+
+  // Use custom schema if provided, otherwise use default
+  const structuredData = schema || defaultSchema;
   
   return (
     <Helmet>
@@ -35,6 +59,7 @@ const SEO = ({
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImage} />
+      <meta property="og:site_name" content="La Empresa" />
       
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
@@ -46,6 +71,11 @@ const SEO = ({
       {/* Additional Meta Tags */}
       <meta name="theme-color" content="#1C1C1E" />
       <meta name="author" content="La Empresa" />
+      
+      {/* Structured Data for Rich Results */}
+      <script type="application/ld+json">
+        {JSON.stringify(structuredData)}
+      </script>
     </Helmet>
   );
 };

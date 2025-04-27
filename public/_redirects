@@ -1,0 +1,14 @@
+# Netlify redirects file
+
+# Handle SPA routing
+/*    /index.html   200
+
+# Redirect domain aliases to primary domain
+https://www.laempresa.in/* https://laempresa.in/:splat 301!
+
+# Redirect old URL patterns if applicable
+# /old-url    /new-url    301
+# /blog/:year/:month/:day/:slug    /posts/:slug    301
+
+# Redirect 404 pages to custom 404
+/404    /index.html   404 

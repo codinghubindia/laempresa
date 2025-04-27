@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Code, Laptop, ShoppingCart, CheckCircle, Mail, Users, Lock, LineChart, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, Code, Laptop, ShoppingCart, CheckCircle, Mail, Users, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../components/ThemeContext';
 import SEO from '../components/SEO';
@@ -19,11 +19,11 @@ const Portfolio = () => {
   const portfolioItems = [
     {
       id: 'medinestt',
-      title: "MedinesTT",
+      title: "MediNest",
       category: "Healthcare Platform",
       description: "Medical appointment scheduling system with integrated patient management and telemedicine features.",
       fullDescription: "MedinesTT is a comprehensive healthcare platform designed to streamline medical appointment scheduling and patient management. The platform features integrated telemedicine capabilities, patient record management, and automated appointment reminders to enhance the healthcare experience for both providers and patients.",
-      image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
+      image: "https://res.cloudinary.com/dbnzoosjq/image/upload/v1745735790/medinest_qzje5c.png",
       technologies: ["React", "Node.js", "MongoDB", "Express", "Socket.io", "Tailwind CSS"],
       features: [
         "Online appointment scheduling",
@@ -45,7 +45,7 @@ const Portfolio = () => {
       category: "E-commerce Platform",
       description: "Feature-rich e-commerce platform with advanced product filtering, user accounts and secure payment processing.",
       fullDescription: "NexaCart is a modern e-commerce solution built with scalability and user experience in mind. The platform offers advanced product filtering, personalized user accounts, secure payment processing, and a responsive design that provides an optimal shopping experience across all devices.",
-      image: "https://images.unsplash.com/photo-1607082349566-187342175e2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
+      image: "https://res.cloudinary.com/dbnzoosjq/image/upload/v1745735793/nexacart_wswpsi.png",
       technologies: ["React", "Redux", "Node.js", "MongoDB", "Stripe API", "JWT Authentication"],
       features: [
         "Advanced product filtering",
@@ -67,7 +67,7 @@ const Portfolio = () => {
       category: "Designer Portfolio",
       description: "Elegant portfolio website for design professionals featuring project showcases, client testimonials, and contact forms.",
       fullDescription: "Velva Essence is a premium portfolio platform for design professionals to showcase their work. The site features elegant project showcases, detailed case studies, client testimonials, and custom contact forms to help designers connect with potential clients and highlight their creative expertise.",
-      image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
+      image: "https://res.cloudinary.com/dbnzoosjq/image/upload/v1745735795/Velva_Essence_tyspqw.png",
       technologies: ["Next.js", "Tailwind CSS", "Contentful CMS", "Vercel", "Algolia Search"],
       features: [
         "Elegant project showcases",
@@ -89,7 +89,7 @@ const Portfolio = () => {
       category: "Web Application",
       description: "Customer relationship management system with lead tracking, task management, and performance analytics.",
       fullDescription: "ClientNest CRM is a comprehensive customer relationship management system designed for small to medium businesses. The application features lead tracking, task management, performance analytics, and automated follow-up sequences to help businesses nurture relationships and close more deals.",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
+      image: "https://res.cloudinary.com/dbnzoosjq/image/upload/v1745735785/crm_s088hm.png",
       technologies: ["React", "Firebase", "Redux", "Material UI", "ChartJS", "Auth0"],
       features: [
         "Lead tracking and scoring",
@@ -111,7 +111,7 @@ const Portfolio = () => {
       category: "Form Builder",
       description: "Elegant form building platform with customizable templates, conditional logic, and response analytics.",
       fullDescription: "Velvet Form is a sophisticated form building platform that allows users to create beautiful, functional forms with ease. The platform includes customizable templates, conditional logic, file uploads, and comprehensive response analytics to help users gather and analyze data effectively.",
-      image: "https://images.unsplash.com/photo-1586282391129-76a3138a11a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80",
+      image: "https://res.cloudinary.com/dbnzoosjq/image/upload/v1745735696/img1_dv6ibo.png",
       technologies: ["Vue.js", "Node.js", "PostgreSQL", "AWS Lambda", "Tailwind CSS"],
       features: [
         "Drag-and-drop form builder",

@@ -21,7 +21,7 @@ const Footer = () => {
               <div className="h-16 w-16 mr-3 relative">
                 <div className="absolute inset-0 rounded-full animate-pulse-slow bg-dark-primaryAccent/20 blur-md"></div>
                 <img 
-                  src= {lampresa}
+                  src= "https://res.cloudinary.com/dbnzoosjq/image/upload/v1745737561/LaEmpresa_Base_logo_pqon8l.png"
                   alt="La Empresa Logo" 
                   className="h-full w-full object-contain relative z-10"
                 />

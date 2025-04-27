@@ -275,10 +275,10 @@ const ContactForm = memo(({
             style={{ color: formData.budget ? 'inherit' : 'rgba(255, 255, 255, 0.5)' }}
           >
             <option value="" style={{ backgroundColor: '#121212' }}>Select budget range</option>
-            <option value="0-500" style={{ backgroundColor: '#121212' }}>$299 - $499</option>
-            <option value="500-1000" style={{ backgroundColor: '#121212' }}>$500 - $999</option>
-            <option value="1000-2000" style={{ backgroundColor: '#121212' }}>$1,000 - $1,999</option>
-            <option value="2000-3000" style={{ backgroundColor: '#121212' }}>$2,000 - $2,999</option>
+            <option value="< 299" style={{ backgroundColor: '#121212' }}> Less than $299</option>
+            <option value="500-999" style={{ backgroundColor: '#121212' }}>$500 - $999</option>
+            <option value="1000-1999" style={{ backgroundColor: '#121212' }}>$1,000 - $1,999</option>
+            <option value="2000-2999" style={{ backgroundColor: '#121212' }}>$2,000 - $2,999</option>
             <option value="3000+" style={{ backgroundColor: '#121212' }}>$3,000+</option>
           </select>
         </div>

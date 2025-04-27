@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import lampresa from '../assets/images/laempresa.png';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,7 +41,7 @@ const Navbar = () => {
               >
                 <div className="absolute inset-0 rounded-full animate-pulse-slow bg-dark-primaryAccent/20 blur-lg"></div>
                 <img 
-                  src={lampresa} 
+                  src="https://res.cloudinary.com/dbnzoosjq/image/upload/v1745737561/LaEmpresa_Base_logo_pqon8l.png" 
                   alt="La Empresa Logo" 
                   className="h-full w-full object-contain relative z-10"
                 />

@@ -5,26 +5,32 @@
                             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <!-- Main pages -->
   <url>
-    <loc>https://laempresa.in/</loc>
-    <lastmod>2023-07-01</lastmod>
+    <loc>https://laempresa.netlify.app/</loc>
+    <lastmod>2024-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://laempresa.in/about</loc>
-    <lastmod>2023-07-01</lastmod>
+    <loc>https://laempresa.netlify.app/about</loc>
+    <lastmod>2024-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://laempresa.in/services</loc>
-    <lastmod>2023-07-01</lastmod>
+    <loc>https://laempresa.netlify.app/services</loc>
+    <lastmod>2024-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://laempresa.in/contact</loc>
-    <lastmod>2023-07-01</lastmod>
+    <loc>https://laempresa.netlify.app/portfolio</loc>
+    <lastmod>2024-10-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://laempresa.netlify.app/contact</loc>
+    <lastmod>2024-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

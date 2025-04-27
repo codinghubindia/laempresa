@@ -1,14 +1,21 @@
-# robots.txt for laempresa.in
+# robots.txt for laempresa.netlify.app
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://laempresa.in/sitemap.xml
+Sitemap: https://laempresa.netlify.app/sitemap.xml
 
-# Prevent unnecessary crawling to improve crawl efficiency
-Disallow: /assets/
+# Prevent crawling of non-user-facing resources to improve crawl efficiency
+Disallow: /assets/js/
+Disallow: /assets/css/
 Disallow: /*.js$
 Disallow: /*.css$
+Disallow: /*.json$
+
+# Allow important images like logos to be indexed
+Allow: /assets/images/laempresa.png
+Allow: /assets/images/laempresa.svg
+Allow: /assets/images/logo-large.png
 
 # Crawl-delay for all bots (in seconds)
-Crawl-delay: 10 
+Crawl-delay: 5 
